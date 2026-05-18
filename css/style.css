@@ -1768,3 +1768,59 @@ button, input, select, textarea {
         font-size: 26px;
     }
 }
+
+/* ---------------------------------------------------- */
+/* Premium Vector Icon Micro-Animations & Creativity    */
+/* ---------------------------------------------------- */
+
+.logo i {
+    transition: var(--transition);
+}
+.logo:hover i {
+    transform: rotate(15deg) scale(1.15);
+    color: var(--primary-hover);
+}
+
+.benefit-card i {
+    font-size: 32px;
+    color: var(--primary);
+    transition: var(--transition);
+    display: inline-block;
+}
+.benefit-card:hover i {
+    transform: scale(1.2) translateY(-4px);
+    color: #8B5CF6;
+}
+
+.option-card i {
+    transition: var(--transition);
+    display: inline-block;
+}
+.option-card:hover i {
+    transform: scale(1.25) rotate(-5deg);
+}
+
+.progress-step i {
+    margin-right: 4px;
+}
+
+.form-group label i {
+    margin-right: 6px;
+    color: var(--primary);
+    opacity: 0.85;
+    font-size: 13px;
+    transition: var(--transition);
+}
+.form-group:focus-within label i {
+    color: var(--primary-hover);
+    transform: scale(1.15);
+}
+
+.sidebar-link i {
+    transition: var(--transition);
+}
+.sidebar-link:hover i,
+.sidebar-link.active i {
+    transform: translateX(2px) scale(1.1);
+}
+

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book 1-on-1 Chess Demo | Parash Chess Academy</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Vector Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -12,7 +14,7 @@
     <header class="header">
         <div class="container header-container">
             <a href="index.html" class="logo" id="header-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <i class="fa-solid fa-chess-knight" style="color: var(--primary); filter: drop-shadow(0 2px 8px var(--primary-glow)); font-size: 24px;"></i>
                 Parash Chess<span>Academy</span>
             </a>
             <nav>
@@ -34,15 +36,15 @@
             <div class="progress-line-active" id="progress-line"></div>
             <div class="progress-step active" id="step-node-1">
                 1
-                <span class="step-label">Student Info</span>
+                <span class="step-label"><i class="fa-solid fa-user-pen"></i> Student Info</span>
             </div>
             <div class="progress-step" id="step-node-2">
                 2
-                <span class="step-label">Slot Calendar</span>
+                <span class="step-label"><i class="fa-solid fa-calendar-days"></i> Slot Calendar</span>
             </div>
             <div class="progress-step" id="step-node-3">
                 3
-                <span class="step-label">Confirmation</span>
+                <span class="step-label"><i class="fa-solid fa-circle-check"></i> Confirmation</span>
             </div>
         </div>
 
@@ -61,35 +63,35 @@
                     
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="studentName">Student Name *</label>
+                            <label for="studentName"><i class="fa-solid fa-user-graduate"></i> Student Name *</label>
                             <input type="text" id="studentName" class="form-control" placeholder="e.g. Kabir Mehta" required>
                         </div>
                         <div class="form-group">
-                            <label for="parentName">Parent Name *</label>
+                            <label for="parentName"><i class="fa-solid fa-user-tie"></i> Parent Name *</label>
                             <input type="text" id="parentName" class="form-control" placeholder="e.g. Rajesh Mehta" required>
                         </div>
                         <div class="form-group">
-                            <label for="studentAge">Age *</label>
+                            <label for="studentAge"><i class="fa-solid fa-cake-candles"></i> Age *</label>
                             <input type="number" id="studentAge" class="form-control" placeholder="e.g. 9" min="5" max="99" required>
                         </div>
                         <div class="form-group">
-                            <label for="studentGrade">Class / Grade</label>
+                            <label for="studentGrade"><i class="fa-solid fa-school"></i> Class / Grade</label>
                             <input type="text" id="studentGrade" class="form-control" placeholder="e.g. Grade 4">
                         </div>
                         <div class="form-group">
-                            <label for="studentMobile">Mobile Number (WhatsApp) *</label>
+                            <label for="studentMobile"><i class="fa-solid fa-phone"></i> Mobile Number (WhatsApp) *</label>
                             <input type="tel" id="studentMobile" class="form-control" placeholder="e.g. +91 98765 43210" required>
                         </div>
                         <div class="form-group">
-                            <label for="studentEmail">Email Address *</label>
+                            <label for="studentEmail"><i class="fa-solid fa-envelope"></i> Email Address *</label>
                             <input type="email" id="studentEmail" class="form-control" placeholder="e.g. parent@gmail.com" required>
                         </div>
                         <div class="form-group">
-                            <label for="studentCity">City *</label>
+                            <label for="studentCity"><i class="fa-solid fa-city"></i> City *</label>
                             <input type="text" id="studentCity" class="form-control" placeholder="e.g. Mumbai" required>
                         </div>
                         <div class="form-group">
-                            <label for="studentCountry">Country *</label>
+                            <label for="studentCountry"><i class="fa-solid fa-globe"></i> Country *</label>
                             <select id="studentCountry" class="form-control" required>
                                 <option value="" disabled selected>Select country</option>
                                 <option value="India">India</option>
@@ -106,14 +108,17 @@
                             <label>Student's Chess Experience *</label>
                             <div class="option-grid">
                                 <div class="option-card selected" data-value="Beginner" id="level-beginner">
+                                    <i class="fa-solid fa-chess-pawn" style="font-size:24px; color:var(--primary); margin-bottom:10px;"></i>
                                     <h4>Beginner</h4>
                                     <p>Knows nothing or basic rules & piece names.</p>
                                 </div>
                                 <div class="option-card" data-value="Intermediate" id="level-intermediate">
+                                    <i class="fa-solid fa-chess-knight" style="font-size:24px; color:#F59E0B; margin-bottom:10px;"></i>
                                     <h4>Intermediate</h4>
                                     <p>Can play standard games, understands checks.</p>
                                 </div>
                                 <div class="option-card" data-value="Advanced" id="level-advanced">
+                                    <i class="fa-solid fa-chess-king" style="font-size:24px; color:#EF4444; margin-bottom:10px;"></i>
                                     <h4>Advanced</h4>
                                     <p>Plays tournaments, holds an online chess rating.</p>
                                 </div>
@@ -122,14 +127,14 @@
 
                         <!-- Language & Timezone -->
                         <div class="form-group">
-                            <label for="studentLanguage">Preferred Language *</label>
+                            <label for="studentLanguage"><i class="fa-solid fa-language"></i> Preferred Language *</label>
                             <select id="studentLanguage" class="form-control" required>
                                 <option value="English" selected>English</option>
                                 <option value="Hindi">Hindi</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="studentTimezone">Timezone</label>
+                            <label for="studentTimezone"><i class="fa-solid fa-clock"></i> Timezone</label>
                             <select id="studentTimezone" class="form-control">
                                 <option value="GMT+5:30" selected>India Standard Time (GMT+5:30)</option>
                                 <option value="GMT-7:00">Pacific Time (GMT-7:00)</option>

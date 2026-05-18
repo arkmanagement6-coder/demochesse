@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard & Management | Parash Chess Academy</title>
     <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Vector Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -12,7 +14,7 @@
     <header class="header" style="position: static;">
         <div class="container header-container">
             <a href="index.html" class="logo" id="header-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                <i class="fa-solid fa-chess-knight" style="color: var(--primary); filter: drop-shadow(0 2px 8px var(--primary-glow)); font-size: 24px;"></i>
                 Parash Chess<span>Academy</span>
             </a>
             <nav>
@@ -35,23 +37,23 @@
             <div class="sidebar-title">Management</div>
             <ul class="sidebar-nav">
                 <li class="sidebar-link active" data-target="sec-dashboard" id="nav-dash">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    <i class="fa-solid fa-gauge" style="width:16px;"></i>
                     Dashboard Metrics
                 </li>
                 <li class="sidebar-link" data-target="sec-bookings" id="nav-bookings">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <i class="fa-solid fa-calendar-check" style="width:16px;"></i>
                     Booking Management
                 </li>
                 <li class="sidebar-link" data-target="sec-teachers" id="nav-teachers">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <i class="fa-solid fa-user-tie" style="width:16px;"></i>
                     Teacher Rosters
                 </li>
                 <li class="sidebar-link" data-target="sec-pipeline" id="nav-pipeline">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <i class="fa-solid fa-square-poll-horizontal" style="width:16px;"></i>
                     CRM Pipeline
                 </li>
                 <li class="sidebar-link" data-target="sec-reports" id="nav-reports">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <i class="fa-solid fa-chart-pie" style="width:16px;"></i>
                     Reports & Analytics
                 </li>
             </ul>
