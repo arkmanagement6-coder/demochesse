@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book 1-on-1 Chess Demo | ChessWize Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo" id="header-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                ChessWize<span>Pro</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="book.html">Book Demo</a></li>
+                    <li><a href="admin.html">Admin Hub</a></li>
+                    <li><a href="teacher.html">Teacher Portal</a></li>
+                </ul>
+            </nav>
+            <a href="book.html" class="btn btn-primary" style="padding: 10px 20px; font-size:14px;">Book Free Class</a>
+        </div>
+    </header>
+
+    <div class="container booking-wrapper">
+        <!-- Progress Steps Tracker -->
+        <div class="progress-bar-container">
+            <div class="progress-line"></div>
+            <div class="progress-line-active" id="progress-line"></div>
+            <div class="progress-step active" id="step-node-1">
+                1
+                <span class="step-label">Student Info</span>
+            </div>
+            <div class="progress-step" id="step-node-2">
+                2
+                <span class="step-label">Slot Calendar</span>
+            </div>
+            <div class="progress-step" id="step-node-3">
+                3
+                <span class="step-label">Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Interactive Steps Form Card -->
+        <div class="glass-card form-card">
+            <form id="booking-form" novalidate>
+                <!-- Hidden Fields for CRM lead acquisition source -->
+                <input type="hidden" name="leadSource" id="hidden-source" value="Google AI Coding System">
+                <input type="hidden" name="campaign" id="hidden-campaign" value="Organic Conversion Campaign">
+                <input type="hidden" name="referralCode" id="hidden-referral" value="CHESSWIZETEMPLATE2026">
+
+                <!-- STEP 1: Student Information & Skill Level -->
+                <div class="step-content active" id="step-content-1">
+                    <h2 style="font-size:24px; margin-bottom:8px;" class="text-gradient">About the Chess Student</h2>
+                    <p style="color:var(--text-secondary); font-size:14px; margin-bottom:30px;">Provide basic details to help us customize the training roadmap.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="studentName">Student Name *</label>
+                            <input type="text" id="studentName" class="form-control" placeholder="e.g. Kabir Mehta" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="parentName">Parent Name *</label>
+                            <input type="text" id="parentName" class="form-control" placeholder="e.g. Rajesh Mehta" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentAge">Age *</label>
+                            <input type="number" id="studentAge" class="form-control" placeholder="e.g. 9" min="5" max="99" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentGrade">Class / Grade</label>
+                            <input type="text" id="studentGrade" class="form-control" placeholder="e.g. Grade 4">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentMobile">Mobile Number (WhatsApp) *</label>
+                            <input type="tel" id="studentMobile" class="form-control" placeholder="e.g. +91 98765 43210" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentEmail">Email Address *</label>
+                            <input type="email" id="studentEmail" class="form-control" placeholder="e.g. parent@gmail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentCity">City *</label>
+                            <input type="text" id="studentCity" class="form-control" placeholder="e.g. Mumbai" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentCountry">Country *</label>
+                            <select id="studentCountry" class="form-control" required>
+                                <option value="" disabled selected>Select country</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="UK">UK</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Australia">Australia</option>
+                                <option value="UAE">UAE</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Skill Selection Option Grid -->
+                        <div class="form-full form-group">
+                            <label>Student's Chess Experience *</label>
+                            <div class="option-grid">
+                                <div class="option-card selected" data-value="Beginner" id="level-beginner">
+                                    <h4>Beginner</h4>
+                                    <p>Knows nothing or basic rules & piece names.</p>
+                                </div>
+                                <div class="option-card" data-value="Intermediate" id="level-intermediate">
+                                    <h4>Intermediate</h4>
+                                    <p>Can play standard games, understands checks.</p>
+                                </div>
+                                <div class="option-card" data-value="Advanced" id="level-advanced">
+                                    <h4>Advanced</h4>
+                                    <p>Plays tournaments, holds an online chess rating.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Language & Timezone -->
+                        <div class="form-group">
+                            <label for="studentLanguage">Preferred Language *</label>
+                            <select id="studentLanguage" class="form-control" required>
+                                <option value="English" selected>English</option>
+                                <option value="Hindi">Hindi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentTimezone">Timezone</label>
+                            <select id="studentTimezone" class="form-control">
+                                <option value="GMT+5:30" selected>India Standard Time (GMT+5:30)</option>
+                                <option value="GMT-7:00">Pacific Time (GMT-7:00)</option>
+                                <option value="GMT+1:00">London Time (GMT+1:00)</option>
+                                <option value="GMT+10:00">Sydney Time (GMT+10:00)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Slot Selection via Interactive Calendar -->
+                <div class="step-content" id="step-content-2">
+                    <h2 style="font-size:24px; margin-bottom:8px;" class="text-gradient">Select Preferred Date & Slot</h2>
+                    <p style="color:var(--text-secondary); font-size:14px; margin-bottom:30px;">Click highlighted dates on the calendar to see available hours matching your timezone.</p>
+                    
+                    <div class="calendar-layout">
+                        <!-- Calendar Widget Wrapper -->
+                        <div>
+                            <div class="calendar-header-actions">
+                                <button type="button" class="btn btn-secondary" id="cal-prev" style="padding:6px 12px;">&larr;</button>
+                                <span class="calendar-month-title" id="cal-month-title">May 2026</span>
+                                <button type="button" class="btn btn-secondary" id="cal-next" style="padding:6px 12px;">&rarr;</button>
+                            </div>
+                            
+                            <div class="calendar-grid" id="calendar-days-view">
+                                <!-- Calendar days injected reactively by JS -->
+                            </div>
+                            
+                            <!-- Legend indicators -->
+                            <div style="display:flex; justify-content:center; gap:16px; margin-top:20px; font-size:12px; color:var(--text-secondary);">
+                                <span style="display:flex; align-items:center; gap:4px;"><span class="cell-indicator indicator-available" style="position:static; display:inline-block;"></span> Available</span>
+                                <span style="display:flex; align-items:center; gap:4px;"><span class="cell-indicator indicator-limited" style="position:static; display:inline-block;"></span> Limited</span>
+                                <span style="display:flex; align-items:center; gap:4px;"><span class="cell-indicator indicator-full" style="position:static; display:inline-block;"></span> Full</span>
+                            </div>
+                        </div>
+
+                        <!-- Time Slots Side Card -->
+                        <div class="slots-container">
+                            <span class="slots-title" id="slots-selected-day-title">Select Time Slot</span>
+                            <div class="slot-list" id="slots-list-view">
+                                <div style="text-align:center; padding: 40px 0; color:var(--text-muted); font-size:13px;">
+                                    Please select a date on the calendar.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Confirm Course Plan & Payment Integration -->
+                <div class="step-content" id="step-content-3">
+                    <h2 style="font-size:24px; margin-bottom:8px;" class="text-gradient">Confirm Class Package</h2>
+                    <p style="color:var(--text-secondary); font-size:14px; margin-bottom:30px;">Unlock an elite experience or start with our standard trial session.</p>
+                    
+                    <!-- Free vs Premium Trial Selectors -->
+                    <div class="price-layout">
+                        <!-- Free Trial Card -->
+                        <div class="price-card selected" data-value="free" id="price-card-free">
+                            <div class="price-title">Standard Demo Class</div>
+                            <div class="price-value">FREE</div>
+                            <ul class="price-features">
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> 1-on-1 Interactive Class</li>
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> FIDE Rated Instructor match</li>
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> 45-min Study Diagnostic report</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Paid Trial Card -->
+                        <div class="price-card" data-value="paid" id="price-card-paid">
+                            <div class="price-title">Premium Elite Trial</div>
+                            <div class="price-value">₹99</div>
+                            <ul class="price-features">
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Everything in FREE</li>
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> Priority Coach overrides</li>
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> ChessWize Starter tournament kit</li>
+                                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg> 15-day online arena subscription</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Payment Gateway Selector Panel -->
+                    <div class="payment-panel" id="payment-gateway-panel">
+                        <h3 style="font-size:16px; font-weight:700; margin-bottom:12px;">Simulated Secure checkout</h3>
+                        <div class="payment-methods">
+                            <!-- PhonePe Gateway Button -->
+                            <div class="pay-btn selected" data-gateway="phonepe" id="gate-phonepe">
+                                <img src="https://logolook.net/wp-content/uploads/2023/11/PhonePe-Logo.png" alt="PhonePe Logo" class="pay-logo">
+                                <span style="font-size:11px; font-weight:600; color:var(--text-secondary);">UPI Intent / QR</span>
+                            </div>
+                            <!-- Razorpay Button -->
+                            <div class="pay-btn" data-gateway="razorpay" id="gate-razorpay">
+                                <img src="https://brandlogos.net/wp-content/uploads/2021/11/razorpay-logo-brandlogo.net_.png" alt="Razorpay Logo" class="pay-logo">
+                                <span style="font-size:11px; font-weight:600; color:var(--text-secondary);">Net Banking / Cards</span>
+                            </div>
+                            <!-- Paytm Button -->
+                            <div class="pay-btn" data-gateway="paytm" id="gate-paytm">
+                                <img src="https://brandslogos.com/wp-content/uploads/2015/07/paytm-logo.png" alt="Paytm Logo" class="pay-logo">
+                                <span style="font-size:11px; font-weight:600; color:var(--text-secondary);">Wallet Express</span>
+                            </div>
+                        </div>
+
+                        <!-- Sandbox Payment Details Interface -->
+                        <div class="gateway-sandbox">
+                            <span class="badge badge-pending" style="margin-bottom:10px;">Test Sandbox Mode</span>
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:10px;" id="gateway-instruction">Scan PhonePe QR Code below to verify trial payment transaction.</p>
+                            <div class="qr-code" id="simulated-qr-wrapper">
+                                <!-- Dummy QR element -->
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeSandboxTransaction99" alt="UPI Merchant QR Code sandbox" style="width:100%; height:100%;">
+                            </div>
+                            <span style="font-size:11px; color:var(--text-muted);">Simulating production API callback: Clicking Confirm below completes payment verification.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Action Buttons -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="btn-prev" style="visibility: hidden;">Back</button>
+                    <button type="button" class="btn btn-primary" id="btn-next">Next Step &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shared Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+</html>

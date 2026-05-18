@@ -1,0 +1,437 @@
+// Chess Demo Booking - Form Flow and Calendar Controller
+
+document.addEventListener("DOMContentLoaded", () => {
+    BookingWizard.init();
+});
+
+class BookingWizard {
+    static init() {
+        this.currentStep = 1;
+        this.studentLevel = "Beginner";
+        this.selectedDateStr = "";
+        this.selectedSlotStr = "";
+        this.paymentTier = "free";
+        this.selectedGateway = "phonepe";
+        
+        // Date management
+        this.currentDate = new Date(); // Today
+        this.calendarYear = this.currentDate.getFullYear();
+        this.calendarMonth = this.currentDate.getMonth();
+
+        this.cacheDOM();
+        this.bindEvents();
+        this.renderCalendar();
+    }
+
+    static cacheDOM() {
+        this.form = document.getElementById("booking-form");
+        this.prevBtn = document.getElementById("btn-prev");
+        this.nextBtn = document.getElementById("btn-next");
+        
+        // Step elements
+        this.stepContents = [
+            document.getElementById("step-content-1"),
+            document.getElementById("step-content-2"),
+            document.getElementById("step-content-3")
+        ];
+        this.stepNodes = [
+            document.getElementById("step-node-1"),
+            document.getElementById("step-node-2"),
+            document.getElementById("step-node-3")
+        ];
+        this.progressLine = document.getElementById("progress-line");
+
+        // Step 1 interactive options
+        this.levelCards = document.querySelectorAll("#step-content-1 .option-card");
+        this.studentLang = document.getElementById("studentLanguage");
+        this.studentTz = document.getElementById("studentTimezone");
+
+        // Step 2 elements
+        this.calMonthTitle = document.getElementById("cal-month-title");
+        this.calDaysView = document.getElementById("calendar-days-view");
+        this.calPrev = document.getElementById("cal-prev");
+        this.calNext = document.getElementById("cal-next");
+        this.slotsDayTitle = document.getElementById("slots-selected-day-title");
+        this.slotsListView = document.getElementById("slots-list-view");
+
+        // Step 3 elements
+        this.priceCardFree = document.getElementById("price-card-free");
+        this.priceCardPaid = document.getElementById("price-card-paid");
+        this.paymentPanel = document.getElementById("payment-gateway-panel");
+        this.gatewayBtns = document.querySelectorAll(".pay-btn");
+        this.gatewayInstruction = document.getElementById("gateway-instruction");
+        this.qrCodeWrapper = document.getElementById("simulated-qr-wrapper");
+    }
+
+    static bindEvents() {
+        // Navigation Buttons
+        this.nextBtn.addEventListener("click", () => this.handleNext());
+        this.prevBtn.addEventListener("click", () => this.handlePrev());
+
+        // Step 1: Level Cards selection
+        this.levelCards.forEach(card => {
+            card.addEventListener("click", (e) => {
+                this.levelCards.forEach(c => c.classList.remove("selected"));
+                const selectedCard = e.currentTarget;
+                selectedCard.classList.add("selected");
+                this.studentLevel = selectedCard.getAttribute("data-value");
+            });
+        });
+
+        // Step 2: Calendar month navigators
+        this.calPrev.addEventListener("click", () => {
+            this.calendarMonth--;
+            if (this.calendarMonth < 0) {
+                this.calendarMonth = 11;
+                this.calendarYear--;
+            }
+            this.renderCalendar();
+        });
+
+        this.calNext.addEventListener("click", () => {
+            this.calendarMonth++;
+            if (this.calendarMonth > 11) {
+                this.calendarMonth = 0;
+                this.calendarYear++;
+            }
+            this.renderCalendar();
+        });
+
+        // Step 3: Package Selections
+        this.priceCardFree.addEventListener("click", () => {
+            this.priceCardFree.classList.add("selected");
+            this.priceCardPaid.classList.remove("selected");
+            this.paymentPanel.classList.remove("active");
+            this.paymentTier = "free";
+            this.nextBtn.innerText = "Confirm Demo Class";
+        });
+
+        this.priceCardPaid.addEventListener("click", () => {
+            this.priceCardPaid.classList.add("selected");
+            this.priceCardFree.classList.remove("selected");
+            this.paymentPanel.classList.add("active");
+            this.paymentTier = "paid";
+            this.nextBtn.innerText = "Verify & Complete Booking";
+        });
+
+        // Step 3: Gateway methods click
+        this.gatewayBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                this.gatewayBtns.forEach(g => g.classList.remove("selected"));
+                const selectedGate = e.currentTarget;
+                selectedGate.classList.add("selected");
+                this.selectedGateway = selectedGate.getAttribute("data-gateway");
+                this.updatePaymentGatewayView();
+            });
+        });
+    }
+
+    // Wizard Nav Logic
+    static handleNext() {
+        if (this.currentStep === 1) {
+            if (this.validateStep1()) {
+                this.currentStep = 2;
+                this.updateWizardUI();
+            }
+        } else if (this.currentStep === 2) {
+            if (!this.selectedDateStr || !this.selectedSlotStr) {
+                window.Toast.show("Required Slot", "Please select a date and an available time slot.", "warning");
+                return;
+            }
+            this.currentStep = 3;
+            this.updateWizardUI();
+        } else if (this.currentStep === 3) {
+            this.submitBookingForm();
+        }
+    }
+
+    static handlePrev() {
+        if (this.currentStep > 1) {
+            this.currentStep--;
+            this.updateWizardUI();
+        }
+    }
+
+    static validateStep1() {
+        const fields = ["studentName", "parentName", "studentAge", "studentMobile", "studentEmail", "studentCity", "studentCountry"];
+        let isValid = true;
+
+        fields.forEach(fid => {
+            const input = document.getElementById(fid);
+            if (!input || !input.checkValidity()) {
+                input.style.borderColor = "#EF4444";
+                isValid = false;
+            } else {
+                input.style.borderColor = "var(--border-color)";
+            }
+        });
+
+        // Email validation
+        const emailInput = document.getElementById("studentEmail");
+        if (emailInput && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+            emailInput.style.borderColor = "#EF4444";
+            isValid = false;
+        }
+
+        if (!isValid) {
+            window.Toast.show("Validation Failed", "Please fill in all mandatory fields with correct formats.", "danger");
+        }
+        return isValid;
+    }
+
+    static updateWizardUI() {
+        // Toggle Step Panels
+        this.stepContents.forEach((content, i) => {
+            content.classList.toggle("active", i + 1 === this.currentStep);
+        });
+
+        // Update Progress indicator states
+        this.stepNodes.forEach((node, i) => {
+            const stepNum = i + 1;
+            node.classList.toggle("active", stepNum === this.currentStep);
+            node.classList.toggle("completed", stepNum < this.currentStep);
+        });
+
+        // Update active bar width line
+        const widthMap = { 1: 0, 2: 50, 3: 100 };
+        this.progressLine.style.width = `${widthMap[this.currentStep]}%`;
+
+        // Update Buttons visibility
+        this.prevBtn.style.visibility = this.currentStep === 1 ? "hidden" : "visible";
+        
+        if (this.currentStep === 3) {
+            this.nextBtn.innerText = this.paymentTier === "paid" ? "Verify & Complete Booking" : "Confirm Demo Class";
+        } else {
+            this.nextBtn.innerText = "Next Step \u2192";
+        }
+    }
+
+    // Step 2: Calendar Generation
+    static renderCalendar() {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        this.calMonthTitle.innerText = `${monthNames[this.calendarMonth]} ${this.calendarYear}`;
+        
+        this.calDaysView.innerHTML = "";
+
+        // Headers
+        const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+        daysOfWeek.forEach(d => {
+            const el = document.createElement("div");
+            el.className = "calendar-day-header";
+            el.innerText = d;
+            this.calDaysView.appendChild(el);
+        });
+
+        // Offset padding days
+        const firstDayIndex = new Date(this.calendarYear, this.calendarMonth, 1).getDay();
+        const totalDays = new Date(this.calendarYear, this.calendarMonth + 1, 0).getDate();
+
+        for (let i = 0; i < firstDayIndex; i++) {
+            const el = document.createElement("div");
+            el.className = "calendar-cell disabled";
+            this.calDaysView.appendChild(el);
+        }
+
+        // Days Loop
+        const todayStr = new Date().toISOString().split("T")[0];
+        
+        for (let day = 1; day <= totalDays; day++) {
+            const dayCell = document.createElement("div");
+            dayCell.className = "calendar-cell";
+            dayCell.innerHTML = `<span>${day}</span>`;
+            
+            // Format YYYY-MM-DD
+            const monthStr = String(this.calendarMonth + 1).padStart(2, "0");
+            const dayStr = String(day).padStart(2, "0");
+            const dateStr = `${this.calendarYear}-${monthStr}-${dayStr}`;
+            
+            const cellDate = new Date(dateStr);
+            const isPast = dateStr < todayStr;
+            
+            if (isPast) {
+                dayCell.classList.add("disabled");
+            } else {
+                // Mock dynamic states
+                const dayOfWeek = cellDate.getDay();
+                let state = "available"; // Default weekdays
+                
+                if (dayOfWeek === 0) { // Sunday Full
+                    state = "full";
+                } else if (dayOfWeek === 6) { // Saturday Limited
+                    state = "limited";
+                }
+
+                // Add state dot indicators
+                const dot = document.createElement("span");
+                dot.className = `cell-indicator indicator-${state}`;
+                dayCell.appendChild(dot);
+
+                dayCell.setAttribute("data-date", dateStr);
+                dayCell.setAttribute("data-state", state);
+
+                if (this.selectedDateStr === dateStr) {
+                    dayCell.classList.add("selected");
+                }
+
+                dayCell.addEventListener("click", (e) => this.handleDateClick(e.currentTarget));
+            }
+
+            this.calDaysView.appendChild(dayCell);
+        }
+    }
+
+    static handleDateClick(cell) {
+        document.querySelectorAll(".calendar-cell").forEach(c => c.classList.remove("selected"));
+        cell.classList.add("selected");
+        
+        this.selectedDateStr = cell.getAttribute("data-date");
+        const dateState = cell.getAttribute("data-state");
+
+        // Format user header
+        const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        const dObj = new Date(this.selectedDateStr);
+        this.slotsDayTitle.innerText = dObj.toLocaleDateString("en-US", options);
+
+        this.renderTimeSlots(dateState);
+    }
+
+    static renderTimeSlots(dateState) {
+        this.slotsListView.innerHTML = "";
+        
+        const standardSlots = [
+            { time: "10:00 AM", status: "available" },
+            { time: "11:00 AM", status: "available" },
+            { time: "12:00 PM", status: "available" },
+            { time: "03:00 PM", status: "available" },
+            { time: "06:00 PM", status: "available" }
+        ];
+
+        // Tweak slot states based on day state overrides
+        if (dateState === "limited") {
+            standardSlots[1].status = "limited";
+            standardSlots[2].status = "full";
+            standardSlots[4].status = "limited";
+        } else if (dateState === "full") {
+            standardSlots.forEach(s => s.status = "full");
+        }
+
+        standardSlots.forEach(slot => {
+            const card = document.createElement("div");
+            card.className = "slot-card";
+            if (slot.status === "full") card.classList.add("full");
+            
+            if (this.selectedSlotStr === slot.time && slot.status !== "full") {
+                card.classList.add("selected");
+            }
+
+            card.innerHTML = `
+                <span class="slot-time">${slot.time}</span>
+                <span class="slot-status ${slot.status}">${slot.status.toUpperCase()}</span>
+            `;
+
+            if (slot.status !== "full") {
+                card.addEventListener("click", () => {
+                    document.querySelectorAll(".slot-card").forEach(c => c.classList.remove("selected"));
+                    card.classList.add("selected");
+                    this.selectedSlotStr = slot.time;
+                });
+            }
+
+            this.slotsListView.appendChild(card);
+        });
+    }
+
+    // Step 3 Payment View updater
+    static updatePaymentGatewayView() {
+        if (this.selectedGateway === "phonepe") {
+            this.gatewayInstruction.innerText = "Scan PhonePe QR Code below to verify trial payment transaction.";
+            this.qrCodeWrapper.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PhonePeSandboxTransaction99" alt="PhonePe QR Code sandbox" style="width:100%; height:100%;">`;
+        } else if (this.selectedGateway === "razorpay") {
+            this.gatewayInstruction.innerText = "Select simulated card banking channel.";
+            this.qrCodeWrapper.innerHTML = `
+                <div style="text-align:left; font-size:12px; display:flex; flex-direction:column; gap:8px; padding:10px;">
+                    <label>Card Number</label>
+                    <input type="text" class="form-control" value="4111 2222 3333 4444" disabled style="padding:6px; font-size:12px;">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                        <input type="text" class="form-control" value="12/29" disabled style="padding:6px; font-size:12px;">
+                        <input type="password" class="form-control" value="123" disabled style="padding:6px; font-size:12px;">
+                    </div>
+                </div>
+            `;
+        } else if (this.selectedGateway === "paytm") {
+            this.gatewayInstruction.innerText = "Submit paytm transaction request OTP link.";
+            this.qrCodeWrapper.innerHTML = `
+                <div style="display:flex; flex-direction:column; gap:8px; padding:10px;">
+                    <input type="text" class="form-control" placeholder="Enter Paytm Number" style="padding:6px; font-size:12px;">
+                    <button type="button" class="btn btn-primary" style="padding:6px; font-size:12px;">Send OTP code</button>
+                </div>
+            `;
+        }
+    }
+
+    // Submission & Matching Engine execution
+    static submitBookingForm() {
+        // Collect form data
+        const studentName = document.getElementById("studentName").value;
+        const parentName = document.getElementById("parentName").value;
+        const age = parseInt(document.getElementById("studentAge").value);
+        const grade = document.getElementById("studentGrade").value;
+        const mobile = document.getElementById("studentMobile").value;
+        const email = document.getElementById("studentEmail").value;
+        const city = document.getElementById("studentCity").value;
+        const country = document.getElementById("studentCountry").value;
+        const language = this.studentLang.value;
+        const timezone = this.studentTz.value;
+        
+        // Execute Assignment Engine
+        const matchResult = window.AssignmentEngine.assignTeacher({
+            level: this.studentLevel,
+            language: language,
+            date: this.selectedDateStr,
+            slot: this.selectedSlotStr
+        });
+
+        // Create new booking object
+        const bookingId = "b_" + Date.now();
+        const newBooking = {
+            id: bookingId,
+            studentName,
+            parentName,
+            age,
+            grade,
+            mobile,
+            email,
+            city,
+            country,
+            date: this.selectedDateStr,
+            slot: this.selectedSlotStr,
+            timezone,
+            language,
+            teacherId: matchResult.teacher.id,
+            teacherName: matchResult.teacher.name,
+            status: matchResult.status === "Matched" ? "Demo Booked" : "Demo Booked", // Automatically schedules as booked or manual pending
+            paymentStatus: this.paymentTier === "free" ? "Free" : "Paid",
+            paymentAmount: this.paymentTier === "free" ? 0 : 99,
+            meetingLink: matchResult.status === "Matched" ? "https://meet.google.com/chess-demo-" + Math.random().toString(36).substring(7) : "https://meet.google.com/chess-demo-review",
+            notes: `Auto Match Criteria status: ${matchResult.status}. Student Experience Level: ${this.studentLevel}`,
+            crmStatus: "Demo booked",
+            matchLogs: matchResult.logs,
+            matchScore: matchResult.scoreCard
+        };
+
+        // Save Booking in localStorage
+        const bookings = window.ChessDB.getBookings();
+        bookings.push(newBooking);
+        window.ChessDB.saveBookings(bookings);
+
+        // Dispatch simulated customer alerts
+        window.NotificationCenter.triggerStudentConfirmation(studentName, parentName, this.selectedDateStr, this.selectedSlotStr, matchResult.teacher.name, "whatsapp");
+        window.NotificationCenter.triggerTeacherConfirmation(matchResult.teacher.name, studentName, this.studentLevel, this.selectedDateStr, this.selectedSlotStr);
+
+        // Redirect to success screen with booking query
+        window.Toast.show("Booking Success", "Demo match initialized. Redirecting...", "success");
+        setTimeout(() => {
+            window.location.href = `success.html?id=${bookingId}`;
+        }, 1500);
+    }
+}
