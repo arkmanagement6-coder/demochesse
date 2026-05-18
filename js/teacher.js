@@ -232,7 +232,7 @@ class TeacherController {
             window.NotificationCenter.dispatch("system", `Coach ${booking.teacherName} submitted diagnostic feedback for student ${booking.studentName}.`);
             
             if (attendance !== "Cancelled") {
-                window.NotificationCenter.dispatch("email", `ChessWize Assessment Report for ${booking.studentName}: ${notes}. Recommended Curriculum Course Track: ${course}. Register paid enrollment details plan.`);
+                window.NotificationCenter.dispatch("email", `Parash Chess Assessment Report for ${booking.studentName}: ${notes}. Recommended Curriculum Course Track: ${course}. Register paid enrollment details plan.`);
             }
 
             // Close, reset & refresh view
