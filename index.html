@@ -34,23 +34,76 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <div class="container">
-            <span class="hero-tag">♟️ Live 1-on-1 Assessment Session</span>
-            <h1 class="hero-title text-gradient">Book Free <span class="text-gradient-primary">Chess Demo</span> Class</h1>
-            <p class="hero-sub">1-on-1 Live Interactive Session with Certified International Master Coaches. Start your child's journey to Grandmaster today!</p>
+        <div class="container hero-container" style="display: flex; gap: 40px; align-items: center; justify-content: space-between; text-align: left; padding: 60px 0;">
             
-            <div style="display: flex; justify-content: center; gap: 16px;">
-                <a href="book.html" class="btn btn-primary btn-lg" id="hero-cta-btn">
-                    Book Free Demo Now
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </a>
-                <a href="#how-it-works" class="btn btn-secondary btn-lg">Explore Roadmap</a>
+            <!-- Left Column: Rich Text & Bullet Benefits -->
+            <div class="hero-left" style="flex: 1; max-width: 580px;">
+                <span class="hero-tag" style="display: inline-block; margin-bottom: 16px;">♟️ Live 1-on-1 Assessment Session</span>
+                <h1 class="hero-title text-gradient" style="margin-bottom: 20px; font-size: 42px; line-height: 1.2;">Book Free <span class="text-gradient-primary">Chess Demo</span> Class</h1>
+                <p class="hero-sub" style="margin-bottom: 30px; font-size: 16px; line-height: 1.6; color: var(--text-secondary);">1-on-1 Live Interactive Session with Certified International Master Coaches. Start your child's journey to Grandmaster today!</p>
+                
+                <!-- Selling Bullets Checklist -->
+                <ul class="hero-checklist" style="list-style: none; padding: 0; margin: 0 0 30px 0; display: flex; flex-direction: column; gap: 12px; font-size: 15px; font-weight: 600; color: var(--text-main);">
+                    <li style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: #22C55E; font-size: 18px;"></i> Certified FIDE Rated Master Instructors
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: #22C55E; font-size: 18px;"></i> 1-on-1 Personalized Live Interactive Focus
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: #22C55E; font-size: 18px;"></i> Free Dynamic Skill Assessment & Goal Roadmap
+                    </li>
+                    <li style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-circle-check" style="color: #22C55E; font-size: 18px;"></i> Flexible Custom Slots (Operates 24/7 Globally)
+                    </li>
+                </ul>
+
+                <div style="display: flex; gap: 16px;">
+                    <a href="#how-it-works" class="btn btn-secondary" style="border-radius: 10px; font-weight:700;">Explore Academy Roadmap</a>
+                </div>
             </div>
 
-            <!-- Glowing holographic board graphic -->
-            <div class="hero-graphic-container">
-                <img src="images/chess_hero.png" alt="Futuristic Glowing Chess Board Assessment Illustration">
+            <!-- Right Column: Age Quick Select Card -->
+            <div class="hero-right" style="flex: 1; max-width: 440px; width: 100%;">
+                <div class="glass-card" style="padding: 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(108, 76, 241, 0.08); border: 1px solid rgba(0, 0, 0, 0.06); background: #FFFFFF;">
+                    <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main); margin-bottom: 20px; text-align: center;">Start Learning From India's Best Academy</h3>
+                    
+                    <!-- Quick Dropdown Form Group -->
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="hero-age-select" style="font-weight: 700; margin-bottom: 8px; display: block; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; color: var(--text-secondary);">Select Child's Age *</label>
+                        <select id="hero-age-select" class="form-control" style="border: 2px solid #E5E7EB; border-radius: 12px; height: 52px; font-weight: 600; padding: 0 16px; width: 100%; box-sizing: border-box; background-color: #F9FAFB; cursor: pointer; color: var(--text-main);">
+                            <option value="" disabled selected>Choose Age Range</option>
+                            <option value="4-6">4 - 6 Years (Beginner Friendly)</option>
+                            <option value="7-9">7 - 9 Years (Recommended)</option>
+                            <option value="10-12">10 - 12 Years (Active Brain Development)</option>
+                            <option value="13+">13+ Years (Advanced Strategy)</option>
+                        </select>
+                    </div>
+
+                    <!-- CTA Primary Trigger -->
+                    <button type="button" class="btn btn-primary" id="hero-submit-btn" style="width: 100%; height: 52px; font-size: 16px; font-weight: 700; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px; cursor: pointer; border: none;">
+                        Book Free Demo <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <!-- CTA Secondary WhatsApp -->
+                    <a href="https://wa.me/919999999999?text=Hi%2C%20I%20want%20to%20book%20a%20free%20chess%20demo%20for%20my%20child%20at%20Parash%20Chess%20Academy." target="_blank" class="btn" style="width: 100%; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #22C55E; color: #16A34A; background-color: #F0FDF4; font-weight: 700; font-size: 14px; text-decoration: none; box-sizing: border-box;">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Or Ask Us On WhatsApp
+                    </a>
+
+                    <!-- Counselor active card -->
+                    <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #F3F4F6;">
+                        <div style="position: relative;">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=60" alt="Counselor Pooja" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #FFFFFF; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                            <span style="position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; background-color: #22C55E; border: 2px solid #FFFFFF; border-radius: 50%;"></span>
+                        </div>
+                        <div>
+                            <p style="margin: 0; font-size: 12px; font-weight: 700; color: var(--text-main);">Priya Sharma <span style="font-weight: 500; color: var(--text-secondary);">(Counselor)</span></p>
+                            <p style="margin: 0; font-size: 11px; color: #16A34A; font-weight: 600;"><i class="fa-solid fa-bolt"></i> Replies on WhatsApp in &lt; 10 mins</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
@@ -221,8 +274,245 @@
         </div>
     </footer>
 
+    <!-- ChessWize Cloned 4-Step Interactive Booking Drawer Modal -->
+    <div class="booking-drawer-overlay" id="booking-drawer-overlay"></div>
+    <div class="booking-drawer" id="booking-drawer">
+        <!-- Top Header & Steps tracker -->
+        <div class="drawer-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span class="drawer-step-badge" id="drawer-step-badge">Step 1 of 4</span>
+                <span class="drawer-close-btn" id="drawer-close">&times;</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="drawer-progress-bg">
+                <div class="drawer-progress-fill" id="drawer-progress-fill" style="width: 25%;"></div>
+            </div>
+        </div>
+
+        <!-- Dynamic Steps Body -->
+        <div class="drawer-body">
+            
+            <!-- STEP 1: Parent Info -->
+            <div class="drawer-step-content active" id="d-step-1">
+                <h3 class="drawer-title">Tell us who you are</h3>
+                <p class="drawer-subtitle">We will send slot confirmations and join link details here.</p>
+                
+                <div class="drawer-layout-split">
+                    <div class="drawer-form-part">
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label class="drawer-label">PARENT'S FULL NAME *</label>
+                            <input type="text" id="d-parentName" class="form-control drawer-input" placeholder="e.g. Rahul Sharma" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label class="drawer-label">WHATSAPP NUMBER *</label>
+                            <div style="display: flex; gap: 8px;">
+                                <div style="display: flex; align-items: center; justify-content: center; padding: 0 12px; background: #F3F4F6; border: 2px solid #E5E7EB; border-radius: 10px; font-weight: 700; font-size: 14px; color: var(--text-main);">
+                                    🇮🇳 +91
+                                </div>
+                                <input type="tel" id="d-parentMobile" class="form-control drawer-input" placeholder="10-digit number" required style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label class="drawer-label">EMAIL ADDRESS *</label>
+                            <input type="email" id="d-parentEmail" class="form-control drawer-input" placeholder="e.g. rahul@gmail.com" required>
+                        </div>
+                    </div>
+
+                    <!-- Side expectations card -->
+                    <div class="drawer-side-card">
+                        <h4>What happens next?</h4>
+                        <ul class="timeline-bullets" style="list-style: none; padding: 0; margin: 0;">
+                            <li style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                <span class="bullet-num" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #FFFFFF; font-size: 12px; font-weight: 700; flex-shrink: 0;">1</span>
+                                <div>
+                                    <h5 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 700; color: var(--text-main);">Callback in &lt; 15 mins</h5>
+                                    <p style="margin: 0; font-size: 12px; color: var(--text-secondary); line-height: 1.4;">Our counselor Priya will call you to confirm your slot & check internet/laptop readiness.</p>
+                                </div>
+                            </li>
+                            <li style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                <span class="bullet-num" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #FFFFFF; font-size: 12px; font-weight: 700; flex-shrink: 0;">2</span>
+                                <div>
+                                    <h5 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 700; color: var(--text-main);">Coach preparation</h5>
+                                    <p style="margin: 0; font-size: 12px; color: var(--text-secondary); line-height: 1.4;">A professional coach is assigned and customized study assessment is prepared.</p>
+                                </div>
+                            </li>
+                            <li style="display: flex; gap: 12px;">
+                                <span class="bullet-num" style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: #FFFFFF; font-size: 12px; font-weight: 700; flex-shrink: 0;">3</span>
+                                <div>
+                                    <h5 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 700; color: var(--text-main);">Free 1-on-1 Class</h5>
+                                    <p style="margin: 0; font-size: 12px; color: var(--text-secondary); line-height: 1.4;">Attend the live session, get a full feedback roadmap report card.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Navigation footer -->
+                <div class="drawer-footer">
+                    <div></div>
+                    <button type="button" class="btn btn-primary btn-drawer-next" id="d-btn-next-1">Continue <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Child Info -->
+            <div class="drawer-step-content" id="d-step-2">
+                <h3 class="drawer-title">About your child</h3>
+                <p class="drawer-subtitle">Help us customize the game complexity according to their age and capabilities.</p>
+                
+                <div class="form-grid-2col">
+                    <div class="form-group">
+                        <label class="drawer-label">CHILD'S FIRST NAME *</label>
+                        <input type="text" id="d-studentName" class="form-control drawer-input" placeholder="e.g. Aarav" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="drawer-label">CHILD'S AGE RANGE *</label>
+                        <select id="d-studentAge" class="form-control drawer-input" required>
+                            <option value="4-6">4 - 6 Years</option>
+                            <option value="7-9">7 - 9 Years</option>
+                            <option value="10-12">10 - 12 Years</option>
+                            <option value="13+">13+ Years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="drawer-label">CURRENT CHESS EXPERIENCE *</label>
+                        <select id="d-studentLevel" class="form-control drawer-input" required>
+                            <option value="" disabled selected>Select level</option>
+                            <option value="Never played">Never played before</option>
+                            <option value="Knows basic rules">Knows basic rules & moves</option>
+                            <option value="Beginner">Beginner (&lt; 800 Elo rating)</option>
+                            <option value="Intermediate">Intermediate (800 - 1200 Elo rating)</option>
+                            <option value="Advanced">Advanced (&gt; 1200 Elo rating / Tournaments)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="drawer-label">CITY *</label>
+                        <input type="text" id="d-studentCity" class="form-control drawer-input" placeholder="e.g. Bangalore" required>
+                    </div>
+                </div>
+
+                <!-- Navigation footer -->
+                <div class="drawer-footer">
+                    <button type="button" class="btn btn-secondary btn-drawer-back" id="d-btn-back-2"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary btn-drawer-next" id="d-btn-next-2">Continue <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Goals & Commitment -->
+            <div class="drawer-step-content" id="d-step-3">
+                <h3 class="drawer-title">Your child's goals</h3>
+                <p class="drawer-subtitle">What is your main objective from these classes? Select multiple if applicable.</p>
+                
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label class="drawer-label" style="margin-bottom:12px; display:block;">WHAT DO YOU WANT CHESS TO DO FOR YOUR CHILD? *</label>
+                    <div class="drawer-goals-grid">
+                        <div class="drawer-goal-card" data-goal="focus">
+                            <div class="goal-checkbox"></div>
+                            <div>
+                                <h5>Improve focus & attention span</h5>
+                                <p>Learn deep thinking, concentration, patience.</p>
+                            </div>
+                        </div>
+                        <div class="drawer-goal-card" data-goal="logic">
+                            <div class="goal-checkbox"></div>
+                            <div>
+                                <h5>Boost math & logic skills</h5>
+                                <p>Practice calculation speed, spatial logic, analysis.</p>
+                            </div>
+                        </div>
+                        <div class="drawer-goal-card" data-goal="screen">
+                            <div class="goal-checkbox"></div>
+                            <div>
+                                <h5>Replace passive screen time</h5>
+                                <p>Switch mindless YouTube/gaming with structured logic.</p>
+                            </div>
+                        </div>
+                        <div class="drawer-goal-card" data-goal="tournament">
+                            <div class="goal-checkbox"></div>
+                            <div>
+                                <h5>Train for competitive tournaments</h5>
+                                <p>Unlock FIDE rating roadmap, tactics, speed chess.</p>
+                            </div>
+                        </div>
+                        <div class="drawer-goal-card" data-goal="confidence">
+                            <div class="goal-checkbox"></div>
+                            <div>
+                                <h5>Build confidence & sportsmanship</h5>
+                                <p>Learn how to bounce back from losses, handle stress.</p>
+                            </div>
+                        </div>
+                        <div class="drawer-goal-card" data-goal="explore">
+                            <div class="goal-checkbox"></div>
+                            <div>
+                                <h5>Just exploring as a hobby</h5>
+                                <p>Discover new hobbies and let them test their interest.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 24px;">
+                    <label class="drawer-label">COMMITMENT LEVEL *</label>
+                    <select id="d-studentCommit" class="form-control drawer-input" required>
+                        <option value="" disabled selected>Select commitment level</option>
+                        <option value="Exploring">Just exploring for now (Casual)</option>
+                        <option value="Serious">Serious - dedicated to cognitive development (Weekly classes)</option>
+                        <option value="Competitive">Highly competitive - aspiring to play FIDE Tournaments</option>
+                    </select>
+                </div>
+
+                <!-- Navigation footer -->
+                <div class="drawer-footer">
+                    <button type="button" class="btn btn-secondary btn-drawer-back" id="d-btn-back-3"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary btn-drawer-next" id="d-btn-next-3">Continue <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Slot Picker -->
+            <div class="drawer-step-content" id="d-step-4">
+                <h3 class="drawer-title">Last bits: Choose your slot</h3>
+                <p class="drawer-subtitle">Select a suitable date and timezone-aligned 20-min live session window.</p>
+                
+                <!-- Date pills horizontal scrolling carousel -->
+                <div class="date-carousel-wrapper">
+                    <div class="date-carousel-container" id="d-date-carousel">
+                        <!-- Loaded dynamically by JS -->
+                    </div>
+                </div>
+
+                <!-- Time segment selector (Morning, Afternoon, Evening) -->
+                <div class="time-segment-bar" id="d-time-segments">
+                    <button type="button" class="segment-btn active" data-segment="evening">Evening <span>(6 slots)</span></button>
+                    <button type="button" class="segment-btn" data-segment="afternoon">Afternoon <span>(4 slots)</span></button>
+                    <button type="button" class="segment-btn" data-segment="morning">Morning <span>(0 slots)</span></button>
+                </div>
+
+                <!-- Time slot grid selection -->
+                <div class="slot-grid-view" id="d-slot-grid">
+                    <!-- Loaded dynamically by JS -->
+                </div>
+
+                <!-- Mint green slot confirmation banner -->
+                <div class="mint-success-banner" id="d-slot-success-banner" style="display: none;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
+                        <span>YOUR SELECTED SLOT: <strong id="d-selected-slot-text">Tuesday, 19 May at 7:20 pm IST</strong></span>
+                    </div>
+                </div>
+
+                <!-- Navigation footer -->
+                <div class="drawer-footer">
+                    <button type="button" class="btn btn-secondary btn-drawer-back" id="d-btn-back-4"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary" id="d-btn-submit" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); font-weight:700;">Book My Free Demo <i class="fa-solid fa-circle-check"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Shared Scripts -->
     <script src="js/db.js"></script>
+    <script src="js/engine.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/drawer.js"></script>
 </body>
 </html>

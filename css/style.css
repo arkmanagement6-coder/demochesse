@@ -1841,3 +1841,442 @@ button, input, select, textarea {
         transform: translateY(0);
     }
 }
+
+
+/* ==========================================================================
+   CHESSWIZE PROGRESSIVE DRAWER AND HERO SELECTOR STYLES
+   ========================================================================== */
+
+/* Hero Container desktop split adjustments */
+@media (min-width: 992px) {
+    .hero-section {
+        padding: 80px 0 !important;
+    }
+    .hero-container {
+        flex-direction: row !important;
+        gap: 60px !important;
+        align-items: center !important;
+    }
+}
+@media (max-width: 991px) {
+    .hero-container {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 40px 20px !important;
+    }
+    .hero-left, .hero-right {
+        max-width: 100% !important;
+        flex: none !important;
+    }
+    .hero-checklist {
+        align-items: center !important;
+    }
+}
+
+/* Modal Drawer Overlay */
+.booking-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.booking-drawer-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Sliding Drawer Panel */
+.booking-drawer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    width: 100%;
+    max-width: 780px;
+    background: #FFFFFF;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    box-shadow: 0 -15px 40px rgba(0, 0, 0, 0.12);
+    z-index: 1001;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+.booking-drawer.active {
+    transform: translate(-50%, 0);
+}
+
+/* Drawer Header elements */
+.drawer-header {
+    padding: 24px 30px 16px 30px;
+    border-bottom: 1px solid #F3F4F6;
+}
+.drawer-step-badge {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.drawer-close-btn {
+    font-size: 28px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition);
+}
+.drawer-close-btn:hover {
+    color: #EF4444;
+    transform: scale(1.1);
+}
+
+/* Progress bar filling */
+.drawer-progress-bg {
+    width: 100%;
+    height: 6px;
+    background: #F3F4F6;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.drawer-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary) 0%, #3B82F6 100%);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+/* Body content layout & transitions */
+.drawer-body {
+    padding: 24px 30px 30px 30px;
+    overflow-y: auto;
+    flex: 1;
+}
+.drawer-step-content {
+    display: none;
+}
+.drawer-step-content.active {
+    display: block;
+    animation: drawerFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawerFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.drawer-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 6px 0;
+}
+.drawer-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 24px 0;
+}
+
+/* Drawer forms & inputs elements */
+.drawer-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+.drawer-input {
+    border: 2px solid #E5E7EB;
+    border-radius: 10px;
+    height: 48px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 600;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F9FAFB;
+    transition: var(--transition);
+}
+.drawer-input:focus {
+    border-color: var(--primary);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(108, 76, 241, 0.1);
+}
+
+/* Step 1 Split elements side-card */
+.drawer-layout-split {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 30px;
+}
+@media (max-width: 768px) {
+    .drawer-layout-split {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+.drawer-side-card {
+    background: #F9FAFB;
+    border: 1px solid rgba(0,0,0,0.04);
+    border-radius: 16px;
+    padding: 20px;
+}
+.drawer-side-card h4 {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 2-column Grid wrapper */
+.form-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+@media (max-width: 576px) {
+    .form-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+/* Goal selection checkbox cards */
+.drawer-goals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+@media (max-width: 576px) {
+    .drawer-goals-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.drawer-goal-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: var(--transition);
+}
+.drawer-goal-card:hover {
+    border-color: var(--primary);
+    background: rgba(108, 76, 241, 0.02);
+}
+.drawer-goal-card.selected {
+    border-color: var(--primary);
+    background: rgba(108, 76, 241, 0.04);
+    box-shadow: 0 4px 15px rgba(108, 76, 241, 0.06);
+}
+.goal-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #D1D5DB;
+    border-radius: 4px;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+.drawer-goal-card.selected .goal-checkbox {
+    border-color: var(--primary);
+    background: var(--primary);
+}
+.drawer-goal-card.selected .goal-checkbox::after {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #FFFFFF;
+    font-size: 10px;
+}
+.drawer-goal-card h5 {
+    margin: 0 0 3px 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+.drawer-goal-card p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+/* Step 4 horizontal date snaps */
+.date-carousel-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+.date-carousel-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    padding: 4px;
+}
+.date-carousel-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Webkit */
+}
+.date-pill {
+    flex: 0 0 74px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: var(--transition);
+}
+.date-pill:hover {
+    border-color: var(--primary);
+}
+.date-pill.selected {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: #FFFFFF;
+    box-shadow: 0 4px 15px rgba(108, 76, 241, 0.2);
+}
+.date-pill .day-name {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+.date-pill.selected .day-name {
+    opacity: 0.9;
+}
+.date-pill .day-num {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 2px 0;
+}
+.date-pill .month-name {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* Evening Afternoon Segment Bar */
+.time-segment-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: #F3F4F6;
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 20px;
+}
+.segment-btn {
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: var(--transition);
+    text-align: center;
+}
+.segment-btn.active {
+    background: #FFFFFF;
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.segment-btn span {
+    font-size: 10px;
+    opacity: 0.7;
+    font-weight: 500;
+    display: block;
+    margin-top: 1px;
+}
+
+/* Time Slot grid columns */
+.slot-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+}
+.drawer-slot-pill {
+    padding: 12px;
+    border: 2px solid #E5E7EB;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    background: #FFFFFF;
+    color: var(--text-main);
+}
+.drawer-slot-pill:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.drawer-slot-pill.selected {
+    border-color: var(--primary);
+    background: rgba(108, 76, 241, 0.05);
+    color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary);
+}
+
+/* Mint green success notification card */
+.mint-success-banner {
+    background: #ECFDF5;
+    border: 2px solid #A7F3D0;
+    border-radius: 12px;
+    padding: 16px;
+    color: #065F46;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+/* Drawer Actions Footer */
+.drawer-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #F3F4F6;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+.drawer-footer button {
+    height: 48px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+}
+.btn-drawer-next {
+    padding: 0 24px;
+}
+.btn-drawer-back {
+    padding: 0 20px;
+}
