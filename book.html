@@ -62,85 +62,105 @@
                     <p style="color:var(--text-secondary); font-size:14px; margin-bottom:30px;">Provide basic details to help us customize the training roadmap.</p>
                     
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="studentName"><i class="fa-solid fa-user-graduate"></i> Student Name *</label>
-                            <input type="text" id="studentName" class="form-control" placeholder="e.g. Kabir Mehta" required>
+                        <!-- Group 1: Names (Visible by default) -->
+                        <div class="form-sub-grid" id="group-names" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; grid-column: span 2;">
+                            <div class="form-group">
+                                <label for="studentName"><i class="fa-solid fa-user-graduate"></i> Student Name *</label>
+                                <input type="text" id="studentName" class="form-control" placeholder="e.g. Kabir Mehta" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="parentName"><i class="fa-solid fa-user-tie"></i> Parent Name *</label>
+                                <input type="text" id="parentName" class="form-control" placeholder="e.g. Rajesh Mehta" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="parentName"><i class="fa-solid fa-user-tie"></i> Parent Name *</label>
-                            <input type="text" id="parentName" class="form-control" placeholder="e.g. Rajesh Mehta" required>
+
+                        <!-- Group 2: Age & Grade (Hidden initially) -->
+                        <div class="form-sub-grid form-fade-in" id="group-age-grade" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 20px; grid-column: span 2;">
+                            <div class="form-group">
+                                <label for="studentAge"><i class="fa-solid fa-cake-candles"></i> Age *</label>
+                                <input type="number" id="studentAge" class="form-control" placeholder="e.g. 9" min="5" max="99" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentGrade"><i class="fa-solid fa-school"></i> Class / Grade</label>
+                                <input type="text" id="studentGrade" class="form-control" placeholder="e.g. Grade 4">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="studentAge"><i class="fa-solid fa-cake-candles"></i> Age *</label>
-                            <input type="number" id="studentAge" class="form-control" placeholder="e.g. 9" min="5" max="99" required>
+
+                        <!-- Group 3: Contact (Hidden initially, Mobile with +91) -->
+                        <div class="form-sub-grid form-fade-in" id="group-contact" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 20px; grid-column: span 2;">
+                            <div class="form-group">
+                                <label for="studentMobile"><i class="fa-solid fa-phone"></i> Mobile Number (WhatsApp) *</label>
+                                <input type="tel" id="studentMobile" class="form-control" value="+91 " placeholder="+91 XXXXX XXXXX" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentEmail"><i class="fa-solid fa-envelope"></i> Email Address *</label>
+                                <input type="email" id="studentEmail" class="form-control" placeholder="e.g. parent@gmail.com" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="studentGrade"><i class="fa-solid fa-school"></i> Class / Grade</label>
-                            <input type="text" id="studentGrade" class="form-control" placeholder="e.g. Grade 4">
-                        </div>
-                        <div class="form-group">
-                            <label for="studentMobile"><i class="fa-solid fa-phone"></i> Mobile Number (WhatsApp) *</label>
-                            <input type="tel" id="studentMobile" class="form-control" placeholder="e.g. +91 98765 43210" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="studentEmail"><i class="fa-solid fa-envelope"></i> Email Address *</label>
-                            <input type="email" id="studentEmail" class="form-control" placeholder="e.g. parent@gmail.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="studentCity"><i class="fa-solid fa-city"></i> City *</label>
-                            <input type="text" id="studentCity" class="form-control" placeholder="e.g. Mumbai" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="studentCountry"><i class="fa-solid fa-globe"></i> Country *</label>
-                            <select id="studentCountry" class="form-control" required>
-                                <option value="" disabled selected>Select country</option>
-                                <option value="India">India</option>
-                                <option value="USA">USA</option>
-                                <option value="UK">UK</option>
-                                <option value="Canada">Canada</option>
-                                <option value="Australia">Australia</option>
-                                <option value="UAE">UAE</option>
-                            </select>
+
+                        <!-- Group 4: Location (Hidden initially) -->
+                        <div class="form-sub-grid form-fade-in" id="group-location" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 20px; grid-column: span 2;">
+                            <div class="form-group">
+                                <label for="studentCity"><i class="fa-solid fa-city"></i> City *</label>
+                                <input type="text" id="studentCity" class="form-control" placeholder="e.g. Mumbai" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentCountry"><i class="fa-solid fa-globe"></i> Country *</label>
+                                <select id="studentCountry" class="form-control" required>
+                                    <option value="" disabled selected>Select country</option>
+                                    <option value="India">India</option>
+                                    <option value="USA">USA</option>
+                                    <option value="UK">UK</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="UAE">UAE</option>
+                                </select>
+                            </div>
                         </div>
                         
-                        <!-- Skill Selection Option Grid -->
-                        <div class="form-full form-group">
-                            <label>Student's Chess Experience *</label>
-                            <div class="option-grid">
-                                <div class="option-card selected" data-value="Beginner" id="level-beginner">
-                                    <i class="fa-solid fa-chess-pawn" style="font-size:24px; color:var(--primary); margin-bottom:10px;"></i>
-                                    <h4>Beginner</h4>
-                                    <p>Knows nothing or basic rules & piece names.</p>
-                                </div>
-                                <div class="option-card" data-value="Intermediate" id="level-intermediate">
-                                    <i class="fa-solid fa-chess-knight" style="font-size:24px; color:#F59E0B; margin-bottom:10px;"></i>
-                                    <h4>Intermediate</h4>
-                                    <p>Can play standard games, understands checks.</p>
-                                </div>
-                                <div class="option-card" data-value="Advanced" id="level-advanced">
-                                    <i class="fa-solid fa-chess-king" style="font-size:24px; color:#EF4444; margin-bottom:10px;"></i>
-                                    <h4>Advanced</h4>
-                                    <p>Plays tournaments, holds an online chess rating.</p>
+                        <!-- Group 5: Chess Experience (Hidden initially) -->
+                        <div class="form-sub-grid form-fade-in" id="group-experience" style="display: none; grid-template-columns: 1fr; gap: 20px; grid-column: span 2;">
+                            <div class="form-full form-group">
+                                <label>Student's Chess Experience *</label>
+                                <div class="option-grid">
+                                    <div class="option-card" data-value="Beginner" id="level-beginner">
+                                        <i class="fa-solid fa-chess-pawn" style="font-size:24px; color:var(--primary); margin-bottom:10px;"></i>
+                                        <h4>Beginner</h4>
+                                        <p>Knows nothing or basic rules & piece names.</p>
+                                    </div>
+                                    <div class="option-card" data-value="Intermediate" id="level-intermediate">
+                                        <i class="fa-solid fa-chess-knight" style="font-size:24px; color:#F59E0B; margin-bottom:10px;"></i>
+                                        <h4>Intermediate</h4>
+                                        <p>Can play standard games, understands checks.</p>
+                                    </div>
+                                    <div class="option-card" data-value="Advanced" id="level-advanced">
+                                        <i class="fa-solid fa-chess-king" style="font-size:24px; color:#EF4444; margin-bottom:10px;"></i>
+                                        <h4>Advanced</h4>
+                                        <p>Plays tournaments, holds an online chess rating.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Language & Timezone -->
-                        <div class="form-group">
-                            <label for="studentLanguage"><i class="fa-solid fa-language"></i> Preferred Language *</label>
-                            <select id="studentLanguage" class="form-control" required>
-                                <option value="English" selected>English</option>
-                                <option value="Hindi">Hindi</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="studentTimezone"><i class="fa-solid fa-clock"></i> Timezone</label>
-                            <select id="studentTimezone" class="form-control">
-                                <option value="GMT+5:30" selected>India Standard Time (GMT+5:30)</option>
-                                <option value="GMT-7:00">Pacific Time (GMT-7:00)</option>
-                                <option value="GMT+1:00">London Time (GMT+1:00)</option>
-                                <option value="GMT+10:00">Sydney Time (GMT+10:00)</option>
-                            </select>
+                        <!-- Group 6: Language & Timezone (Hidden initially) -->
+                        <div class="form-sub-grid form-fade-in" id="group-lang-tz" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 20px; grid-column: span 2;">
+                            <div class="form-group">
+                                <label for="studentLanguage"><i class="fa-solid fa-language"></i> Preferred Language *</label>
+                                <select id="studentLanguage" class="form-control" required>
+                                    <option value="" disabled selected>Select Language</option>
+                                    <option value="English">English</option>
+                                    <option value="Hindi">Hindi</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentTimezone"><i class="fa-solid fa-clock"></i> Timezone</label>
+                                <select id="studentTimezone" class="form-control">
+                                    <option value="GMT+5:30" selected>India Standard Time (GMT+5:30)</option>
+                                    <option value="GMT-7:00">Pacific Time (GMT-7:00)</option>
+                                    <option value="GMT+1:00">London Time (GMT+1:00)</option>
+                                    <option value="GMT+10:00">Sydney Time (GMT+10:00)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

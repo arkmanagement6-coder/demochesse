@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 class BookingWizard {
     static init() {
         this.currentStep = 1;
-        this.studentLevel = "Beginner";
+        this.studentLevel = ""; // Start blank to require user choice for progression
         this.selectedDateStr = "";
         this.selectedSlotStr = "";
         this.paymentTier = "free";
@@ -21,6 +21,7 @@ class BookingWizard {
         this.cacheDOM();
         this.bindEvents();
         this.renderCalendar();
+        this.updateSectionVisibility(); // Initial progressive disclosure state
     }
 
     static cacheDOM() {
@@ -68,13 +69,52 @@ class BookingWizard {
         this.nextBtn.addEventListener("click", () => this.handleNext());
         this.prevBtn.addEventListener("click", () => this.handlePrev());
 
-        // Step 1: Level Cards selection
+        // Step 1 Progressive Listeners
+        const inputsToWatch = ["studentName", "parentName", "studentAge", "studentGrade", "studentEmail", "studentCity", "studentCountry", "studentLanguage"];
+        inputsToWatch.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                const eventName = el.tagName === "SELECT" ? "change" : "input";
+                el.addEventListener(eventName, () => this.updateSectionVisibility());
+            }
+        });
+
+        // Mobile Prefilled with +91 and limited to 10 digits
+        const mobileInput = document.getElementById("studentMobile");
+        if (mobileInput) {
+            mobileInput.addEventListener("input", (e) => {
+                let val = e.target.value;
+                // Force +91 prefix
+                if (!val.startsWith("+91 ")) {
+                    // Strip any leading +91 or 91 patterns that might get messy
+                    let cleared = val.replace(/^\+?91\s?/, "");
+                    val = "+91 " + cleared;
+                }
+                let prefix = "+91 ";
+                let rest = val.substring(prefix.length).replace(/\D/g, ""); // Keep only digits
+                if (rest.length > 10) {
+                    rest = rest.substring(0, 10); // Enforce 10 digit limit
+                }
+                e.target.value = prefix + rest;
+                this.updateSectionVisibility();
+            });
+
+            mobileInput.addEventListener("keydown", (e) => {
+                // Prevent deleting "+91 " prefix using backspace
+                if (e.key === "Backspace" && e.target.value.length <= 4) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // Step 1: Level Cards selection with trigger progressive
         this.levelCards.forEach(card => {
             card.addEventListener("click", (e) => {
                 this.levelCards.forEach(c => c.classList.remove("selected"));
                 const selectedCard = e.currentTarget;
                 selectedCard.classList.add("selected");
                 this.studentLevel = selectedCard.getAttribute("data-value");
+                this.updateSectionVisibility();
             });
         });
 
@@ -124,6 +164,96 @@ class BookingWizard {
                 this.updatePaymentGatewayView();
             });
         });
+    }
+
+    // Progressive Visibility Logic
+    static updateSectionVisibility() {
+        const studentName = document.getElementById("studentName")?.value || "";
+        const parentName = document.getElementById("parentName")?.value || "";
+        const studentAge = document.getElementById("studentAge")?.value || "";
+        const studentMobile = document.getElementById("studentMobile")?.value || "";
+        const studentEmail = document.getElementById("studentEmail")?.value || "";
+        const studentCity = document.getElementById("studentCity")?.value || "";
+        const studentCountry = document.getElementById("studentCountry")?.value || "";
+        const studentLanguage = document.getElementById("studentLanguage")?.value || "";
+
+        const groupAge = document.getElementById("group-age-grade");
+        const groupContact = document.getElementById("group-contact");
+        const groupLocation = document.getElementById("group-location");
+        const groupExp = document.getElementById("group-experience");
+        const groupLangTz = document.getElementById("group-lang-tz");
+
+        // Progression checks
+        const namesFilled = studentName.trim().length >= 2 && parentName.trim().length >= 2;
+        const ageFilled = studentAge.trim().length >= 1 && parseInt(studentAge) >= 5;
+        
+        const mobileRest = studentMobile.replace("+91 ", "").replace(/\D/g, "");
+        const contactFilled = mobileRest.length === 10 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(studentEmail.trim());
+        
+        const locationFilled = studentCity.trim().length >= 2 && studentCountry.trim().length > 0;
+        
+        let levelSelected = false;
+        this.levelCards.forEach(c => {
+            if (c.classList.contains("selected")) levelSelected = true;
+        });
+
+        const langSelected = studentLanguage.trim().length > 0;
+
+        // Sequence reveal hooks
+        if (namesFilled) {
+            this.revealGroup(groupAge);
+        } else {
+            this.hideGroup(groupAge);
+        }
+
+        if (namesFilled && ageFilled) {
+            this.revealGroup(groupContact);
+        } else {
+            this.hideGroup(groupContact);
+        }
+
+        if (namesFilled && ageFilled && contactFilled) {
+            this.revealGroup(groupLocation);
+        } else {
+            this.hideGroup(groupLocation);
+        }
+
+        if (namesFilled && ageFilled && contactFilled && locationFilled) {
+            this.revealGroup(groupExp);
+        } else {
+            this.hideGroup(groupExp);
+        }
+
+        if (namesFilled && ageFilled && contactFilled && locationFilled && levelSelected) {
+            this.revealGroup(groupLangTz);
+        } else {
+            this.hideGroup(groupLangTz);
+        }
+
+        // Stepper CTA button toggle state
+        if (this.currentStep === 1) {
+            if (namesFilled && ageFilled && contactFilled && locationFilled && levelSelected && langSelected) {
+                this.nextBtn.style.display = "inline-block";
+            } else {
+                this.nextBtn.style.display = "none";
+            }
+        } else {
+            this.nextBtn.style.display = "inline-block";
+        }
+    }
+
+    static revealGroup(el) {
+        if (el && el.style.display === "none") {
+            el.style.display = "grid";
+            el.classList.add("active");
+        }
+    }
+
+    static hideGroup(el) {
+        if (el && el.style.display !== "none") {
+            el.style.display = "none";
+            el.classList.remove("active");
+        }
     }
 
     // Wizard Nav Logic
@@ -204,6 +334,8 @@ class BookingWizard {
         } else {
             this.nextBtn.innerText = "Next Step \u2192";
         }
+
+        this.updateSectionVisibility();
     }
 
     // Step 2: Calendar Generation

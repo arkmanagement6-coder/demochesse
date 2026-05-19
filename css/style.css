@@ -1824,3 +1824,20 @@ button, input, select, textarea {
     transform: translateX(2px) scale(1.1);
 }
 
+
+
+/* Progressive Disclosure Slide & Fade-in Animation */
+.form-fade-in.active {
+    animation: slideFadeInProgressive 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideFadeInProgressive {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
