@@ -2,6 +2,9 @@
 // Handles common UI patterns, notifications console, and dynamic page widgets
 
 document.addEventListener("DOMContentLoaded", () => {
+    // 0. Inject and Setup Mobile Hamburger menu
+    setupMobileNav();
+    
     // 1. Setup global notification center
     NotificationCenter.init();
     
@@ -42,6 +45,80 @@ function highlightActiveNavLink() {
             link.style.textShadow = "0 0 8px var(--primary-glow)";
         }
     });
+}
+
+// Dynamic Hamburger Mobile Nav Injection & Handler
+function setupMobileNav() {
+    const headerContainer = document.querySelector(".header-container");
+    if (!headerContainer) return;
+    
+    // Create and inject Hamburger Button if not exists
+    if (!document.getElementById("mobile-toggle")) {
+        const toggleBtn = document.createElement("button");
+        toggleBtn.className = "mobile-nav-toggle";
+        toggleBtn.id = "mobile-toggle";
+        toggleBtn.setAttribute("aria-label", "Toggle navigation");
+        toggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        
+        const nav = headerContainer.querySelector("nav");
+        if (nav) {
+            headerContainer.insertBefore(toggleBtn, nav);
+        } else {
+            headerContainer.appendChild(toggleBtn);
+        }
+    }
+    
+    const mobileToggle = document.getElementById("mobile-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    
+    if (mobileToggle && navLinks) {
+        mobileToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            const icon = mobileToggle.querySelector("i");
+            
+            if (navLinks.classList.contains("active")) {
+                icon.className = "fa-solid fa-xmark";
+                
+                // Inject overlay
+                let overlay = document.getElementById("mobile-nav-overlay");
+                if (!overlay) {
+                    overlay = document.createElement("div");
+                    overlay.id = "mobile-nav-overlay";
+                    overlay.style.position = "fixed";
+                    overlay.style.top = "0";
+                    overlay.style.left = "0";
+                    overlay.style.width = "100%";
+                    overlay.style.height = "100%";
+                    overlay.style.background = "rgba(17, 24, 39, 0.4)";
+                    overlay.style.backdropFilter = "blur(4px)";
+                    overlay.style.zIndex = "1002";
+                    document.body.appendChild(overlay);
+                    
+                    overlay.addEventListener("click", () => {
+                        navLinks.classList.remove("active");
+                        icon.className = "fa-solid fa-bars";
+                        overlay.remove();
+                    });
+                }
+            } else {
+                icon.className = "fa-solid fa-bars";
+                const overlay = document.getElementById("mobile-nav-overlay");
+                if (overlay) overlay.remove();
+            }
+        });
+        
+        // Auto-close menu when clicking links on same page
+        const links = navLinks.querySelectorAll("a");
+        links.forEach(l => {
+            l.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+                const icon = mobileToggle.querySelector("i");
+                if (icon) icon.className = "fa-solid fa-bars";
+                const overlay = document.getElementById("mobile-nav-overlay");
+                if (overlay) overlay.remove();
+            });
+        });
+    }
 }
 
 // ----------------------------------------------------

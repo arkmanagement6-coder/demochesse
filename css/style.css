@@ -2291,3 +2291,165 @@ button, input, select, textarea {
 .btn-drawer-back {
     padding: 0 20px;
 }
+
+
+/* ==========================================================================
+   UNIVERSAL MOBILE RESPONSIVE LAYOUT OVERRIDES
+   ========================================================================== */
+
+/* Mobile Hamburger Menu styles */
+.mobile-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 1010;
+    padding: 8px;
+    border-radius: 8px;
+}
+.mobile-nav-toggle:hover {
+    background: rgba(108, 76, 241, 0.05);
+    color: var(--primary);
+}
+
+@media (max-width: 768px) {
+    /* Header & Navigation */
+    .mobile-nav-toggle {
+        display: block !important;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: #FFFFFF;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.08);
+        flex-direction: column !important;
+        padding: 100px 30px 40px 30px !important;
+        gap: 24px !important;
+        z-index: 1005;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        align-items: flex-start !important;
+    }
+    
+    .nav-links.active {
+        right: 0 !important;
+    }
+
+    #nav-cta-btn {
+        display: none !important; /* Hide header CTA button on mobile */
+    }
+    
+    .header-container {
+        padding: 0 20px !important;
+    }
+
+    /* Grids & Columns */
+    .hero-container {
+        flex-direction: column !important;
+        gap: 40px !important;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+    }
+    
+    .footer-bottom {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 12px !important;
+    }
+
+    .teacher-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+    }
+    
+    /* Tables horizontal scrolling wrapper */
+    .table-container {
+        width: 100%;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 15px !important;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+    }
+    
+    .data-table {
+        min-width: 750px !important; /* Prevents text crushing on narrow screens */
+    }
+
+    /* Success Page Column adjustments */
+    .success-container div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    /* Success Teacher Profile display grid */
+    .assigned-coach-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 15px !important;
+        padding: 20px !important;
+    }
+    
+    .assigned-coach-card img {
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Fonts scale down */
+    h1, .hero-title {
+        font-size: 32px !important;
+        line-height: 1.25 !important;
+    }
+    
+    h2, .section-header h2 {
+        font-size: 24px !important;
+    }
+    
+    /* Step Wizard Progress Bar Squeeze prevention */
+    .progress-bar-container {
+        margin-bottom: 30px !important;
+    }
+    
+    .progress-step {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 13px !important;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .admin-header-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+    }
+    
+    .table-search {
+        width: 100% !important;
+    }
+    
+    .how-step::after {
+        content: '↓' !important;
+        right: 50% !important;
+        top: auto !important;
+        bottom: -25px !important;
+        transform: translateX(50%) !important;
+    }
+}
