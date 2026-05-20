@@ -187,6 +187,7 @@
                     <h2 style="font-size: 28px;" class="text-gradient">Coaching Staff Directory</h2>
                     <button type="button" class="btn btn-primary" id="btn-add-teacher">+ Add New Coach</button>
                 </div>
+                <div class="grid-layout" id="teachers-roster-grid" style="margin-top:20px;"></div>
             </section>
 
             <!-- SECTION 3.5: DAILY ROSTER PLANNER -->
@@ -466,6 +467,19 @@
                 <span class="modal-close" id="modal-close-student-details">&times;</span>
             </div>
             <div id="student-details-content" style="max-height: 480px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; font-size: 14px; text-align: left; padding-right: 8px;">
+                <!-- Loaded dynamically by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW TEACHER DETAILS MODAL -->
+    <div class="modal-overlay" id="modal-teacher-details">
+        <div class="glass-card modal-card" style="max-width: 700px; width: 95%;">
+            <div class="modal-header">
+                <h3 style="font-size:18px;">Coach Demo Statistics</h3>
+                <span class="modal-close" id="modal-close-teacher-details">&times;</span>
+            </div>
+            <div id="teacher-details-content" style="max-height: 550px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; font-size: 14px; text-align: left; padding-right: 8px;">
                 <!-- Loaded dynamically by JS -->
             </div>
         </div>

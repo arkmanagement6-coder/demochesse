@@ -47,12 +47,14 @@ class AdminController {
         this.modalReassign = document.getElementById("modal-reassign");
         this.modalAddt = document.getElementById("modal-add-teacher");
         this.modalStudentDetails = document.getElementById("modal-student-details");
+        this.modalTeacherDetails = document.getElementById("modal-teacher-details");
 
         // Close selectors
         this.closeResched = document.getElementById("modal-close-resched");
         this.closeReassign = document.getElementById("modal-close-reassign");
         this.closeAddt = document.getElementById("modal-close-addt");
         this.closeStudentDetails = document.getElementById("modal-close-student-details");
+        this.closeTeacherDetails = document.getElementById("modal-close-teacher-details");
 
         // Action Buttons
         this.btnSaveResched = document.getElementById("btn-save-resched");
@@ -105,6 +107,9 @@ class AdminController {
         this.closeAddt.addEventListener("click", () => this.closeModal(this.modalAddt));
         if (this.closeStudentDetails) {
             this.closeStudentDetails.addEventListener("click", () => this.closeModal(this.modalStudentDetails));
+        }
+        if (this.closeTeacherDetails) {
+            this.closeTeacherDetails.addEventListener("click", () => this.closeModal(this.modalTeacherDetails));
         }
 
         // Save reschedule action
@@ -465,10 +470,10 @@ class AdminController {
             const slotsText = t.slots.join(", ");
 
             card.innerHTML = `
-                <img src="${t.avatar}" style="width:72px; height:72px; border-radius:50%; border:2px solid var(--primary); object-fit:cover;">
+                <img src="${t.avatar}" style="width:72px; height:72px; border-radius:50%; border:2px solid var(--primary); object-fit:cover; cursor:pointer;" onclick="AdminController.viewTeacherDetails('${t.id}')">
                 <div style="flex:1;">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                        <h4 style="font-size:16px;">${t.name}</h4>
+                        <h4 style="font-size:16px; cursor:pointer; color:var(--primary);" onclick="AdminController.viewTeacherDetails('${t.id}')">${t.name}</h4>
                         <span style="font-size:11px; color:#FBBF24;">★ ${t.rating}</span>
                     </div>
                     <p style="font-size:11px; color:var(--text-secondary); margin-bottom:8px;">${t.experience}</p>
@@ -482,12 +487,116 @@ class AdminController {
 
                     <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:10px;">
                         <span style="font-size:11px; color:var(--text-muted);">${t.activeStudents} active students</span>
-                        <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px;" onclick="AdminController.toggleCoachLeave('${t.id}')">Toggle Leave</button>
+                        <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(255,255,255,0.1); border-color:transparent;" title="Edit Coach" onclick="AdminController.editTeacher('${t.id}')">✏️ Edit</button>
+                            <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(239,68,68,0.1); border-color:transparent; color:#ef4444;" title="Delete Coach" onclick="AdminController.deleteTeacher('${t.id}')">🗑️ Del</button>
+                            <button type="button" class="btn btn-primary" style="padding:4px 8px; font-size:10px;" onclick="AdminController.viewTeacherDetails('${t.id}')">🔍 View</button>
+                        </div>
                     </div>
                 </div>
             `;
             this.rosterGrid.appendChild(card);
         });
+    }
+
+    static viewTeacherDetails(teacherId) {
+        const teachers = window.ChessDB.getTeachers();
+        const teacher = teachers.find(t => t.id === teacherId);
+        if (!teacher) return;
+
+        const bookings = window.ChessDB.getBookings();
+        const tBookings = bookings.filter(b => b.teacherId === teacherId);
+        
+        let totalTaken = 0, pending = 0, notJoined = 0, rescheduled = 0;
+        
+        const candidatesHtml = tBookings.map(b => {
+            let statusColor = "var(--text-secondary)";
+            let isPending = b.status === "Demo Booked" && new Date(b.date) >= new Date(new Date().toISOString().split('T')[0]);
+            
+            if (b.status === "Demo Attended") {
+                totalTaken++;
+                statusColor = "#10b981"; // green
+            } else if (b.status === "Rescheduled") {
+                rescheduled++;
+                statusColor = "#f59e0b"; // yellow
+            } else if (b.status === "Cancelled" || b.status === "No Show" || b.crmStatus === "Lost") {
+                notJoined++;
+                statusColor = "#ef4444"; // red
+            } else if (isPending) {
+                pending++;
+                statusColor = "#3b82f6"; // blue
+            } else {
+                statusColor = "var(--text-secondary)";
+            }
+
+            return `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:6px;">
+                    <div>
+                        <div style="font-weight:600; color:var(--text-primary); font-size:13px;">${b.studentName}</div>
+                        <div style="font-size:11px; color:var(--text-muted);">${b.date} • ${b.slot}</div>
+                    </div>
+                    <span style="font-size:11px; padding:4px 8px; border-radius:4px; background:${statusColor}20; color:${statusColor}; border:1px solid ${statusColor}40;">${b.status}</span>
+                </div>
+            `;
+        }).join("");
+
+        const content = `
+            <div style="display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border-color); padding-bottom:16px; margin-bottom:16px;">
+                <img src="${teacher.avatar}" style="width:64px; height:64px; border-radius:50%; border:2px solid var(--primary); object-fit:cover;">
+                <div>
+                    <h3 style="margin:0; font-size:18px;">${teacher.name}</h3>
+                    <p style="margin:4px 0 0; font-size:12px; color:var(--text-secondary);">${teacher.experience}</p>
+                </div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:20px;">
+                <div style="background:rgba(16, 185, 129, 0.1); border:1px solid rgba(16, 185, 129, 0.2); padding:12px; border-radius:8px; text-align:center;">
+                    <div style="font-size:24px; font-weight:700; color:#10b981;">${totalTaken}</div>
+                    <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase;">Taken</div>
+                </div>
+                <div style="background:rgba(59, 130, 246, 0.1); border:1px solid rgba(59, 130, 246, 0.2); padding:12px; border-radius:8px; text-align:center;">
+                    <div style="font-size:24px; font-weight:700; color:#3b82f6;">${pending}</div>
+                    <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase;">Pending</div>
+                </div>
+                <div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.2); padding:12px; border-radius:8px; text-align:center;">
+                    <div style="font-size:24px; font-weight:700; color:#ef4444;">${notJoined}</div>
+                    <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase;">Not Joined</div>
+                </div>
+                <div style="background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.2); padding:12px; border-radius:8px; text-align:center;">
+                    <div style="font-size:24px; font-weight:700; color:#f59e0b;">${rescheduled}</div>
+                    <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase;">Resched</div>
+                </div>
+            </div>
+
+            <h4 style="font-size:14px; margin-bottom:12px;">Candidate Demo History</h4>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                ${candidatesHtml || `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">No demos found for this coach.</div>`}
+            </div>
+        `;
+
+        const detailsContentContainer = document.getElementById("teacher-details-content");
+        if(detailsContentContainer) {
+            detailsContentContainer.innerHTML = content;
+        }
+        
+        const modal = document.getElementById("modal-teacher-details");
+        if(modal) {
+            this.openModal(modal);
+        }
+    }
+
+    static editTeacher(teacherId) {
+        window.Toast.show("Edit Coach", "Edit form opened for " + teacherId + " (Mock Action)", "success");
+    }
+
+    static deleteTeacher(teacherId) {
+        if(confirm("Are you sure you want to remove this coach?")) {
+            let teachers = window.ChessDB.getTeachers();
+            teachers = teachers.filter(t => t.id !== teacherId);
+            window.ChessDB.saveTeachers(teachers);
+            this.loadTeacherRosters();
+            window.Toast.show("Deleted", "Coach profile has been removed.", "danger");
+        }
     }
 
     static toggleCoachLeave(id) {
