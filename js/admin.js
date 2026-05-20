@@ -1176,24 +1176,28 @@ class AdminController {
             </div>
 
             <!-- Lead Goals & Notes Box -->
-            <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); display:flex; flex-direction:column; gap:8px; margin-bottom: 16px;">
-                <h4 style="margin: 0; font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🎯 Diagnostic Notes & Student Goals</h4>
-                <div style="font-size:13px; line-height:1.5; color:var(--text-secondary); background: rgba(0,0,0,0.2); padding: 12px; border-radius: 6px; border-left: 3px solid var(--primary);">
-                    ${booking.notes || 'No custom notes provided.'}
-                </div>
-                ${booking.goals && booking.goals.length > 0 ? `
-                    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
-                        ${booking.goals.map(g => `<span style="background:rgba(192, 132, 252, 0.15); border:1px solid rgba(192, 132, 252, 0.3); color:#D8B4FE; font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600;">✨ ${g}</span>`).join('')}
+            <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 16px;">
+                <details style="cursor: pointer; outline:none;">
+                    <summary style="font-size: 14px; font-weight:700; color: var(--primary); outline:none; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 0;">
+                        🎯 Diagnostic Notes & Student Goals
+                    </summary>
+                    <div style="margin-top: 14px; font-size:13px; line-height:1.5; color:var(--text-secondary); background: rgba(0,0,0,0.05); padding: 12px; border-radius: 6px; border-left: 3px solid var(--primary);">
+                        ${booking.notes || 'No custom notes provided.'}
+                        ${booking.goals && booking.goals.length > 0 ? `
+                            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                                ${booking.goals.map(g => `<span style="background:rgba(192, 132, 252, 0.15); border:1px solid rgba(192, 132, 252, 0.3); color:var(--primary); font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600;">✨ ${g}</span>`).join('')}
+                            </div>
+                        ` : ''}
                     </div>
-                ` : ''}
+                </details>
             </div>
 
             <!-- Collapsible Assignment rationale logs -->
             <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 8px;">
                 <details style="cursor: pointer; outline:none;">
-                    <summary style="font-size: 14px; font-weight:700; color: var(--primary); display:flex; justify-content:space-between; align-items:center; outline:none;">
-                        <span>🧠 AI AUTO-ASSIGNMENT DECISION DIAGNOSTIC</span>
-                        <span style="font-size:12px; color:var(--text-muted);">Click to expand diagnostic logs</span>
+                    <summary style="font-size: 14px; font-weight:700; color: var(--primary); outline:none; padding: 4px 0;">
+                        🧠 AI AUTO-ASSIGNMENT DECISION DIAGNOSTIC
+                        <span style="font-size:11px; color:var(--text-muted); font-weight:normal; margin-left: 8px;">(Click to expand)</span>
                     </summary>
                     <div style="margin-top: 14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 11px; color:#A78BFA; background:rgba(0,0,0,0.3); padding:12px; border-radius:6px; max-height:200px; overflow-y:auto; text-align:left;">
                         ${booking.matchLogs && booking.matchLogs.length > 0 ? `
