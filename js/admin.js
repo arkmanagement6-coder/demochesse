@@ -623,6 +623,9 @@ class AdminController {
 
     static saveNewTeacher() {
         const name = document.getElementById("addt-name").value;
+        const avatar = document.getElementById("addt-avatar").value;
+        const email = document.getElementById("addt-email").value;
+        const phone = document.getElementById("addt-phone").value;
         const exp = document.getElementById("addt-exp").value;
         const langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim());
         const levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim());
@@ -642,6 +645,8 @@ class AdminController {
         const newCoach = {
             id,
             name,
+            email,
+            phone,
             experience: exp,
             rating: 4.8,
             languages: langs,
@@ -649,7 +654,7 @@ class AdminController {
             slots: slots,
             maxDemosPerDay: 4,
             priorityScore: 80,
-            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
+            avatar: avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
             activeStudents: 0,
             leaves: []
         };

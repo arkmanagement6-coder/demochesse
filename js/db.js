@@ -1,64 +1,15 @@
 // Chess Demo Booking - Database Initializer
 // Manages application state using localStorage for persistence
 
-const DEFAULT_TEACHERS = [
-    {
-        id: "t_aarav",
-        name: "Aarav Sharma",
-        experience: "6 Years (FIDE Rated 1950)",
-        rating: 4.9,
-        languages: ["English", "Hindi"],
-        expertise: ["Beginner", "Intermediate"],
-        slots: ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "06:00 PM"],
-        maxDemosPerDay: 4,
-        priorityScore: 90,
-        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=120",
-        activeStudents: 14,
-        leaves: []
-    },
-    {
-        id: "t_priya",
-        name: "Priya Patel",
-        experience: "8 Years (WFM - Candidate Master)",
-        rating: 4.8,
-        languages: ["English"],
-        expertise: ["Intermediate", "Advanced"],
-        slots: ["03:00 PM", "06:00 PM"],
-        maxDemosPerDay: 3,
-        priorityScore: 95,
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=120",
-        activeStudents: 18,
-        leaves: []
-    },
-    {
-        id: "t_vikram",
-        name: "Vikram Singh",
-        experience: "4 Years (State Chess Coach)",
-        rating: 4.6,
-        languages: ["Hindi", "English"],
-        expertise: ["Beginner"],
-        slots: ["10:00 AM", "11:00 AM", "12:00 PM"],
-        maxDemosPerDay: 5,
-        priorityScore: 80,
-        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120",
-        activeStudents: 8,
-        leaves: []
-    },
-    {
-        id: "t_elena",
-        name: "Elena Rostova",
-        experience: "12 Years (WGM - Woman Grandmaster)",
-        rating: 5.0,
-        languages: ["English"],
-        expertise: ["Intermediate", "Advanced"],
-        slots: ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "06:00 PM"],
-        maxDemosPerDay: 4,
-        priorityScore: 100,
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120",
-        activeStudents: 22,
-        leaves: []
+const DEFAULT_TEACHERS = [];
+
+// Auto-clean old demo teachers if they exist
+try {
+    const oldT = JSON.parse(localStorage.getItem("chess_teachers"));
+    if (oldT && oldT.length === 4 && oldT[0].id === 't_aarav') {
+        localStorage.removeItem("chess_teachers");
     }
-];
+} catch (e) {}
 
 const DEFAULT_BOOKINGS = [
     {
