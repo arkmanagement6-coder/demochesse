@@ -468,6 +468,11 @@ class AdminController {
             // Generate slots indicators list
             const slotsText = t.slots.join(", ");
 
+            const phoneBtnTitle = t.phoneAccessApproved ? "Revoke Phone Access" : "Approve Phone Access";
+            const phoneBtnIcon = t.phoneAccessApproved ? "🔓" : "🔒";
+            const phoneBtnBg = t.phoneAccessApproved ? "rgba(16, 185, 129, 0.1)" : "rgba(255,255,255,0.1)";
+            const phoneBtnColor = t.phoneAccessApproved ? "#10b981" : "inherit";
+
             card.innerHTML = `
                 <img src="${t.avatar}" style="width:72px; height:72px; border-radius:50%; border:2px solid var(--primary); object-fit:cover; cursor:pointer;" onclick="AdminController.viewTeacherDetails('${t.id}')">
                 <div style="flex:1;">
@@ -487,6 +492,7 @@ class AdminController {
                     <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:10px;">
                         <span style="font-size:11px; color:var(--text-muted);">${t.activeStudents} active students</span>
                         <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:${phoneBtnBg}; border-color:transparent; color:${phoneBtnColor};" title="${phoneBtnTitle}" onclick="AdminController.toggleTeacherPhoneAccess('${t.id}')">${phoneBtnIcon} Phone</button>
                             <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(255,255,255,0.1); border-color:transparent;" title="Edit Coach" onclick="AdminController.editTeacher('${t.id}')">✏️ Edit</button>
                             <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(239,68,68,0.1); border-color:transparent; color:#ef4444;" title="Delete Coach" onclick="AdminController.deleteTeacher('${t.id}')">🗑️ Del</button>
                             <button type="button" class="btn btn-primary" style="padding:4px 8px; font-size:10px;" onclick="AdminController.viewTeacherDetails('${t.id}')">🔍 View</button>
@@ -496,6 +502,17 @@ class AdminController {
             `;
             this.rosterGrid.appendChild(card);
         });
+    }
+
+    static toggleTeacherPhoneAccess(teacherId) {
+        let teachers = window.ChessDB.getTeachers();
+        let teacher = teachers.find(t => t.id === teacherId);
+        if (teacher) {
+            teacher.phoneAccessApproved = !teacher.phoneAccessApproved;
+            window.ChessDB.saveTeachers(teachers);
+            this.loadTeacherRosters();
+            window.Toast.show("Access Updated", `Phone access ${teacher.phoneAccessApproved ? 'granted' : 'revoked'} for ${teacher.name}.`, "success");
+        }
     }
 
     static viewTeacherDetails(teacherId) {

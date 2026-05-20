@@ -142,9 +142,10 @@ class TeacherController {
         this.metricStudents.innerText = coach.activeStudents;
     }
 
-    // Dynamic grid list render
     static loadAssignedDemos() {
         const bookings = window.ChessDB.getBookings();
+        const teachers = window.ChessDB.getTeachers();
+        const coach = teachers.find(t => t.id === this.activeTeacherId);
         const filtered = bookings.filter(b => b.teacherId === this.activeTeacherId);
         
         this.demosList.innerHTML = "";
@@ -181,7 +182,7 @@ class TeacherController {
                 
                 <div>
                     <h3 style="font-size:18px;">${b.studentName}</h3>
-                    <p style="font-size:11px; color:var(--text-secondary);">Age: ${b.age} • Level: ${b.level} • Spoken: ${b.language}</p>
+                    <p style="font-size:11px; color:var(--text-secondary);">Age: ${b.age} • Level: ${b.level} • Spoken: ${b.language}${coach && coach.phoneAccessApproved && b.mobile ? ` • <strong style="color:var(--primary);">📞 ${b.mobile}</strong>` : ''}</p>
                 </div>
 
                 <p style="font-size:12px; color:var(--text-secondary); background:rgba(255,255,255,0.02); padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
