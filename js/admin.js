@@ -1177,47 +1177,44 @@ class AdminController {
 
             <!-- Lead Goals & Notes Box -->
             <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 16px;">
-                <details style="cursor: pointer; outline:none;">
-                    <summary style="font-size: 14px; font-weight:700; color: var(--primary); outline:none; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 0;">
-                        🎯 Diagnostic Notes & Student Goals
-                    </summary>
-                    <div style="margin-top: 14px; font-size:13px; line-height:1.5; color:var(--text-secondary); background: rgba(0,0,0,0.05); padding: 12px; border-radius: 6px; border-left: 3px solid var(--primary);">
-                        ${booking.notes || 'No custom notes provided.'}
-                        ${booking.goals && booking.goals.length > 0 ? `
-                            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
-                                ${booking.goals.map(g => `<span style="background:rgba(192, 132, 252, 0.15); border:1px solid rgba(192, 132, 252, 0.3); color:var(--primary); font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600;">✨ ${g}</span>`).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                </details>
+                <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                    <h4 style="margin: 0; font-size: 14px; font-weight:700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🎯 Diagnostic Notes & Student Goals</h4>
+                    <span style="font-size:12px; color:var(--text-muted);">(Click to toggle)</span>
+                </div>
+                <div style="display: none; margin-top: 14px; font-size:13px; line-height:1.5; color:var(--text-secondary); background: rgba(0,0,0,0.05); padding: 12px; border-radius: 6px; border-left: 3px solid var(--primary);">
+                    ${booking.notes || 'No custom notes provided.'}
+                    ${booking.goals && booking.goals.length > 0 ? `
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                            ${booking.goals.map(g => `<span style="background:rgba(192, 132, 252, 0.15); border:1px solid rgba(192, 132, 252, 0.3); color:var(--primary); font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600;">✨ ${g}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
             </div>
 
             <!-- Collapsible Assignment rationale logs -->
             <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 8px;">
-                <details style="cursor: pointer; outline:none;">
-                    <summary style="font-size: 14px; font-weight:700; color: var(--primary); outline:none; padding: 4px 0;">
-                        🧠 AI AUTO-ASSIGNMENT DECISION DIAGNOSTIC
-                        <span style="font-size:11px; color:var(--text-muted); font-weight:normal; margin-left: 8px;">(Click to expand)</span>
-                    </summary>
-                    <div style="margin-top: 14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 11px; color:#A78BFA; background:rgba(0,0,0,0.3); padding:12px; border-radius:6px; max-height:200px; overflow-y:auto; text-align:left;">
-                        ${booking.matchLogs && booking.matchLogs.length > 0 ? `
-                            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px;">
-                                ${booking.matchLogs.map(line => `<li>${line}</li>`).join('')}
-                            </ul>
-                        ` : `
-                            <div style="color:var(--text-muted);">No decision logs recorded. Static override or manual scheduling was used.</div>
-                        `}
-                        ${booking.matchScore ? `
-                            <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); color: #C084FC;">
-                                <strong style="color:var(--text-primary);">Weight Scorecard Breakdown:</strong><br>
-                                Rating Factor Weight: ${booking.matchScore.rating || 0} pts<br>
-                                Daily Load Balance Margin: ${booking.matchScore.loadBalancing || 0} pts<br>
-                                Priority Override Score: ${booking.matchScore.priority || 0} pts<br>
-                                Total Matching Multi-Factor Score: <strong style="color:#FBBF24;">${booking.matchScore.total || 0} pts</strong>
-                            </div>
-                        ` : ''}
-                    </div>
-                </details>
+                <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                    <h4 style="margin: 0; font-size: 14px; font-weight:700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🧠 AI AUTO-ASSIGNMENT DECISION DIAGNOSTIC</h4>
+                    <span style="font-size:12px; color:var(--text-muted);">(Click to toggle)</span>
+                </div>
+                <div style="display: none; margin-top: 14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 11px; color:#A78BFA; background:rgba(0,0,0,0.3); padding:12px; border-radius:6px; max-height:200px; overflow-y:auto; text-align:left;">
+                    ${booking.matchLogs && booking.matchLogs.length > 0 ? `
+                        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px;">
+                            ${booking.matchLogs.map(line => `<li>${line}</li>`).join('')}
+                        </ul>
+                    ` : `
+                        <div style="color:var(--text-muted);">No decision logs recorded. Static override or manual scheduling was used.</div>
+                    `}
+                    ${booking.matchScore ? `
+                        <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); color: #C084FC;">
+                            <strong style="color:var(--text-primary);">Weight Scorecard Breakdown:</strong><br>
+                            Rating Factor Weight: ${booking.matchScore.rating || 0} pts<br>
+                            Daily Load Balance Margin: ${booking.matchScore.loadBalancing || 0} pts<br>
+                            Priority Override Score: ${booking.matchScore.priority || 0} pts<br>
+                            Total Matching Multi-Factor Score: <strong style="color:#FBBF24;">${booking.matchScore.total || 0} pts</strong>
+                        </div>
+                    ` : ''}
+                </div>
             </div>
         `;
 
