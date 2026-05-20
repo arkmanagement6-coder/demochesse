@@ -251,6 +251,48 @@ class DB {
         });
         localStorage.setItem("chess_logs", JSON.stringify(logs.slice(0, 100))); // Keep last 100 logs
     }
+
+    // Daily Roster Persistence
+    static getRoster() {
+        this.init();
+        const roster = localStorage.getItem("chess_daily_roster");
+        return roster ? JSON.parse(roster) : {};
+    }
+
+    static saveRoster(roster) {
+        localStorage.setItem("chess_daily_roster", JSON.stringify(roster));
+    }
+
+    static getDailyRosterForDate(date) {
+        const roster = this.getRoster();
+        if (roster[date]) {
+            return roster[date];
+        }
+        
+        // Fallback/Default: generate from teacher static slots
+        const teachers = this.getTeachers();
+        const defaultRoster = {};
+        teachers.forEach(t => {
+            const isLeave = t.leaves && t.leaves.includes(date);
+            if (!isLeave) {
+                defaultRoster[t.id] = t.slots || [];
+            } else {
+                defaultRoster[t.id] = [];
+            }
+        });
+        return defaultRoster;
+    }
+
+    static saveBooking(booking) {
+        const bookings = this.getBookings();
+        const idx = bookings.findIndex(b => b.id === booking.id);
+        if (idx !== -1) {
+            bookings[idx] = booking;
+        } else {
+            bookings.push(booking);
+        }
+        this.saveBookings(bookings);
+    }
 }
 
 // Automatically initialize db on script load

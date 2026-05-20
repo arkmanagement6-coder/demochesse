@@ -59,23 +59,26 @@ class AssignmentEngine {
             return this.generateWaitlistResult(decisionLogs);
         }
 
-        // Step 4: Slot Availability filter
+        // Step 4: Daily Roster Availability filter
+        const dailyRoster = window.ChessDB.getDailyRosterForDate(date);
+        
         const slotMatched = languageMatched.filter(t => {
-            const supportsSlot = t.slots.includes(slot);
+            const rosteredSlots = dailyRoster[t.id] || [];
+            const supportsSlot = rosteredSlots.includes(slot);
             if (!supportsSlot) {
-                decisionLogs.push(`❌ Coach ${t.name} does not offer the slot [${slot}].`);
+                decisionLogs.push(`❌ Coach ${t.name} is not rostered for the slot [${slot}] on ${date}.`);
             }
             return supportsSlot;
         });
-
-        decisionLogs.push(`⏰ Slot Availability: ${slotMatched.length} coaches offer slot [${slot}].`);
-
+ 
+        decisionLogs.push(`⏰ Daily Roster Availability: ${slotMatched.length} coaches rostered for slot [${slot}] on ${date}.`);
+ 
         if (slotMatched.length === 0) {
-            decisionLogs.push(`⚠️ No coaches are available in slot [${slot}].`);
+            decisionLogs.push(`⚠️ No coaches are rostered in slot [${slot}] on ${date}.`);
             return this.generateWaitlistResult(decisionLogs);
         }
-
-        // Step 5: Capacity check (max demos/day)
+ 
+        // Step 5: Slot Availability check & Capacity check (max demos/day)
         const eligibleCoaches = [];
         for (const coach of slotMatched) {
             // Count active bookings for this coach on this day
@@ -84,30 +87,40 @@ class AssignmentEngine {
                 b.date === date && 
                 b.status !== "Cancelled"
             ).length;
-
-            if (dailyLoad >= coach.maxDemosPerDay) {
+ 
+            // 5a. Slot Busy check: Forwarding when busy!
+            const slotBusy = bookings.some(b => 
+                b.teacherId === coach.id && 
+                b.date === date && 
+                b.slot === slot && 
+                b.status !== "Cancelled"
+            );
+ 
+            if (slotBusy) {
+                decisionLogs.push(`❌ Coach ${coach.name} is already assigned a demo at [${slot}] on ${date}. Checking alternative coaches.`);
+            } else if (dailyLoad >= coach.maxDemosPerDay) {
                 decisionLogs.push(`❌ Coach ${coach.name} has reached their daily limit of ${coach.maxDemosPerDay} classes for ${date}.`);
             } else {
                 eligibleCoaches.push({
                     coach,
                     dailyLoad
                 });
-                decisionLogs.push(`✅ Coach ${coach.name} has ${dailyLoad}/${coach.maxDemosPerDay} bookings for the day.`);
+                decisionLogs.push(`✅ Coach ${coach.name} is FREE at ${slot} and has ${dailyLoad}/${coach.maxDemosPerDay} bookings for the day.`);
             }
         }
-
+ 
         if (eligibleCoaches.length === 0) {
-            decisionLogs.push(`⚠️ All qualified coaches have reached maximum capacity for this day.`);
+            decisionLogs.push(`⚠️ All qualified coaches rostered for [${slot}] are busy or have reached maximum capacity.`);
             return this.generateWaitlistResult(decisionLogs);
         }
-
+ 
         // Step 6: Rank candidates based on multi-factor scores
         decisionLogs.push(`📊 Scoring matching coaches...`);
         let bestScore = -1;
         let selectedCoach = null;
         let selectedLoad = 0;
         let scoreCard = {};
-
+ 
         for (const item of eligibleCoaches) {
             const { coach, dailyLoad } = item;
             
@@ -115,13 +128,13 @@ class AssignmentEngine {
             // 1. Rating Factor: rating * 15 (Max rating 5.0 -> 75 points)
             const ratingScore = coach.rating * 15;
             
-            // 2. Load Balance Factor: (Max daily capacity - current daily load) * 10 (Encourages equal distribution)
+            // 2. Load Balance Factor: (Max daily capacity - current daily load) * 8
             const capacityRoom = coach.maxDemosPerDay - dailyLoad;
             const loadScore = capacityRoom * 8;
             
             // 3. Priority Factor: priorityScore * 0.1 (Max 10 points)
             const priorityFactor = coach.priorityScore * 0.1;
-
+ 
             const totalScore = parseFloat((ratingScore + loadScore + priorityFactor).toFixed(2));
             
             scoreCard[coach.id] = {
@@ -130,18 +143,18 @@ class AssignmentEngine {
                 priority: priorityFactor,
                 total: totalScore
             };
-
+ 
             decisionLogs.push(`✨ ${coach.name}: Star Rating Score (${ratingScore}) + Capacity Margin Score (${loadScore}) + Priority Metric (${priorityFactor.toFixed(1)}) = Total: ${totalScore} pts`);
-
+ 
             if (totalScore > bestScore) {
                 bestScore = totalScore;
                 selectedCoach = coach;
                 selectedLoad = dailyLoad;
             }
         }
-
+ 
         decisionLogs.push(`🏆 Selected Coach ${selectedCoach.name} with score ${bestScore} pts!`);
-
+ 
         return {
             status: "Matched",
             teacher: selectedCoach,
@@ -149,7 +162,7 @@ class AssignmentEngine {
             scoreCard: scoreCard[selectedCoach.id]
         };
     }
-
+ 
     static generateWaitlistResult(logs) {
         logs.push(`🟠 Putting student on Waitlist. Admin will be notified to review manual assignment.`);
         return {
@@ -167,6 +180,20 @@ class AssignmentEngine {
             scoreCard: { rating: 0, loadBalancing: 0, priority: 0, total: 0 }
         };
     }
-}
 
+    /**
+     * Backward compatibility method for landing page drawer wizard.
+     * Selects best rostered coach for the student's level.
+     */
+    static assignCoach(studentLevel) {
+        const teachers = window.ChessDB.getTeachers();
+        let engineLevel = "Beginner";
+        if (studentLevel === "Intermediate") engineLevel = "Intermediate";
+        if (studentLevel === "Advanced") engineLevel = "Advanced";
+        
+        const matched = teachers.find(t => t.expertise.includes(engineLevel) && t.leaves.length === 0) || teachers[0];
+        return matched;
+    }
+}
+ 
 window.AssignmentEngine = AssignmentEngine;

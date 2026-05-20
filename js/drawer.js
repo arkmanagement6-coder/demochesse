@@ -245,10 +245,16 @@ class BookingDrawer {
             const dayName = days[targetDate.getDay()];
             const dayNum = targetDate.getDate();
             const monthName = months[targetDate.getMonth()];
-            const formattedDate = targetDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            
+            // Format YYYY-MM-DD
+            const year = targetDate.getFullYear();
+            const month = String(targetDate.getMonth() + 1).padStart(2, "0");
+            const dateVal = String(dayNum).padStart(2, "0");
+            const standardDate = `${year}-${month}-${dateVal}`;
             
             const pill = document.createElement("div");
             pill.className = `date-pill ${i === 0 ? "selected" : ""}`;
+            pill.dataset.date = standardDate;
             pill.innerHTML = `
                 <span class="day-name">${dayName}</span>
                 <span class="day-num">${dayNum}</span>
@@ -256,7 +262,7 @@ class BookingDrawer {
             `;
             
             if (i === 0) {
-                this.selectedDateStr = formattedDate;
+                this.selectedDateStr = standardDate;
             }
             
             pill.addEventListener("click", () => {
@@ -264,8 +270,13 @@ class BookingDrawer {
                 pills.forEach(p => p.classList.remove("selected"));
                 pill.classList.add("selected");
                 
-                this.selectedDateStr = formattedDate;
+                this.selectedDateStr = standardDate;
                 this.updateSlotBanner();
+                
+                // Re-render time slots since date changed and slots are roster-dependent
+                const activeSegmentBtn = this.timeSegments.querySelector(".segment-btn.active");
+                const segment = activeSegmentBtn ? activeSegmentBtn.dataset.segment : "evening";
+                this.renderTimeSlots(segment);
             });
             
             this.dateCarousel.appendChild(pill);
@@ -279,36 +290,86 @@ class BookingDrawer {
         this.slotGrid.innerHTML = "";
         
         const slotsMap = {
-            morning: [],
-            afternoon: ["2:00 PM", "2:40 PM", "3:20 PM", "4:00 PM"],
-            evening: ["5:00 PM", "5:40 PM", "6:20 PM", "7:00 PM", "7:40 PM", "8:20 PM"]
+            morning: ["10:00 AM", "11:00 AM", "12:00 PM"],
+            afternoon: ["03:00 PM"],
+            evening: ["06:00 PM"]
         };
         
-        const slots = slotsMap[segment];
+        const slots = slotsMap[segment] || [];
+        const date = this.selectedDateStr;
+        const dailyRoster = window.ChessDB.getDailyRosterForDate(date);
+        const teachers = window.ChessDB.getTeachers();
+        const bookings = window.ChessDB.getBookings();
         
         if (slots.length === 0) {
             this.slotGrid.innerHTML = `
                 <div style="grid-column: 1/-1; text-align:center; padding: 20px; color:var(--text-secondary); font-size:13px; font-weight:600;">
                     <i class="fa-regular fa-clock" style="font-size:24px; margin-bottom:8px; display:block; opacity:0.5;"></i>
-                    No slots available in this bracket. Try Afternoon or Evening.
+                    No slots available in this bracket. Try Morning, Afternoon or Evening.
                 </div>
             `;
             return;
         }
         
         slots.forEach(slot => {
+            // Find coaches rostered for this slot on this date who are not on leave
+            const rosteredCoaches = teachers.filter(t => {
+                const rosterSlots = dailyRoster[t.id] || [];
+                const isRostered = rosterSlots.includes(slot);
+                const isLeave = t.leaves && t.leaves.includes(date);
+                return isRostered && !isLeave;
+            });
+
+            let status = "full";
+            if (rosteredCoaches.length > 0) {
+                // Check if at least one rostered coach is free
+                const freeCoach = rosteredCoaches.find(coach => {
+                    const dailyLoad = bookings.filter(b => 
+                        b.teacherId === coach.id && 
+                        b.date === date && 
+                        b.status !== "Cancelled"
+                    ).length;
+
+                    const isBusy = bookings.some(b => 
+                        b.teacherId === coach.id && 
+                        b.date === date && 
+                        b.slot === slot && 
+                        b.status !== "Cancelled"
+                    );
+
+                    return !isBusy && dailyLoad < coach.maxDemosPerDay;
+                });
+
+                if (freeCoach) {
+                    status = "available";
+                }
+            }
+            
             const pill = document.createElement("div");
             pill.className = "drawer-slot-pill";
+            if (status === "full") {
+                pill.classList.add("full");
+                pill.style.opacity = "0.4";
+                pill.style.cursor = "not-allowed";
+                pill.style.pointerEvents = "none";
+            }
+            
             pill.innerText = slot;
             
-            pill.addEventListener("click", () => {
-                const pills = this.slotGrid.querySelectorAll(".drawer-slot-pill");
-                pills.forEach(p => p.classList.remove("selected"));
+            if (this.selectedTimeStr === slot && status !== "full") {
                 pill.classList.add("selected");
-                
-                this.selectedTimeStr = slot;
-                this.updateSlotBanner();
-            });
+            }
+            
+            if (status !== "full") {
+                pill.addEventListener("click", () => {
+                    const pills = this.slotGrid.querySelectorAll(".drawer-slot-pill");
+                    pills.forEach(p => p.classList.remove("selected"));
+                    pill.classList.add("selected");
+                    
+                    this.selectedTimeStr = slot;
+                    this.updateSlotBanner();
+                });
+            }
             
             this.slotGrid.appendChild(pill);
         });
@@ -317,7 +378,10 @@ class BookingDrawer {
     static updateSlotBanner() {
         if (this.selectedDateStr && this.selectedTimeStr) {
             this.slotSuccessBanner.style.display = "block";
-            this.selectedSlotText.innerText = `${this.selectedDateStr} at ${this.selectedTimeStr} IST`;
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            const dObj = new Date(this.selectedDateStr);
+            const visualDate = dObj.toLocaleDateString("en-US", options);
+            this.selectedSlotText.innerText = `${visualDate} at ${this.selectedTimeStr} IST`;
         } else {
             this.slotSuccessBanner.style.display = "none";
         }
@@ -340,40 +404,60 @@ class BookingDrawer {
         const studentCity = document.getElementById("d-studentCity").value.trim();
         
         // Run AI Matching Engine!
-        const matchedCoach = window.AssignmentEngine.assignCoach(studentLevel);
+        const matchResult = window.AssignmentEngine.assignTeacher({
+            level: studentLevel,
+            language: "English",
+            date: this.selectedDateStr,
+            slot: this.selectedTimeStr
+        });
         
-        // Save to Simulated Database (localStorage)
+        const bookingId = "b_" + Date.now();
+        // Save to Simulated Database (localStorage) with standardized keys
         const bookingData = {
-            id: `booking-${Date.now()}`,
+            id: bookingId,
             studentName,
             parentName,
-            age: studentAge,
+            age: parseInt(studentAge),
+            grade: `${studentAge}th Grade`,
             mobile: parentMobile,
             email: parentEmail,
             level: studentLevel,
             city: studentCity,
-            goals: this.selectedGoals,
+            country: "India",
             date: this.selectedDateStr,
             slot: this.selectedTimeStr,
-            paymentTier: "free", // homepage leads are free assessment demos
-            coach: matchedCoach,
-            timestamp: new Date().toISOString()
+            timezone: "GMT+5:30",
+            language: "English",
+            teacherId: matchResult.teacher.id,
+            teacherName: matchResult.teacher.name,
+            status: "Demo Booked",
+            paymentStatus: "Free",
+            paymentAmount: 0,
+            meetingLink: matchResult.status === "Matched" ? "https://meet.google.com/chess-demo-" + Math.random().toString(36).substring(7) : "https://meet.google.com/chess-demo-review",
+            notes: `Auto Match Criteria status: ${matchResult.status}. Goals: ${this.selectedGoals.join(", ")}`,
+            crmStatus: "Demo booked",
+            matchLogs: matchResult.logs,
+            matchScore: matchResult.scoreCard,
+            goals: this.selectedGoals
         };
         
-        window.ChessDB.saveBooking(bookingData);
+        // Save Booking in localStorage
+        const bookings = window.ChessDB.getBookings();
+        bookings.push(bookingData);
+        window.ChessDB.saveBookings(bookings);
         
         // CRM dispatches to notification logs
-        NotificationCenter.triggerStudentConfirmation(
+        window.NotificationCenter.triggerStudentConfirmation(
             studentName,
             parentName,
             this.selectedDateStr,
             this.selectedTimeStr,
-            matchedCoach.name,
+            matchResult.teacher.name,
             "whatsapp"
         );
         
-        NotificationCenter.triggerTeacherConfirmation(
-            matchedCoach.name,
+        window.NotificationCenter.triggerTeacherConfirmation(
+            matchResult.teacher.name,
             studentName,
             studentLevel,
             this.selectedDateStr,
@@ -388,7 +472,7 @@ class BookingDrawer {
         setTimeout(() => {
             // Save currently active lead session to display customized tutor info in success.html
             localStorage.setItem("current_booking", JSON.stringify(bookingData));
-            window.location.href = `success.html?bookingId=${bookingData.id}`;
+            window.location.href = `success.html?id=${bookingId}`;
         }, 1000);
     }
 }

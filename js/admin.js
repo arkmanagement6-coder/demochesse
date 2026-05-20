@@ -17,6 +17,13 @@ class AdminController {
         this.loadTeacherRosters();
         this.loadCRMPipeline();
         this.renderReports();
+
+        // Initialize tomorrow's date as default roster planner date
+        if (this.rosterDateSelect) {
+            const tomorrowStr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+            this.rosterDateSelect.value = tomorrowStr;
+            this.loadRosterPlanner();
+        }
     }
 
     static cacheDOM() {
@@ -39,11 +46,13 @@ class AdminController {
         this.modalResched = document.getElementById("modal-reschedule");
         this.modalReassign = document.getElementById("modal-reassign");
         this.modalAddt = document.getElementById("modal-add-teacher");
+        this.modalStudentDetails = document.getElementById("modal-student-details");
 
         // Close selectors
         this.closeResched = document.getElementById("modal-close-resched");
         this.closeReassign = document.getElementById("modal-close-reassign");
         this.closeAddt = document.getElementById("modal-close-addt");
+        this.closeStudentDetails = document.getElementById("modal-close-student-details");
 
         // Action Buttons
         this.btnSaveResched = document.getElementById("btn-save-resched");
@@ -56,9 +65,17 @@ class AdminController {
         this.reschedSlot = document.getElementById("resched-slot-input");
         this.reassignSelect = document.getElementById("reassign-teacher-select");
 
-        // Roster Grid
+        // Roster Grid & Planner
         this.rosterGrid = document.getElementById("teachers-roster-grid");
+        this.rosterDateSelect = document.getElementById("roster-date-select");
+        this.btnLoadRosterDefaults = document.getElementById("btn-load-roster-defaults");
+        this.btnSendRosterBriefing = document.getElementById("btn-send-roster-briefing");
+        this.btnSaveRoster = document.getElementById("btn-save-roster");
+        this.rosterPlannerContainer = document.getElementById("roster-planner-container");
         
+        // Student Details content container
+        this.studentDetailsContent = document.getElementById("student-details-content");
+
         // Reports
         this.barChart = document.getElementById("reports-bar-chart");
         this.horizChart = document.getElementById("reports-horizontal-chart");
@@ -86,6 +103,9 @@ class AdminController {
         this.closeResched.addEventListener("click", () => this.closeModal(this.modalResched));
         this.closeReassign.addEventListener("click", () => this.closeModal(this.modalReassign));
         this.closeAddt.addEventListener("click", () => this.closeModal(this.modalAddt));
+        if (this.closeStudentDetails) {
+            this.closeStudentDetails.addEventListener("click", () => this.closeModal(this.modalStudentDetails));
+        }
 
         // Save reschedule action
         this.btnSaveResched.addEventListener("click", () => this.saveReschedule());
@@ -99,6 +119,20 @@ class AdminController {
             e.preventDefault();
             this.saveNewTeacher();
         });
+
+        // Roster Planner triggers
+        if (this.rosterDateSelect) {
+            this.rosterDateSelect.addEventListener("change", () => this.loadRosterPlanner());
+        }
+        if (this.btnSaveRoster) {
+            this.btnSaveRoster.addEventListener("click", () => this.saveRoster());
+        }
+        if (this.btnLoadRosterDefaults) {
+            this.btnLoadRosterDefaults.addEventListener("click", () => this.loadRosterDefaults());
+        }
+        if (this.btnSendRosterBriefing) {
+            this.btnSendRosterBriefing.addEventListener("click", () => this.sendDailyBriefings());
+        }
     }
 
     // Modal Helpers
@@ -141,6 +175,7 @@ class AdminController {
 
     // Recent System logs
     static loadActivityLogs() {
+        if (!this.activityLogBody) return;
         const logs = window.ChessDB.getLogs().slice(0, 5); // display latest 5
         this.activityLogBody.innerHTML = "";
 
@@ -209,6 +244,7 @@ class AdminController {
                 <td style="font-weight:600; color:${crmColor}; text-transform:capitalize;">${b.crmStatus}</td>
                 <td>
                     <div style="display:flex; gap:6px;">
+                        <button class="action-icon-btn" title="View Student Details" onclick="AdminController.viewStudentDetails('${b.id}')">🔍</button>
                         <button class="action-icon-btn" title="Reschedule" onclick="AdminController.triggerReschedule('${b.id}')">🕒</button>
                         <button class="action-icon-btn" title="Reassign Coach" onclick="AdminController.triggerReassign('${b.id}')">👤</button>
                         <button class="action-icon-btn" title="Mark Attended" onclick="AdminController.markAttended('${b.id}')">✅</button>
@@ -640,6 +676,309 @@ class AdminController {
         this.loadTeacherRosters();
         this.loadCRMPipeline();
         this.renderReports();
+    }
+
+    // --- DAILY ROSTER & STUDENT DETAILS EXTENSIONS ---
+
+    static loadRosterPlanner() {
+        if (!this.rosterPlannerContainer || !this.rosterDateSelect) return;
+        const date = this.rosterDateSelect.value;
+        if (!date) return;
+
+        const teachers = window.ChessDB.getTeachers();
+        const dailyRoster = window.ChessDB.getDailyRosterForDate(date);
+
+        this.rosterPlannerContainer.innerHTML = "";
+
+        teachers.forEach(t => {
+            const rosteredSlots = dailyRoster[t.id] || [];
+
+            const card = document.createElement("div");
+            card.className = "glass-card";
+            card.style.padding = "24px";
+            card.style.display = "flex";
+            card.style.flexDirection = "column";
+            card.style.gap = "16px";
+            card.style.border = "1px solid var(--border-color)";
+            card.style.borderRadius = "16px";
+            card.style.background = "var(--card-bg)";
+
+            // Top Header row (Coach info)
+            const headerRow = document.createElement("div");
+            headerRow.style.display = "flex";
+            headerRow.style.alignItems = "center";
+            headerRow.style.justifyContent = "space-between";
+            headerRow.style.width = "100%";
+
+            const coachMeta = document.createElement("div");
+            coachMeta.style.display = "flex";
+            coachMeta.style.alignItems = "center";
+            coachMeta.style.gap = "16px";
+            coachMeta.innerHTML = `
+                <img src="${t.avatar}" style="width:52px; height:52px; border-radius:50%; border:2px solid var(--primary); object-fit:cover; box-shadow:0 0 12px rgba(139, 92, 246, 0.2);">
+                <div>
+                    <h4 style="font-size:16px; margin:0; color:var(--text-primary); font-weight:700;">${t.name}</h4>
+                    <p style="font-size:12px; color:var(--text-secondary); margin:4px 0 0;">${t.experience}</p>
+                </div>
+            `;
+            headerRow.appendChild(coachMeta);
+
+            const coachExpertise = document.createElement("span");
+            coachExpertise.className = "badge badge-success";
+            coachExpertise.style.fontSize = "11px";
+            coachExpertise.style.padding = "4px 10px";
+            coachExpertise.innerText = t.expertise.join(", ");
+            headerRow.appendChild(coachExpertise);
+
+            card.appendChild(headerRow);
+
+            // Time slots row
+            const slotsContainer = document.createElement("div");
+            slotsContainer.style.display = "flex";
+            slotsContainer.style.gap = "10px";
+            slotsContainer.style.flexWrap = "wrap";
+            slotsContainer.style.width = "100%";
+
+            // Static slots available for this teacher
+            const allSlots = t.slots || ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "06:00 PM"];
+            allSlots.forEach(slot => {
+                const isChecked = rosteredSlots.includes(slot);
+                
+                const label = document.createElement("label");
+                label.style.display = "flex";
+                label.style.alignItems = "center";
+                label.style.gap = "8px";
+                label.style.padding = "8px 16px";
+                label.style.borderRadius = "20px";
+                label.style.border = isChecked ? "1px solid var(--primary)" : "1px solid rgba(255, 255, 255, 0.05)";
+                label.style.background = isChecked ? "rgba(139, 92, 246, 0.12)" : "rgba(255, 255, 255, 0.02)";
+                label.style.color = isChecked ? "var(--text-primary)" : "var(--text-secondary)";
+                label.style.fontSize = "12px";
+                label.style.fontWeight = "600";
+                label.style.cursor = "pointer";
+                label.style.transition = "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)";
+                label.style.boxShadow = isChecked ? "0 2px 10px rgba(139, 92, 246, 0.1)" : "none";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = `roster-${t.id}`;
+                checkbox.value = slot;
+                checkbox.checked = isChecked;
+                checkbox.style.cursor = "pointer";
+                checkbox.style.accentColor = "var(--primary)";
+
+                checkbox.addEventListener("change", () => {
+                    if (checkbox.checked) {
+                        label.style.border = "1px solid var(--primary)";
+                        label.style.background = "rgba(139, 92, 246, 0.12)";
+                        label.style.color = "var(--text-primary)";
+                        label.style.boxShadow = "0 2px 10px rgba(139, 92, 246, 0.1)";
+                    } else {
+                        label.style.border = "1px solid rgba(255, 255, 255, 0.05)";
+                        label.style.background = "rgba(255, 255, 255, 0.02)";
+                        label.style.color = "var(--text-secondary)";
+                        label.style.boxShadow = "none";
+                    }
+                });
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(slot));
+                slotsContainer.appendChild(label);
+            });
+
+            card.appendChild(slotsContainer);
+            this.rosterPlannerContainer.appendChild(card);
+        });
+    }
+
+    static saveRoster() {
+        if (!this.rosterDateSelect) return;
+        const date = this.rosterDateSelect.value;
+        if (!date) {
+            window.Toast.show("Error", "Please select a date first.", "danger");
+            return;
+        }
+
+        const roster = window.ChessDB.getRoster();
+        const teachers = window.ChessDB.getTeachers();
+        const dailyData = {};
+
+        teachers.forEach(t => {
+            const checkboxes = document.querySelectorAll(`input[name="roster-${t.id}"]:checked`);
+            const slots = Array.from(checkboxes).map(cb => cb.value);
+            dailyData[t.id] = slots;
+        });
+
+        roster[date] = dailyData;
+        window.ChessDB.saveRoster(roster);
+
+        window.NotificationCenter.dispatch("system", `Admin updated daily roster availability details for ${date}.`);
+        window.Toast.show("Roster Saved", `Daily roster saved successfully for ${date}!`, "success");
+    }
+
+    static loadRosterDefaults() {
+        if (!this.rosterDateSelect) return;
+        const date = this.rosterDateSelect.value;
+        if (!date) return;
+
+        if (!confirm(`Are you sure you want to reset roster to coach profile defaults for ${date}?`)) return;
+
+        const roster = window.ChessDB.getRoster();
+        
+        // Remove manual roster overrides so getDailyRosterForDate falls back to static default slots
+        if (roster[date]) {
+            delete roster[date];
+            window.ChessDB.saveRoster(roster);
+        }
+
+        this.loadRosterPlanner();
+        window.NotificationCenter.dispatch("system", `Roster overrides reset to default slots template for date ${date}.`);
+        window.Toast.show("Reset Completed", "Roster restored to default coach availability slots.", "success");
+    }
+
+    static sendDailyBriefings() {
+        if (!this.rosterDateSelect) return;
+        const date = this.rosterDateSelect.value;
+        if (!date) {
+            window.Toast.show("Error", "Please select a valid date.", "danger");
+            return;
+        }
+
+        const bookings = window.ChessDB.getBookings().filter(b => b.date === date && b.status !== "Cancelled");
+        const teachers = window.ChessDB.getTeachers();
+
+        let emailsSent = 0;
+
+        teachers.forEach(t => {
+            const coachBookings = bookings.filter(b => b.teacherId === t.id);
+            const roster = window.ChessDB.getDailyRosterForDate(date);
+            const rosteredSlots = roster[t.id] || [];
+
+            // Only email if they are rostered for at least one slot
+            if (rosteredSlots.length === 0) return;
+
+            let mailMessage = "";
+            if (coachBookings.length > 0) {
+                mailMessage = `Dear Coach ${t.name}, here is your chess demo booking schedule for tomorrow (${date}):\n\n`;
+                coachBookings.sort((a, b) => a.slot.localeCompare(b.slot)).forEach((cb, idx) => {
+                    mailMessage += `${idx + 1}. [${cb.slot}] Student: ${cb.studentName} (Grade: ${cb.grade || cb.age}) - Level: ${cb.level}\n`;
+                    mailMessage += `   Meeting link: ${cb.meetingLink}\n`;
+                    if (cb.notes) mailMessage += `   Notes: ${cb.notes}\n`;
+                    mailMessage += `\n`;
+                });
+                mailMessage += `Please check your teacher portal for full student briefing cards and diagnostic documents. Best of luck!`;
+            } else {
+                mailMessage = `Dear Coach ${t.name}, you are rostered for slot shifts on tomorrow (${date}) but currently have no demo class bookings scheduled.\n\nKeep an eye on active WhatsApp notifications for any late-scheduled demo trials. Have a great day!`;
+            }
+
+            window.NotificationCenter.dispatch("email", mailMessage);
+            emailsSent++;
+        });
+
+        window.Toast.show("Simulated Dispatch", `Sent daily briefing emails to ${emailsSent} rostered coaches!`, "success");
+    }
+
+    static viewStudentDetails(id) {
+        const bookings = window.ChessDB.getBookings();
+        const booking = bookings.find(b => b.id === id);
+        if (!booking) {
+            window.Toast.show("Error", "Booking details not found.", "danger");
+            return;
+        }
+
+        const teachers = window.ChessDB.getTeachers();
+        const teacher = teachers.find(t => t.id === booking.teacherId);
+        const coachName = teacher ? teacher.name : booking.teacherName;
+        const coachAvatar = teacher ? teacher.avatar : "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120";
+
+        // Construct HTML content
+        let detailsHtml = `
+            <!-- Top Summary Header Card -->
+            <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(192, 132, 252, 0.05) 100%); padding: 20px; border-radius: 12px; border: 1px solid var(--primary-glow); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+                <div>
+                    <h2 style="margin:0; font-size:20px; font-weight:800; color:var(--text-primary);">${booking.studentName}</h2>
+                    <p style="margin:4px 0 0; font-size:12px; color:var(--text-secondary);">Age/Grade: ${booking.age || 'N/A'} • Level: <strong style="color:var(--primary);">${booking.level}</strong></p>
+                </div>
+                <span class="badge badge-success" style="font-size:12px; padding:6px 12px; text-transform:uppercase; font-weight:700; box-shadow:0 0 10px var(--primary-glow);">${booking.status}</span>
+            </div>
+
+            <!-- Double-column Info Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01);">
+                    <h4 style="margin: 0 0 12px 0; font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">👨‍👩‍👦 Contact & Parent Details</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size:13px;">
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Parent Name:</span><span style="font-weight:600;">${booking.parentName || 'N/A'}</span></li>
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Mobile:</span><span style="font-weight:600; color:#4ADE80;"><a href="https://wa.me/${(booking.mobile || '').replace(/\D/g,'')}" target="_blank" style="color:inherit; text-decoration:none;">💬 ${booking.mobile || 'N/A'}</a></span></li>
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Email:</span><span style="font-weight:600;"><a href="mailto:${booking.email || ''}" style="color:inherit; text-decoration:none;">✉️ ${booking.email || 'N/A'}</a></span></li>
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Location:</span><span style="font-weight:600;">📍 ${booking.city || 'N/A'}, ${booking.country || 'N/A'}</span></li>
+                    </ul>
+                </div>
+
+                <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01);">
+                    <h4 style="margin: 0 0 12px 0; font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">📅 Session & Coach Details</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size:13px;">
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Preferred Slot:</span><span style="font-weight:600;">🗓️ ${booking.date}</span></li>
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Time Slot:</span><span style="font-weight:600; color:var(--primary);">⏰ ${booking.slot}</span></li>
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Timezone / Lang:</span><span style="font-weight:600;">🌍 ${booking.timezone || 'GMT+5:30'} (${booking.language || 'English'})</span></li>
+                        <li style="display:flex; justify-content:space-between;"><span style="color:var(--text-secondary);">Payment Tier:</span><span style="font-weight:600; color:#FBBF24;">${booking.paymentStatus === 'Paid' ? '💎 Premium (₹' + booking.paymentAmount + ')' : '🆓 Free Trial'}</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Assigned Coach Info Card -->
+            <div style="background: rgba(255, 255, 255, 0.02); padding: 14px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 16px; width: 100%; margin-bottom: 16px;">
+                <img src="${coachAvatar}" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover;">
+                <div style="flex: 1;">
+                    <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; font-weight:700;">ASSIGNED CHESS COACH</div>
+                    <div style="font-size:14px; font-weight:700; color:var(--text-primary); margin-top:2px;">${coachName}</div>
+                </div>
+                <a href="${booking.meetingLink || '#'}" target="_blank" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 8px rgba(139,92,246,0.3);">💻 Join Class Link</a>
+            </div>
+
+            <!-- Lead Goals & Notes Box -->
+            <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); display:flex; flex-direction:column; gap:8px; margin-bottom: 16px;">
+                <h4 style="margin: 0; font-size: 14px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🎯 Diagnostic Notes & Student Goals</h4>
+                <div style="font-size:13px; line-height:1.5; color:var(--text-secondary); background: rgba(0,0,0,0.2); padding: 12px; border-radius: 6px; border-left: 3px solid var(--primary);">
+                    ${booking.notes || 'No custom notes provided.'}
+                </div>
+                ${booking.goals && booking.goals.length > 0 ? `
+                    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;">
+                        ${booking.goals.map(g => `<span style="background:rgba(192, 132, 252, 0.15); border:1px solid rgba(192, 132, 252, 0.3); color:#D8B4FE; font-size:11px; padding:3px 8px; border-radius:4px; font-weight:600;">✨ ${g}</span>`).join('')}
+                    </div>
+                ` : ''}
+            </div>
+
+            <!-- Collapsible Assignment rationale logs -->
+            <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 8px;">
+                <details style="cursor: pointer; outline:none;">
+                    <summary style="font-size: 14px; font-weight:700; color: var(--primary); display:flex; justify-content:space-between; align-items:center; outline:none;">
+                        <span>🧠 AI AUTO-ASSIGNMENT DECISION DIAGNOSTIC</span>
+                        <span style="font-size:12px; color:var(--text-muted);">Click to expand diagnostic logs</span>
+                    </summary>
+                    <div style="margin-top: 14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.05); font-family: monospace; font-size: 11px; color:#A78BFA; background:rgba(0,0,0,0.3); padding:12px; border-radius:6px; max-height:200px; overflow-y:auto; text-align:left;">
+                        ${booking.matchLogs && booking.matchLogs.length > 0 ? `
+                            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px;">
+                                ${booking.matchLogs.map(line => `<li>${line}</li>`).join('')}
+                            </ul>
+                        ` : `
+                            <div style="color:var(--text-muted);">No decision logs recorded. Static override or manual scheduling was used.</div>
+                        `}
+                        ${booking.matchScore ? `
+                            <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); color: #C084FC;">
+                                <strong style="color:var(--text-primary);">Weight Scorecard Breakdown:</strong><br>
+                                Rating Factor Weight: ${booking.matchScore.rating || 0} pts<br>
+                                Daily Load Balance Margin: ${booking.matchScore.loadBalancing || 0} pts<br>
+                                Priority Override Score: ${booking.matchScore.priority || 0} pts<br>
+                                Total Matching Multi-Factor Score: <strong style="color:#FBBF24;">${booking.matchScore.total || 0} pts</strong>
+                            </div>
+                        ` : ''}
+                    </div>
+                </details>
+            </div>
+        `;
+
+        this.studentDetailsContent.innerHTML = detailsHtml;
+        this.openModal(this.modalStudentDetails);
     }
 }
 

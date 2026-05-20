@@ -431,41 +431,71 @@ class BookingWizard {
         this.slotsListView.innerHTML = "";
         
         const standardSlots = [
-            { time: "10:00 AM", status: "available" },
-            { time: "11:00 AM", status: "available" },
-            { time: "12:00 PM", status: "available" },
-            { time: "03:00 PM", status: "available" },
-            { time: "06:00 PM", status: "available" }
+            "10:00 AM",
+            "11:00 AM",
+            "12:00 PM",
+            "03:00 PM",
+            "06:00 PM"
         ];
 
-        // Tweak slot states based on day state overrides
-        if (dateState === "limited") {
-            standardSlots[1].status = "limited";
-            standardSlots[2].status = "full";
-            standardSlots[4].status = "limited";
-        } else if (dateState === "full") {
-            standardSlots.forEach(s => s.status = "full");
-        }
+        const date = this.selectedDateStr;
+        const dailyRoster = window.ChessDB.getDailyRosterForDate(date);
+        const teachers = window.ChessDB.getTeachers();
+        const bookings = window.ChessDB.getBookings();
 
-        standardSlots.forEach(slot => {
+        standardSlots.forEach(timeSlot => {
+            // Find coaches rostered for this slot on this date who are not on leave
+            const rosteredCoaches = teachers.filter(t => {
+                const slots = dailyRoster[t.id] || [];
+                const isRostered = slots.includes(timeSlot);
+                const isLeave = t.leaves && t.leaves.includes(date);
+                return isRostered && !isLeave;
+            });
+
+            let status = "full";
+            
+            if (rosteredCoaches.length > 0) {
+                // Check if at least one rostered coach is free (not busy and daily load < maxDemosPerDay)
+                const freeCoach = rosteredCoaches.find(coach => {
+                    const dailyLoad = bookings.filter(b => 
+                        b.teacherId === coach.id && 
+                        b.date === date && 
+                        b.status !== "Cancelled"
+                    ).length;
+
+                    const isBusy = bookings.some(b => 
+                        b.teacherId === coach.id && 
+                        b.date === date && 
+                        b.slot === timeSlot && 
+                        b.status !== "Cancelled"
+                    );
+
+                    return !isBusy && dailyLoad < coach.maxDemosPerDay;
+                });
+
+                if (freeCoach) {
+                    status = "available";
+                }
+            }
+
             const card = document.createElement("div");
             card.className = "slot-card";
-            if (slot.status === "full") card.classList.add("full");
+            if (status === "full") card.classList.add("full");
             
-            if (this.selectedSlotStr === slot.time && slot.status !== "full") {
+            if (this.selectedSlotStr === timeSlot && status !== "full") {
                 card.classList.add("selected");
             }
 
             card.innerHTML = `
-                <span class="slot-time">${slot.time}</span>
-                <span class="slot-status ${slot.status}">${slot.status.toUpperCase()}</span>
+                <span class="slot-time">${timeSlot}</span>
+                <span class="slot-status ${status}">${status.toUpperCase()}</span>
             `;
 
-            if (slot.status !== "full") {
+            if (status !== "full") {
                 card.addEventListener("click", () => {
                     document.querySelectorAll(".slot-card").forEach(c => c.classList.remove("selected"));
                     card.classList.add("selected");
-                    this.selectedSlotStr = slot.time;
+                    this.selectedSlotStr = timeSlot;
                 });
             }
 
