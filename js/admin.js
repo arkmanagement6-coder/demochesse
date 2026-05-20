@@ -622,66 +622,79 @@ class AdminController {
     }
 
     static saveNewTeacher() {
-        const name = document.getElementById("addt-name").value;
-        const avatar = document.getElementById("addt-avatar").value;
-        const email = document.getElementById("addt-email").value;
-        const phone = document.getElementById("addt-phone").value;
-        const exp = document.getElementById("addt-exp").value;
-        const langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim());
-        const levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim());
-        
-        // Fetch selected slots from checkboxes
-        const checkboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]:checked');
-        const slots = Array.from(checkboxes).map(cb => cb.value);
+        const fileInput = document.getElementById("addt-avatar");
+        const file = fileInput.files[0];
 
-        if (slots.length === 0) {
-            window.Toast.show("Validation Failed", "Please select at least one available slot.", "danger");
+        if (!file) {
+            window.Toast.show("Validation Failed", "Please upload a coach photo.", "danger");
             return;
         }
 
-        const teachers = window.ChessDB.getTeachers();
-        const id = "t_" + name.toLowerCase().replace(/\s+/g, "_");
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const avatarBase64 = e.target.result;
+            
+            const name = document.getElementById("addt-name").value;
+            const email = document.getElementById("addt-email").value;
+            const phone = document.getElementById("addt-phone").value;
+            const exp = document.getElementById("addt-exp").value;
+            const langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim());
+            const levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim());
+            
+            // Fetch selected slots from checkboxes
+            const checkboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]:checked');
+            const slots = Array.from(checkboxes).map(cb => cb.value);
 
-        const newCoach = {
-            id,
-            name,
-            email,
-            phone,
-            experience: exp,
-            rating: 4.8,
-            languages: langs,
-            expertise: levels,
-            slots: slots,
-            maxDemosPerDay: 4,
-            priorityScore: 80,
-            avatar: avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
-            activeStudents: 0,
-            leaves: []
-        };
-
-        teachers.push(newCoach);
-        window.ChessDB.saveTeachers(teachers);
-
-        window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
-
-        this.closeModal(this.modalAddt);
-        this.addtForm.reset();
-
-        // Reset custom dropdown state
-        const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
-        allAddtCheckboxes.forEach(cb => {
-            const parent = cb.closest(".dropdown-slot-item");
-            if (parent) {
-                parent.classList.remove("checked");
+            if (slots.length === 0) {
+                window.Toast.show("Validation Failed", "Please select at least one available slot.", "danger");
+                return;
             }
-        });
-        const selectedTextVal = document.getElementById("addt-slots-selected-text");
-        if (selectedTextVal) {
-            selectedTextVal.innerText = "Select Available Slots";
-        }
 
-        this.refreshAllData();
-        window.Toast.show("Saved", "New Coach added to roster directory.", "success");
+            const teachers = window.ChessDB.getTeachers();
+            const id = "t_" + name.toLowerCase().replace(/\s+/g, "_");
+
+            const newCoach = {
+                id,
+                name,
+                email,
+                phone,
+                experience: exp,
+                rating: 4.8,
+                languages: langs,
+                expertise: levels,
+                slots: slots,
+                maxDemosPerDay: 4,
+                priorityScore: 80,
+                avatar: avatarBase64,
+                activeStudents: 0,
+                leaves: []
+            };
+
+            teachers.push(newCoach);
+            window.ChessDB.saveTeachers(teachers);
+
+            window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
+
+            this.closeModal(this.modalAddt);
+            this.addtForm.reset();
+
+            // Reset custom dropdown state
+            const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
+            allAddtCheckboxes.forEach(cb => {
+                const parent = cb.closest(".dropdown-slot-item");
+                if (parent) {
+                    parent.classList.remove("checked");
+                }
+            });
+            const selectedTextVal = document.getElementById("addt-slots-selected-text");
+            if (selectedTextVal) {
+                selectedTextVal.innerText = "Select Available Slots";
+            }
+
+            this.refreshAllData();
+            window.Toast.show("Saved", "New Coach added to roster directory.", "success");
+        };
+        reader.readAsDataURL(file);
     }
 
     // CRM Kanban Board controller
