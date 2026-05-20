@@ -1261,20 +1261,34 @@ class AdminController {
             ...bookings.map(b => ({
                 id: b.id,
                 name: b.studentName,
+                parentName: b.parentName || "N/A",
                 mobile: b.mobile || "N/A",
                 email: b.email || "N/A",
+                age: b.age || "N/A",
                 level: b.level || "Unknown",
+                language: b.language || "Unknown",
+                location: `${b.city || "Unknown"}, ${b.country || "Unknown"}`,
                 date: b.date || "Unknown",
-                crmStatus: b.crmStatus ? b.crmStatus.toLowerCase() : "demo booked"
+                slotTimezone: `${b.slot || "No Slot"} (${b.timezone || "N/A"})`,
+                teacherName: b.teacherName || "Unassigned",
+                crmStatus: b.crmStatus ? b.crmStatus.toLowerCase() : "demo booked",
+                notes: b.notes || ""
             })),
             ...leads.map(l => ({
                 id: l.id,
                 name: l.name,
+                parentName: l.parentName || "N/A",
                 mobile: l.mobile || "N/A",
                 email: l.email || "N/A",
+                age: l.age || "N/A",
                 level: l.level || "Inquire",
+                language: l.language || "N/A",
+                location: `${l.city || "Unknown"}, ${l.country || "Unknown"}`,
                 date: l.date || "Unknown",
-                crmStatus: l.crmStatus ? l.crmStatus.toLowerCase() : "new lead"
+                slotTimezone: "N/A",
+                teacherName: "N/A",
+                crmStatus: l.crmStatus ? l.crmStatus.toLowerCase() : "new lead",
+                notes: l.notes || ""
             }))
         ];
 
@@ -1314,11 +1328,18 @@ class AdminController {
 
             row.innerHTML = `
                 <td style="font-weight:600; color:var(--text-primary);">${c.name}</td>
+                <td style="font-size:11px; color:var(--text-secondary);">${c.parentName}</td>
                 <td>${c.mobile}</td>
                 <td><a href="mailto:${c.email}" style="color:var(--text-secondary); text-decoration:underline;">${c.email}</a></td>
+                <td>${c.age}</td>
                 <td>${c.level}</td>
+                <td>${c.language}</td>
+                <td>${c.location}</td>
                 <td>${c.date}</td>
+                <td style="font-size:11px; color:var(--text-secondary);">${c.slotTimezone}</td>
+                <td>${c.teacherName}</td>
                 <td><span style="font-size:11px; padding:4px 8px; border-radius:4px; background:${statusColor}20; color:${statusColor}; border:1px solid ${statusColor}40; text-transform:capitalize;">${c.crmStatus}</span></td>
+                <td style="font-size:10px; max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${c.notes}">${c.notes}</td>
             `;
             this.detailedReportsTableBody.appendChild(row);
         });
@@ -1334,16 +1355,28 @@ class AdminController {
             return;
         }
 
-        let csvContent = "Candidate Name,Mobile Number,Email ID,Level,Booking Date,CRM Status\n";
+        let csvContent = "Candidate Name,Parent Name,Mobile Number,Email ID,Age,Level,Language,Location,Booking Date,Slot & Timezone,Assigned Coach,CRM Status,Notes\n";
         
         data.forEach(row => {
-            const safeName = '"' + row.name.replace(/"/g, '""') + '"';
-            const safeMobile = '"' + row.mobile.replace(/"/g, '""') + '"';
-            const safeEmail = '"' + row.email.replace(/"/g, '""') + '"';
-            const safeLevel = '"' + row.level.replace(/"/g, '""') + '"';
-            const safeDate = '"' + row.date.replace(/"/g, '""') + '"';
-            const safeStatus = '"' + row.crmStatus.replace(/"/g, '""') + '"';
-            csvContent += [safeName, safeMobile, safeEmail, safeLevel, safeDate, safeStatus].join(",") + "\n";
+            const safeName = '"' + String(row.name).replace(/"/g, '""') + '"';
+            const safeParent = '"' + String(row.parentName).replace(/"/g, '""') + '"';
+            const safeMobile = '"' + String(row.mobile).replace(/"/g, '""') + '"';
+            const safeEmail = '"' + String(row.email).replace(/"/g, '""') + '"';
+            const safeAge = '"' + String(row.age).replace(/"/g, '""') + '"';
+            const safeLevel = '"' + String(row.level).replace(/"/g, '""') + '"';
+            const safeLang = '"' + String(row.language).replace(/"/g, '""') + '"';
+            const safeLoc = '"' + String(row.location).replace(/"/g, '""') + '"';
+            const safeDate = '"' + String(row.date).replace(/"/g, '""') + '"';
+            const safeSlot = '"' + String(row.slotTimezone).replace(/"/g, '""') + '"';
+            const safeCoach = '"' + String(row.teacherName).replace(/"/g, '""') + '"';
+            const safeStatus = '"' + String(row.crmStatus).replace(/"/g, '""') + '"';
+            const safeNotes = '"' + String(row.notes).replace(/"/g, '""') + '"';
+            
+            csvContent += [
+                safeName, safeParent, safeMobile, safeEmail, safeAge, 
+                safeLevel, safeLang, safeLoc, safeDate, safeSlot, 
+                safeCoach, safeStatus, safeNotes
+            ].join(",") + "\n";
         });
 
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
