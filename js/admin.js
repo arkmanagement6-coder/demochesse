@@ -531,7 +531,7 @@ class AdminController {
             return `
                 <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:6px;">
                     <div>
-                        <div style="font-weight:600; color:var(--text-primary); font-size:13px;">${b.studentName}</div>
+                        <div style="font-weight:600; color:var(--primary); font-size:13px; cursor:pointer; text-decoration:underline;" onclick="AdminController.viewStudentDetails('${b.id}')">${b.studentName}</div>
                         <div style="font-size:11px; color:var(--text-muted);">${b.date} • ${b.slot}</div>
                     </div>
                     <span style="font-size:11px; padding:4px 8px; border-radius:4px; background:${statusColor}20; color:${statusColor}; border:1px solid ${statusColor}40;">${b.status}</span>
