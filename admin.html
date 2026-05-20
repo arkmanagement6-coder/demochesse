@@ -13,14 +13,36 @@
             position: relative;
             width: 100%;
         }
+        .dropdown-slot-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #4b5563 !important;
+            font-size: 13px;
+            background: #ffffff;
+        }
+        .dropdown-slot-item span {
+            color: #4b5563 !important;
+        }
         .dropdown-slot-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-primary) !important;
+            background: #f3f4f6 !important;
+            color: #111827 !important;
+        }
+        .dropdown-slot-item:hover span {
+            color: #111827 !important;
         }
         .dropdown-slot-item.checked {
-            background: rgba(139, 92, 246, 0.12) !important;
-            color: var(--text-primary) !important;
+            background: #e5e7eb !important;
+            color: #111827 !important;
             border-left: 3px solid var(--primary);
+            font-weight: 600;
+        }
+        .dropdown-slot-item.checked span {
+            color: #111827 !important;
             font-weight: 600;
         }
         /* Custom scrollbar for dropdown content */
@@ -28,15 +50,15 @@
             width: 6px;
         }
         #addt-slots-dropdown-content::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
+            background: #f1f1f1;
             border-radius: 4px;
         }
         #addt-slots-dropdown-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
+            background: #c1c1c1;
             border-radius: 4px;
         }
         #addt-slots-dropdown-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: #a8a8a8;
         }
     </style>
 </head>
@@ -345,8 +367,8 @@
     </div>
 
     <!-- ADD NEW TEACHER MODAL -->
-    <div class="modal-overlay" id="modal-add-teacher">
-        <div class="glass-card modal-card">
+    <div class="modal-overlay" id="modal-add-teacher" style="overflow-y: auto;">
+        <div class="glass-card modal-card" style="overflow: visible; margin: 40px auto;">
             <div class="modal-header">
                 <h3 style="font-size:18px;">Add New Chess Coach</h3>
                 <span class="modal-close" id="modal-close-addt">&times;</span>
@@ -372,11 +394,11 @@
                     <div class="form-group">
                         <label style="margin-bottom: 8px; display: block;">Available Slots</label>
                         <div class="custom-dropdown" id="addt-slots-dropdown">
-                            <button type="button" id="addt-slots-dropdown-btn" class="form-control" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 14px; width: 100%; color: var(--text-secondary); transition: all 0.3s;">
+                            <button type="button" id="addt-slots-dropdown-btn" class="form-control" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left; background: #ffffff; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px 14px; width: 100%; color: #374151; transition: all 0.3s;">
                                 <span id="addt-slots-selected-text">Select Available Slots</span>
                                 <i class="fa-solid fa-chevron-down" style="font-size: 12px; transition: transform 0.2s;"></i>
                             </button>
-                            <div id="addt-slots-dropdown-content" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: rgba(18, 18, 24, 0.98); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; max-height: 250px; overflow-y: auto; z-index: 1000; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                            <div id="addt-slots-dropdown-content" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #ffffff; border: 1px solid #d1d5db; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 1000; padding: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                                 <div style="display: flex; flex-direction: column; gap: 4px;">
                                     <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
                                         <input type="checkbox" name="addt-slot-checkbox" value="10:00 AM" style="accent-color: var(--primary); cursor: pointer;">
