@@ -134,24 +134,58 @@ class AdminController {
             this.btnSendRosterBriefing.addEventListener("click", () => this.sendDailyBriefings());
         }
 
-        // Bind slot checkboxes in Add Coach Modal for active styling
-        const addtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
-        addtCheckboxes.forEach(cb => {
-            cb.addEventListener("change", () => {
-                const parent = cb.closest("label");
-                if (parent) {
-                    if (cb.checked) {
-                        parent.style.border = "1px solid var(--primary)";
-                        parent.style.background = "rgba(139, 92, 246, 0.12)";
-                        parent.style.color = "var(--text-primary)";
-                        parent.style.boxShadow = "0 2px 10px rgba(139, 92, 246, 0.1)";
-                    } else {
-                        parent.style.border = "1px solid rgba(255, 255, 255, 0.05)";
-                        parent.style.background = "rgba(255, 255, 255, 0.03)";
-                        parent.style.color = "var(--text-secondary)";
-                        parent.style.boxShadow = "none";
+        // Custom dropdown toggle
+        const dropdownBtn = document.getElementById("addt-slots-dropdown-btn");
+        const dropdownContent = document.getElementById("addt-slots-dropdown-content");
+        const selectedText = document.getElementById("addt-slots-selected-text");
+        const chevron = dropdownBtn ? dropdownBtn.querySelector("i") : null;
+
+        if (dropdownBtn && dropdownContent) {
+            dropdownBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const isOpen = dropdownContent.style.display === "block";
+                dropdownContent.style.display = isOpen ? "none" : "block";
+                if (chevron) {
+                    chevron.style.transform = isOpen ? "rotate(0deg)" : "rotate(180deg)";
+                }
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!e.target.closest("#addt-slots-dropdown")) {
+                    dropdownContent.style.display = "none";
+                    if (chevron) {
+                        chevron.style.transform = "rotate(0deg)";
                     }
                 }
+            });
+        }
+
+        // Custom checkboxes update inside dropdown
+        const addtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
+        const updateDropdownText = () => {
+            const checkedCount = document.querySelectorAll('input[name="addt-slot-checkbox"]:checked').length;
+            if (selectedText) {
+                if (checkedCount === 0) {
+                    selectedText.innerText = "Select Available Slots";
+                } else if (checkedCount === 1) {
+                    selectedText.innerText = "1 Slot Selected";
+                } else {
+                    selectedText.innerText = `${checkedCount} Slots Selected`;
+                }
+            }
+        };
+
+        addtCheckboxes.forEach(cb => {
+            cb.addEventListener("change", () => {
+                const parent = cb.closest(".dropdown-slot-item");
+                if (parent) {
+                    if (cb.checked) {
+                        parent.classList.add("checked");
+                    } else {
+                        parent.classList.remove("checked");
+                    }
+                }
+                updateDropdownText();
             });
         });
     }
@@ -519,17 +553,18 @@ class AdminController {
         this.closeModal(this.modalAddt);
         this.addtForm.reset();
 
-        // Reset slot checkbox pills styling on form reset
+        // Reset custom dropdown state
         const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
         allAddtCheckboxes.forEach(cb => {
-            const parent = cb.closest("label");
+            const parent = cb.closest(".dropdown-slot-item");
             if (parent) {
-                parent.style.border = "1px solid rgba(255, 255, 255, 0.05)";
-                parent.style.background = "rgba(255, 255, 255, 0.03)";
-                parent.style.color = "var(--text-secondary)";
-                parent.style.boxShadow = "none";
+                parent.classList.remove("checked");
             }
         });
+        const selectedTextVal = document.getElementById("addt-slots-selected-text");
+        if (selectedTextVal) {
+            selectedTextVal.innerText = "Select Available Slots";
+        }
 
         this.refreshAllData();
         window.Toast.show("Saved", "New Coach added to roster directory.", "success");
@@ -643,8 +678,22 @@ class AdminController {
         const bookings = window.ChessDB.getBookings();
         
         // 1. Popular Slot statistics
-        const slots = ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "06:00 PM"];
+        const slots = [
+            "10:00 AM",
+            "11:00 AM",
+            "12:00 PM",
+            "01:00 PM",
+            "02:00 PM",
+            "03:00 PM",
+            "04:00 PM",
+            "05:00 PM",
+            "06:00 PM",
+            "07:00 PM",
+            "08:00 PM",
+            "09:00 PM"
+        ];
         this.barChart.innerHTML = "";
+        this.barChart.style.gap = "8px";
         
         // find max booking count to scale
         let maxCount = 0;
@@ -659,7 +708,7 @@ class AdminController {
         slots.forEach(s => {
             const count = counts[s];
             // scale height in %
-            const scaleHeight = maxCount > 0 ? (count / maxCount) * 180 + 20 : 20;
+            const scaleHeight = maxCount > 0 ? (count / maxCount) * 160 + 20 : 20;
 
             const barContainer = document.createElement("div");
             barContainer.style.display = "flex";
@@ -670,7 +719,7 @@ class AdminController {
 
             const bar = document.createElement("div");
             bar.className = "btn-primary";
-            bar.style.width = "40px";
+            bar.style.width = "20px";
             bar.style.height = `${scaleHeight}px`;
             bar.style.borderRadius = "4px 4px 0 0";
             bar.style.position = "relative";
@@ -680,6 +729,16 @@ class AdminController {
             bar.innerHTML = `<span style="position:absolute; top:-24px; left:50%; transform:translateX(-50%); font-size:10px; font-weight:700; color:var(--text-primary);">${count}</span>`;
 
             barContainer.appendChild(bar);
+
+            // add label under bar
+            const barLabel = document.createElement("span");
+            barLabel.style.fontSize = "9px";
+            barLabel.style.color = "var(--text-muted)";
+            barLabel.style.marginTop = "8px";
+            barLabel.style.whiteSpace = "nowrap";
+            barLabel.innerText = s;
+            barContainer.appendChild(barLabel);
+
             this.barChart.appendChild(barContainer);
         });
 
@@ -782,7 +841,20 @@ class AdminController {
             slotsContainer.style.width = "100%";
 
             // Static slots available for this teacher
-            const allSlots = t.slots || ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "06:00 PM"];
+            const allSlots = t.slots || [
+                "10:00 AM",
+                "11:00 AM",
+                "12:00 PM",
+                "01:00 PM",
+                "02:00 PM",
+                "03:00 PM",
+                "04:00 PM",
+                "05:00 PM",
+                "06:00 PM",
+                "07:00 PM",
+                "08:00 PM",
+                "09:00 PM"
+            ];
             allSlots.forEach(slot => {
                 const isChecked = rosteredSlots.includes(slot);
                 

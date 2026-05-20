@@ -7,6 +7,38 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- FontAwesome Vector Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Premium Slots Multi-Select Dropdown styling */
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+        .dropdown-slot-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary) !important;
+        }
+        .dropdown-slot-item.checked {
+            background: rgba(139, 92, 246, 0.12) !important;
+            color: var(--text-primary) !important;
+            border-left: 3px solid var(--primary);
+            font-weight: 600;
+        }
+        /* Custom scrollbar for dropdown content */
+        #addt-slots-dropdown-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        #addt-slots-dropdown-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        #addt-slots-dropdown-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+        }
+        #addt-slots-dropdown-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
 </head>
 <body>
 
@@ -237,7 +269,7 @@
                         <div style="height: 240px; display:flex; align-items:flex-end; gap:20px; border-bottom:1px solid var(--border-color); padding-bottom:10px;" id="reports-bar-chart">
                             <!-- Custom chart bars drawn by JS -->
                         </div>
-                        <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:11px; color:var(--text-secondary);">
+                        <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:11px; color:var(--text-secondary); display: none;">
                             <span>10:00 AM</span>
                             <span>11:00 AM</span>
                             <span>12:00 PM</span>
@@ -277,8 +309,15 @@
                         <option value="10:00 AM">10:00 AM</option>
                         <option value="11:00 AM">11:00 AM</option>
                         <option value="12:00 PM">12:00 PM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
                         <option value="03:00 PM">03:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                        <option value="05:00 PM">05:00 PM</option>
                         <option value="06:00 PM">06:00 PM</option>
+                        <option value="07:00 PM">07:00 PM</option>
+                        <option value="08:00 PM">08:00 PM</option>
+                        <option value="09:00 PM">09:00 PM</option>
                     </select>
                 </div>
                 <button type="button" class="btn btn-primary" id="btn-save-resched" style="margin-top:10px;">Save Reschedule Plan</button>
@@ -332,22 +371,63 @@
                     </div>
                     <div class="form-group">
                         <label style="margin-bottom: 8px; display: block;">Available Slots</label>
-                        <div id="addt-slots-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
-                                <input type="checkbox" name="addt-slot-checkbox" value="10:00 AM" style="accent-color: var(--primary);"> 10:00 AM
-                            </label>
-                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
-                                <input type="checkbox" name="addt-slot-checkbox" value="11:00 AM" style="accent-color: var(--primary);"> 11:00 AM
-                            </label>
-                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
-                                <input type="checkbox" name="addt-slot-checkbox" value="12:00 PM" style="accent-color: var(--primary);"> 12:00 PM
-                            </label>
-                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
-                                <input type="checkbox" name="addt-slot-checkbox" value="03:00 PM" style="accent-color: var(--primary);"> 03:00 PM
-                            </label>
-                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
-                                <input type="checkbox" name="addt-slot-checkbox" value="06:00 PM" style="accent-color: var(--primary);"> 06:00 PM
-                            </label>
+                        <div class="custom-dropdown" id="addt-slots-dropdown">
+                            <button type="button" id="addt-slots-dropdown-btn" class="form-control" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 14px; width: 100%; color: var(--text-secondary); transition: all 0.3s;">
+                                <span id="addt-slots-selected-text">Select Available Slots</span>
+                                <i class="fa-solid fa-chevron-down" style="font-size: 12px; transition: transform 0.2s;"></i>
+                            </button>
+                            <div id="addt-slots-dropdown-content" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: rgba(18, 18, 24, 0.98); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; max-height: 250px; overflow-y: auto; z-index: 1000; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                                <div style="display: flex; flex-direction: column; gap: 4px;">
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="10:00 AM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>10:00 AM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="11:00 AM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>11:00 AM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="12:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>12:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="01:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>01:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="02:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>02:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="03:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>03:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="04:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>04:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="05:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>05:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="06:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>06:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="07:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>07:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="08:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>08:00 PM</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                                        <input type="checkbox" name="addt-slot-checkbox" value="09:00 PM" style="accent-color: var(--primary); cursor: pointer;">
+                                        <span>09:00 PM</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin-top:10px;">Save Profile</button>
