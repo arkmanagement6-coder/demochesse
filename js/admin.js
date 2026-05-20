@@ -708,28 +708,28 @@ class AdminController {
         ];
 
         const columns = {
-            "New lead": document.getElementById("col-new-lead"),
-            "Demo booked": document.getElementById("col-demo-booked"),
-            "Demo attended": document.getElementById("col-demo-attended"),
-            "Follow up": document.getElementById("col-follow-up"),
-            "Converted": document.getElementById("col-converted"),
-            "Lost": document.getElementById("col-lost")
+            "new lead": document.getElementById("col-new-lead"),
+            "demo booked": document.getElementById("col-demo-booked"),
+            "demo attended": document.getElementById("col-demo-attended"),
+            "follow up": document.getElementById("col-follow-up"),
+            "converted": document.getElementById("col-converted"),
+            "lost": document.getElementById("col-lost")
         };
 
         const badges = {
-            "New lead": document.getElementById("badge-new-lead"),
-            "Demo booked": document.getElementById("badge-demo-booked"),
-            "Demo attended": document.getElementById("badge-demo-attended"),
-            "Follow up": document.getElementById("badge-follow-up"),
-            "Converted": document.getElementById("badge-converted"),
-            "Lost": document.getElementById("badge-lost")
+            "new lead": document.getElementById("badge-new-lead"),
+            "demo booked": document.getElementById("badge-demo-booked"),
+            "demo attended": document.getElementById("badge-demo-attended"),
+            "follow up": document.getElementById("badge-follow-up"),
+            "converted": document.getElementById("badge-converted"),
+            "lost": document.getElementById("badge-lost")
         };
 
         // Reset
         Object.values(columns).forEach(col => { if(col) col.innerHTML = ""; });
         
         // Count Map
-        let countMap = { "New lead": 0, "Demo booked": 0, "Demo attended": 0, "Follow up": 0, "Converted": 0, "Lost": 0 };
+        let countMap = { "new lead": 0, "demo booked": 0, "demo attended": 0, "follow up": 0, "converted": 0, "lost": 0 };
 
         allEntities.forEach(ent => {
             const statusKey = ent.crmStatus ? ent.crmStatus.toLowerCase() : "new lead";
