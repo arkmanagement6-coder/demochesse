@@ -81,6 +81,11 @@ class AdminController {
         // Reports
         this.barChart = document.getElementById("reports-bar-chart");
         this.horizChart = document.getElementById("reports-horizontal-chart");
+
+        // Detailed Reports
+        this.detailedReportsTableBody = document.getElementById("detailed-reports-table-body");
+        this.reportFilterSearch = document.getElementById("report-filter-search");
+        this.reportFilterStatus = document.getElementById("report-filter-status");
     }
 
     static bindEvents() {
@@ -99,7 +104,11 @@ class AdminController {
         });
 
         // Search action
-        this.bookingSearch.addEventListener("input", () => this.loadBookingsTable());
+        if (this.bookingSearch) this.bookingSearch.addEventListener("input", () => this.loadBookingsTable());
+
+        // Reports Filter action
+        if (this.reportFilterSearch) this.reportFilterSearch.addEventListener("input", () => this.loadDetailedReports());
+        if (this.reportFilterStatus) this.reportFilterStatus.addEventListener("change", () => this.loadDetailedReports());
 
         // Modal closures
         this.closeResched.addEventListener("click", () => this.closeModal(this.modalResched));
@@ -920,6 +929,7 @@ class AdminController {
         this.loadTeacherRosters();
         this.loadCRMPipeline();
         this.renderReports();
+        this.loadDetailedReports();
     }
 
     // --- DAILY ROSTER & STUDENT DETAILS EXTENSIONS ---
@@ -1237,6 +1247,116 @@ class AdminController {
 
         this.studentDetailsContent.innerHTML = detailsHtml;
         this.openModal(this.modalStudentDetails);
+    }
+
+    // --- DETAILED REPORTS LOGIC ---
+    static loadDetailedReports() {
+        if (!this.detailedReportsTableBody) return;
+
+        const bookings = window.ChessDB.getBookings() || [];
+        const leads = window.ChessDB.getCRMLeads() || [];
+        
+        // Combine all candidates
+        const allCandidates = [
+            ...bookings.map(b => ({
+                id: b.id,
+                name: b.studentName,
+                mobile: b.mobile || "N/A",
+                email: b.email || "N/A",
+                level: b.level || "Unknown",
+                date: b.date || "Unknown",
+                crmStatus: b.crmStatus ? b.crmStatus.toLowerCase() : "demo booked"
+            })),
+            ...leads.map(l => ({
+                id: l.id,
+                name: l.name,
+                mobile: l.mobile || "N/A",
+                email: l.email || "N/A",
+                level: l.level || "Inquire",
+                date: l.date || "Unknown",
+                crmStatus: l.crmStatus ? l.crmStatus.toLowerCase() : "new lead"
+            }))
+        ];
+
+        // Apply Filters
+        let filtered = allCandidates;
+        
+        if (this.reportFilterSearch && this.reportFilterSearch.value) {
+            const query = this.reportFilterSearch.value.toLowerCase();
+            filtered = filtered.filter(c => 
+                c.name.toLowerCase().includes(query) || 
+                c.mobile.toLowerCase().includes(query) || 
+                c.email.toLowerCase().includes(query)
+            );
+        }
+
+        if (this.reportFilterStatus && this.reportFilterStatus.value) {
+            const statusQ = this.reportFilterStatus.value.toLowerCase();
+            filtered = filtered.filter(c => c.crmStatus === statusQ);
+        }
+
+        this.detailedReportsTableBody.innerHTML = "";
+
+        if (filtered.length === 0) {
+            this.detailedReportsTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-muted);">No candidates found matching the criteria.</td></tr>`;
+            return;
+        }
+
+        filtered.forEach(c => {
+            const row = document.createElement("tr");
+            
+            // Format status badge
+            let statusColor = "var(--text-secondary)";
+            if (c.crmStatus === "demo attended") statusColor = "#10b981";
+            if (c.crmStatus === "converted") statusColor = "#22C55E";
+            if (c.crmStatus === "lost" || c.crmStatus === "cancelled") statusColor = "#ef4444";
+            if (c.crmStatus === "demo booked") statusColor = "#3b82f6";
+
+            row.innerHTML = `
+                <td style="font-weight:600; color:var(--text-primary);">${c.name}</td>
+                <td>${c.mobile}</td>
+                <td><a href="mailto:${c.email}" style="color:var(--text-secondary); text-decoration:underline;">${c.email}</a></td>
+                <td>${c.level}</td>
+                <td>${c.date}</td>
+                <td><span style="font-size:11px; padding:4px 8px; border-radius:4px; background:${statusColor}20; color:${statusColor}; border:1px solid ${statusColor}40; text-transform:capitalize;">${c.crmStatus}</span></td>
+            `;
+            this.detailedReportsTableBody.appendChild(row);
+        });
+        
+        // Cache filtered list for export
+        this.currentReportExportData = filtered;
+    }
+
+    static exportDetailedReportsCSV() {
+        const data = this.currentReportExportData || [];
+        if (data.length === 0) {
+            window.Toast.show("Export Failed", "No data available to export.", "danger");
+            return;
+        }
+
+        let csvContent = "Candidate Name,Mobile Number,Email ID,Level,Booking Date,CRM Status\n";
+        
+        data.forEach(row => {
+            const safeName = '"' + row.name.replace(/"/g, '""') + '"';
+            const safeMobile = '"' + row.mobile.replace(/"/g, '""') + '"';
+            const safeEmail = '"' + row.email.replace(/"/g, '""') + '"';
+            const safeLevel = '"' + row.level.replace(/"/g, '""') + '"';
+            const safeDate = '"' + row.date.replace(/"/g, '""') + '"';
+            const safeStatus = '"' + row.crmStatus.replace(/"/g, '""') + '"';
+            csvContent += [safeName, safeMobile, safeEmail, safeLevel, safeDate, safeStatus].join(",") + "\n";
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "candidates_report_export.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.Toast.show("Export Complete", "CSV file has been downloaded.", "success");
     }
 }
 
