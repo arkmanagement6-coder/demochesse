@@ -331,8 +331,24 @@
                         <input type="text" id="addt-exp-levels" class="form-control" placeholder="e.g. Beginner, Intermediate" required>
                     </div>
                     <div class="form-group">
-                        <label>Available Slots (comma-separated)</label>
-                        <input type="text" id="addt-slots" class="form-control" placeholder="e.g. 10:00 AM, 11:00 AM, 12:00 PM" required>
+                        <label style="margin-bottom: 8px; display: block;">Available Slots</label>
+                        <div id="addt-slots-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
+                                <input type="checkbox" name="addt-slot-checkbox" value="10:00 AM" style="accent-color: var(--primary);"> 10:00 AM
+                            </label>
+                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
+                                <input type="checkbox" name="addt-slot-checkbox" value="11:00 AM" style="accent-color: var(--primary);"> 11:00 AM
+                            </label>
+                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
+                                <input type="checkbox" name="addt-slot-checkbox" value="12:00 PM" style="accent-color: var(--primary);"> 12:00 PM
+                            </label>
+                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
+                                <input type="checkbox" name="addt-slot-checkbox" value="03:00 PM" style="accent-color: var(--primary);"> 03:00 PM
+                            </label>
+                            <label class="slot-checkbox-label" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s;">
+                                <input type="checkbox" name="addt-slot-checkbox" value="06:00 PM" style="accent-color: var(--primary);"> 06:00 PM
+                            </label>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin-top:10px;">Save Profile</button>
                 </div>

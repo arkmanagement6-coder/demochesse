@@ -133,6 +133,27 @@ class AdminController {
         if (this.btnSendRosterBriefing) {
             this.btnSendRosterBriefing.addEventListener("click", () => this.sendDailyBriefings());
         }
+
+        // Bind slot checkboxes in Add Coach Modal for active styling
+        const addtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
+        addtCheckboxes.forEach(cb => {
+            cb.addEventListener("change", () => {
+                const parent = cb.closest("label");
+                if (parent) {
+                    if (cb.checked) {
+                        parent.style.border = "1px solid var(--primary)";
+                        parent.style.background = "rgba(139, 92, 246, 0.12)";
+                        parent.style.color = "var(--text-primary)";
+                        parent.style.boxShadow = "0 2px 10px rgba(139, 92, 246, 0.1)";
+                    } else {
+                        parent.style.border = "1px solid rgba(255, 255, 255, 0.05)";
+                        parent.style.background = "rgba(255, 255, 255, 0.03)";
+                        parent.style.color = "var(--text-secondary)";
+                        parent.style.boxShadow = "none";
+                    }
+                }
+            });
+        });
     }
 
     // Modal Helpers
@@ -462,7 +483,15 @@ class AdminController {
         const exp = document.getElementById("addt-exp").value;
         const langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim());
         const levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim());
-        const slots = document.getElementById("addt-slots").value.split(",").map(s => s.trim());
+        
+        // Fetch selected slots from checkboxes
+        const checkboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]:checked');
+        const slots = Array.from(checkboxes).map(cb => cb.value);
+
+        if (slots.length === 0) {
+            window.Toast.show("Validation Failed", "Please select at least one available slot.", "danger");
+            return;
+        }
 
         const teachers = window.ChessDB.getTeachers();
         const id = "t_" + name.toLowerCase().replace(/\s+/g, "_");
@@ -489,6 +518,19 @@ class AdminController {
 
         this.closeModal(this.modalAddt);
         this.addtForm.reset();
+
+        // Reset slot checkbox pills styling on form reset
+        const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
+        allAddtCheckboxes.forEach(cb => {
+            const parent = cb.closest("label");
+            if (parent) {
+                parent.style.border = "1px solid rgba(255, 255, 255, 0.05)";
+                parent.style.background = "rgba(255, 255, 255, 0.03)";
+                parent.style.color = "var(--text-secondary)";
+                parent.style.boxShadow = "none";
+            }
+        });
+
         this.refreshAllData();
         window.Toast.show("Saved", "New Coach added to roster directory.", "success");
     }
