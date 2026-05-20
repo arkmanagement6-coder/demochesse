@@ -40,6 +40,12 @@ class TeacherController {
         this.feedNotes = document.getElementById("feed-notes");
         this.feedCourse = document.getElementById("feed-course");
         this.feedRecommend = document.getElementById("feed-recommend-paid");
+
+        // Reschedule Modal
+        this.modalResched = document.getElementById("modal-resched");
+        this.closeResched = document.getElementById("modal-close-resched");
+        this.reschedDate = document.getElementById("resched-date");
+        this.reschedSlot = document.getElementById("resched-slot");
     }
 
     static bindEvents() {
@@ -51,6 +57,9 @@ class TeacherController {
 
         // Close modal
         this.closeFeedback.addEventListener("click", () => this.closeModal());
+        if(this.closeResched) {
+            this.closeResched.addEventListener("click", () => this.closeModal());
+        }
 
         // Submit feedback Form
         this.feedbackForm.addEventListener("submit", (e) => {
@@ -66,6 +75,7 @@ class TeacherController {
 
     static closeModal() {
         this.modalFeedback.classList.remove("active");
+        if(this.modalResched) this.modalResched.classList.remove("active");
         this.feedbackForm.reset();
         this.activeBookingId = null;
     }
@@ -186,11 +196,14 @@ class TeacherController {
                 ` : ""}
 
                 <div style="display:flex; gap:10px; margin-top:auto; padding-top:10px; border-top:1px solid var(--border-color);">
-                    <a href="${b.meetingLink}" target="_blank" class="btn btn-primary" style="flex:1; padding:8px 16px; font-size:12px;">
+                    <a href="${b.meetingLink}" target="_blank" class="btn btn-primary" style="flex:1; padding:8px 16px; font-size:12px; text-align:center;">
                         Join Classroom
                     </a>
                     ${!b.feedback && b.status !== "Cancelled" ? `
-                        <button type="button" class="btn btn-secondary" style="padding:8px 16px; font-size:12px;" onclick="TeacherController.openEvaluation('${b.id}')">
+                        <button type="button" class="btn btn-secondary" style="padding:8px 16px; font-size:12px; flex:1;" onclick="TeacherController.triggerReschedule('${b.id}')">
+                            Reschedule
+                        </button>
+                        <button type="button" class="btn btn-secondary" style="padding:8px 16px; font-size:12px; flex:1;" onclick="TeacherController.openEvaluation('${b.id}')">
                             Log Feedback
                         </button>
                     ` : ""}
@@ -202,6 +215,46 @@ class TeacherController {
 
     static openEvaluation(bookingId) {
         this.openModal(bookingId);
+    }
+
+    // Reschedule
+    static triggerReschedule(bookingId) {
+        const bookings = window.ChessDB.getBookings();
+        const booking = bookings.find(b => b.id === bookingId);
+        if (!booking) return;
+
+        this.activeBookingId = bookingId;
+        this.reschedDate.value = booking.date;
+        this.reschedSlot.value = booking.slot;
+        
+        this.modalResched.classList.add("active");
+    }
+
+    static saveReschedule() {
+        const date = this.reschedDate.value;
+        const slot = this.reschedSlot.value;
+
+        if (!date || !slot) {
+            window.Toast.show("Error", "Please pick valid date and slot.", "danger");
+            return;
+        }
+
+        const bookings = window.ChessDB.getBookings();
+        const booking = bookings.find(b => b.id === this.activeBookingId);
+        if (booking) {
+            booking.date = date;
+            booking.slot = slot;
+            booking.status = "Demo Booked";
+            window.ChessDB.saveBookings(bookings);
+
+            window.NotificationCenter.dispatch("system", `Coach rescheduled booking for ${booking.studentName} to ${date} at ${slot}.`);
+            window.NotificationCenter.triggerStudentConfirmation(booking.studentName, booking.parentName, date, slot, booking.teacherName, "whatsapp");
+            window.NotificationCenter.triggerStudentConfirmation(booking.studentName, booking.parentName, date, slot, booking.teacherName, "email");
+
+            this.closeModal();
+            this.loadProfile();
+            window.Toast.show("Success", "Rescheduled successfully. Notification alert triggered.", "success");
+        }
     }
 
     // Submit report and update statuses

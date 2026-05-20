@@ -121,6 +121,44 @@
         </div>
     </div>
 
+    <!-- RESCHEDULE MODAL -->
+    <div class="modal-overlay" id="modal-resched">
+        <div class="glass-card modal-card" style="max-width:400px;">
+            <div class="modal-header">
+                <h3 style="font-size:18px;">Reschedule Demo</h3>
+                <span class="modal-close" id="modal-close-resched">&times;</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+                <p style="font-size:12px; color:var(--text-secondary);">Select a new date and time slot for this demo.</p>
+                
+                <div class="form-group">
+                    <label>New Date</label>
+                    <input type="date" id="resched-date" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label>New Time Slot</label>
+                    <select id="resched-slot" class="form-control" required>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="03:00 PM">03:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                        <option value="05:00 PM">05:00 PM</option>
+                        <option value="06:00 PM">06:00 PM</option>
+                    </select>
+                </div>
+                
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+                    <button type="button" class="btn btn-secondary" onclick="TeacherController.closeModal()">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="TeacherController.saveReschedule()">Confirm Reschedule</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Shared Scripts -->
     <script src="js/db.js"></script>
     <script src="js/app.js"></script>

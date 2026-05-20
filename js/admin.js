@@ -349,6 +349,7 @@ class AdminController {
             // Log activity trigger
             window.NotificationCenter.dispatch("system", `Admin rescheduled booking for ${booking.studentName} to ${date} at ${slot}.`);
             window.NotificationCenter.triggerStudentConfirmation(booking.studentName, booking.parentName, date, slot, booking.teacherName, "whatsapp");
+            window.NotificationCenter.triggerStudentConfirmation(booking.studentName, booking.parentName, date, slot, booking.teacherName, "email");
 
             this.closeModal(this.modalResched);
             this.refreshAllData();
@@ -436,20 +437,18 @@ class AdminController {
     }
 
     static cancelBooking(id) {
-        if (!confirm("Are you sure you want to cancel this scheduled demo booking?")) return;
+        if (!confirm("Are you sure you want to completely delete this scheduled demo booking?")) return;
 
-        const bookings = window.ChessDB.getBookings();
+        let bookings = window.ChessDB.getBookings();
         const booking = bookings.find(b => b.id === id);
         if (booking) {
-            booking.status = "Cancelled";
-            booking.crmStatus = "Lost";
+            bookings = bookings.filter(b => b.id !== id);
             window.ChessDB.saveBookings(bookings);
 
-            window.NotificationCenter.dispatch("system", `Demo booking for student ${booking.studentName} was cancelled by Admin.`);
-            window.NotificationCenter.dispatch("sms", `Alert: Demo session for student ${booking.studentName} has been cancelled.`);
+            window.NotificationCenter.dispatch("system", `Demo booking for student ${booking.studentName} was deleted by Admin.`);
             
             this.refreshAllData();
-            window.Toast.show("Cancelled", "Booking has been deactivated.", "warning");
+            window.Toast.show("Deleted", "Booking has been removed completely.", "warning");
         }
     }
 
