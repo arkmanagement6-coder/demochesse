@@ -50,6 +50,7 @@ class AdminController {
         this.modalResched = document.getElementById("modal-reschedule");
         this.modalReassign = document.getElementById("modal-reassign");
         this.modalAddt = document.getElementById("modal-add-teacher");
+        this.modalAdds = document.getElementById("modal-add-student");
         this.modalStudentDetails = document.getElementById("modal-student-details");
         this.modalTeacherDetails = document.getElementById("modal-teacher-details");
 
@@ -57,6 +58,7 @@ class AdminController {
         this.closeResched = document.getElementById("modal-close-resched");
         this.closeReassign = document.getElementById("modal-close-reassign");
         this.closeAddt = document.getElementById("modal-close-addt");
+        this.closeAdds = document.getElementById("modal-close-adds");
         this.closeStudentDetails = document.getElementById("modal-close-student-details");
         this.closeTeacherDetails = document.getElementById("modal-close-teacher-details");
 
@@ -64,7 +66,12 @@ class AdminController {
         this.btnSaveResched = document.getElementById("btn-save-resched");
         this.btnSaveReassign = document.getElementById("btn-save-reassign");
         this.btnAddtOpen = document.getElementById("btn-add-teacher");
+        this.btnAddsOpen = document.getElementById("btn-add-student");
         this.addtForm = document.getElementById("add-teacher-form");
+        this.addsForm = document.getElementById("add-student-form");
+        this.btnGenPassTeacher = document.getElementById("btn-gen-pass-teacher");
+        this.btnGenPassStudent = document.getElementById("btn-gen-pass-student");
+        this.addsTeacherSelect = document.getElementById("adds-teacher");
 
         // Modal inputs
         this.reschedDate = document.getElementById("resched-date-input");
@@ -118,6 +125,9 @@ class AdminController {
         this.closeResched.addEventListener("click", () => this.closeModal(this.modalResched));
         this.closeReassign.addEventListener("click", () => this.closeModal(this.modalReassign));
         this.closeAddt.addEventListener("click", () => this.closeModal(this.modalAddt));
+        if (this.closeAdds) {
+            this.closeAdds.addEventListener("click", () => this.closeModal(this.modalAdds));
+        }
         if (this.closeStudentDetails) {
             this.closeStudentDetails.addEventListener("click", () => this.closeModal(this.modalStudentDetails));
         }
@@ -137,6 +147,31 @@ class AdminController {
             e.preventDefault();
             this.saveNewTeacher();
         });
+
+        // Add Student triggers
+        if (this.btnAddsOpen) {
+            this.btnAddsOpen.addEventListener("click", () => this.openAddStudentModal());
+        }
+        if (this.addsForm) {
+            this.addsForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                this.saveNewStudent();
+            });
+        }
+        if (this.btnGenPassTeacher) {
+            this.btnGenPassTeacher.addEventListener("click", () => {
+                const pass = this.generateRandomPassword();
+                document.getElementById("addt-password").value = pass;
+                window.Toast.show("Generated", `Coach password generated: ${pass}`, "success");
+            });
+        }
+        if (this.btnGenPassStudent) {
+            this.btnGenPassStudent.addEventListener("click", () => {
+                const pass = this.generateRandomPassword();
+                document.getElementById("adds-password").value = pass;
+                window.Toast.show("Generated", `Student password generated: ${pass}`, "success");
+            });
+        }
 
         // Roster Planner triggers
         if (this.rosterDateSelect) {
@@ -729,6 +764,110 @@ class AdminController {
             window.Toast.show("Saved", "New Coach added to roster directory.", "success");
         };
         reader.readAsDataURL(file);
+    }
+
+    static openAddStudentModal() {
+        if (this.addsForm) {
+            this.addsForm.reset();
+        }
+        const todayStr = new Date().toISOString().split('T')[0];
+        const dateInput = document.getElementById("adds-date");
+        if (dateInput) {
+            dateInput.value = todayStr;
+        }
+        
+        // Populate teachers dropdown
+        if (this.addsTeacherSelect) {
+            const teachers = window.ChessDB.getTeachers() || [];
+            this.addsTeacherSelect.innerHTML = teachers.map(t => `<option value="${t.id}">${t.name}</option>`).join("");
+        }
+
+        this.openModal(this.modalAdds);
+    }
+
+    static generateRandomPassword() {
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let pass = "";
+        for (let i = 0; i < 8; i++) {
+            pass += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return pass;
+    }
+
+    static saveNewStudent() {
+        const name = document.getElementById("adds-name").value.trim();
+        const parentName = document.getElementById("adds-parent").value.trim();
+        const email = document.getElementById("adds-email").value.trim();
+        const phone = document.getElementById("adds-phone").value.trim();
+        const age = parseInt(document.getElementById("adds-age").value.trim());
+        const grade = document.getElementById("adds-grade").value.trim();
+        const level = document.getElementById("adds-level").value;
+        const language = document.getElementById("adds-language").value;
+        const timezone = document.getElementById("adds-timezone").value;
+        const city = document.getElementById("adds-city").value.trim();
+        const country = document.getElementById("adds-country").value.trim();
+        const date = document.getElementById("adds-date").value;
+        const slot = document.getElementById("adds-slot").value;
+        const password = document.getElementById("adds-password").value.trim();
+        const teacherId = this.addsTeacherSelect.value;
+        
+        if (!name || !parentName || !email || !phone || !age || !city || !country || !date || !slot || !password || !teacherId) {
+            window.Toast.show("Validation Failed", "Please fill in all required fields.", "danger");
+            return;
+        }
+
+        const teachers = window.ChessDB.getTeachers() || [];
+        const selectedTeacher = teachers.find(t => t.id === teacherId);
+        const teacherName = selectedTeacher ? selectedTeacher.name : "Unassigned";
+
+        const bookings = window.ChessDB.getBookings() || [];
+        const newId = "b_" + Date.now();
+        const meetingLink = "https://meet.google.com/chess-demo-" + Math.random().toString(36).substring(7);
+
+        const newBooking = {
+            id: newId,
+            studentName: name,
+            parentName: parentName,
+            age: age,
+            grade: grade || "",
+            level: level,
+            mobile: phone,
+            email: email,
+            city: city,
+            country: country,
+            date: date,
+            slot: slot,
+            timezone: timezone,
+            language: language,
+            teacherId: teacherId,
+            teacherName: teacherName,
+            status: "Demo Booked",
+            paymentStatus: "Free",
+            paymentAmount: 0,
+            meetingLink: meetingLink,
+            notes: "Manually registered by Admin.",
+            crmStatus: "Demo booked",
+            password: password
+        };
+
+        bookings.push(newBooking);
+        window.ChessDB.saveBookings(bookings);
+
+        // Notify System
+        window.NotificationCenter.dispatch("system", `New student ${name} registered manually by Admin.`);
+        
+        // Notify student of password and login
+        window.NotificationCenter.dispatch("email", `Hi ${name}, welcome to Parash Chess Academy! Your trial class has been scheduled with Coach ${teacherName} on ${date} at ${slot} (${timezone}). Your account has been created. Login ID: ${email}, Password: ${password}. Portal: student.html`);
+
+        // Close modal and reset form
+        this.closeModal(this.modalAdds);
+        if (this.addsForm) {
+            this.addsForm.reset();
+        }
+
+        // Refresh database tables and grids
+        this.refreshAllData();
+        window.Toast.show("Saved", "New Student registered and trial booking scheduled.", "success");
     }
 
     // CRM Kanban Board controller

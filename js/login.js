@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (window.Auth && window.Auth.session) {
         if (window.Auth.session.role === 'admin') window.location.href = "admin.html";
         else if (window.Auth.session.role === 'teacher') window.location.href = "teacher.html";
-        else window.location.href = "index.html"; // Redirect students to index for now
+        else if (window.Auth.session.role === 'student') window.location.href = "student.html";
+        else window.location.href = "index.html"; 
     }
 
     const roleBtns = document.querySelectorAll(".role-btn");
@@ -29,6 +30,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Quick fill credentials handler
+    const quickBtns = document.querySelectorAll(".quick-fill-btn");
+    quickBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const role = e.currentTarget.getAttribute("data-role");
+            const email = e.currentTarget.getAttribute("data-email");
+            const pass = e.currentTarget.getAttribute("data-pass");
+
+            // 1. Select the correct tab
+            const targetTab = document.querySelector(`.role-btn[data-role="${role}"]`);
+            if (targetTab) {
+                targetTab.click();
+            }
+
+            // 2. Populate inputs
+            document.getElementById("login-email").value = email;
+            document.getElementById("login-password").value = pass;
+
+            window.Toast.show("Credentials Filled", `Selected ${role.toUpperCase()} role and filled details. Click Authenticate to enter.`, "success");
+        });
+    });
+
     const loginForm = document.getElementById("login-form");
     const errorBox = document.getElementById("login-error");
 
@@ -45,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Re-direct based on role
             if (currentRole === 'admin') window.location.href = "admin.html";
             else if (currentRole === 'teacher') window.location.href = "teacher.html";
+            else if (currentRole === 'student') window.location.href = "student.html";
             else window.location.href = "index.html";
         } else {
             errorBox.style.display = "block";

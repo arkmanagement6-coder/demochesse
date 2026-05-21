@@ -1,15 +1,76 @@
 // Chess Demo Booking - Database Initializer
 // Manages application state using localStorage for persistence
 
-const DEFAULT_TEACHERS = [];
-
-// Auto-clean old demo teachers if they exist
-try {
-    const oldT = JSON.parse(localStorage.getItem("chess_teachers"));
-    if (oldT && oldT.length === 4 && oldT[0].id === 't_aarav') {
-        localStorage.removeItem("chess_teachers");
+const DEFAULT_TEACHERS = [
+    {
+        id: "t_aarav",
+        name: "Aarav Sharma",
+        email: "aarav@parashchess.com",
+        password: "teacher123",
+        experience: "6 Years (FIDE Master - Rating 2150)",
+        rating: 4.9,
+        languages: ["English", "Hindi"],
+        expertise: ["Beginner", "Intermediate"],
+        slots: ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM"],
+        maxDemosPerDay: 4,
+        priorityScore: 90,
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
+        activeStudents: 15,
+        leaves: [],
+        phoneAccessApproved: false
+    },
+    {
+        id: "t_priya",
+        name: "Priya Patel",
+        email: "priya@parashchess.com",
+        password: "teacher123",
+        experience: "4 Years (National Women's Champion)",
+        rating: 4.8,
+        languages: ["English", "Gujarati"],
+        expertise: ["Beginner", "Intermediate"],
+        slots: ["01:00 PM", "02:00 PM", "03:00 PM", "06:00 PM"],
+        maxDemosPerDay: 3,
+        priorityScore: 70,
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120",
+        activeStudents: 11,
+        leaves: [],
+        phoneAccessApproved: false
+    },
+    {
+        id: "t_vikram",
+        name: "Vikram Singh",
+        email: "vikram@parashchess.com",
+        password: "teacher123",
+        experience: "8 Years (FIDE Candidate Master)",
+        rating: 4.6,
+        languages: ["Hindi", "English"],
+        expertise: ["Beginner"],
+        slots: ["10:00 AM", "11:00 AM", "12:00 PM"],
+        maxDemosPerDay: 5,
+        priorityScore: 80,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120",
+        activeStudents: 8,
+        leaves: [],
+        phoneAccessApproved: false
+    },
+    {
+        id: "t_elena",
+        name: "Elena Rostova",
+        email: "elena@parashchess.com",
+        password: "teacher123",
+        experience: "12 Years (WGM - Woman Grandmaster)",
+        rating: 5.0,
+        languages: ["English"],
+        expertise: ["Intermediate", "Advanced"],
+        slots: ["10:00 AM", "11:00 AM", "12:00 PM", "03:00 PM", "06:00 PM"],
+        maxDemosPerDay: 4,
+        priorityScore: 100,
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120",
+        activeStudents: 22,
+        leaves: [],
+        phoneAccessApproved: false
     }
-} catch (e) {}
+];
 
 const DEFAULT_BOOKINGS = [
     {
@@ -146,7 +207,7 @@ const DEFAULT_LOGS = [
 
 class DB {
     static init() {
-        if (!localStorage.getItem("chess_teachers")) {
+        if (!localStorage.getItem("chess_teachers") || JSON.parse(localStorage.getItem("chess_teachers")).length === 0) {
             localStorage.setItem("chess_teachers", JSON.stringify(DEFAULT_TEACHERS));
         }
         if (!localStorage.getItem("chess_bookings")) {

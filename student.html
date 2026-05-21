@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | Parash Chess Academy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Vector Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .student-profile-header {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(243, 244, 246, 0.85) 100%);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            padding: 24px;
+            text-align: left;
+            position: relative;
+        }
+
+        .kpi-icon {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            font-size: 24px;
+            color: var(--primary);
+            opacity: 0.2;
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .kpi-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .coach-card-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: rgba(108, 76, 245, 0.03);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            margin-top: 10px;
+        }
+
+        .coach-card-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .feedback-section {
+            background: rgba(34, 197, 94, 0.02);
+            border: 1px dashed rgba(34, 197, 94, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 18px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header" style="position: static;">
+        <div class="container header-container">
+            <a href="index.html" class="logo" id="header-logo">
+                <i class="fa-solid fa-chess-knight" style="color: var(--primary); filter: drop-shadow(0 2px 8px var(--primary-glow)); font-size: 24px;"></i>
+                Parash Chess<span>Academy</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <!-- Nav injected dynamically via JS -->
+                </ul>
+            </nav>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <span id="student-header-name" style="font-size:13px; font-weight: 600; color: var(--text-primary);">Student Account</span>
+                <button onclick="Auth.logout()" class="btn btn-secondary" style="padding:6px 12px; font-size:12px; color:#F87171; border-color: rgba(248,113,113,0.2);">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 40px 24px 100px;">
+        
+        <!-- Welcome Jumbotron card -->
+        <div class="glass-card student-profile-header" style="padding:30px; display:flex; align-items:center; gap:24px; flex-wrap: wrap;">
+            <div style="background: var(--primary); color: #fff; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 12px var(--primary-glow);">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <span class="badge badge-success" style="margin-bottom:8px; background: rgba(108,76,245,0.1); color: var(--primary);">Candidate Portal</span>
+                <h1 class="text-gradient" id="student-dash-welcome" style="font-size:26px;">Welcome to Parash Chess!</h1>
+                <p id="student-dash-sub" style="font-size:13px; color:var(--text-secondary);">Manage your demo schedule and check coach diagnostics assessments.</p>
+            </div>
+        </div>
+
+        <!-- Student KPI widgets -->
+        <div class="kpi-grid">
+            <div class="glass-card kpi-card">
+                <i class="fa-solid fa-calendar-check kpi-icon"></i>
+                <div class="kpi-label">Class Schedule</div>
+                <div class="kpi-value" id="student-kpi-date" style="font-size: 18px; margin-top: 8px;">Loading...</div>
+                <div class="kpi-sub" id="student-kpi-slot">Allocated Slot</div>
+            </div>
+            <div class="glass-card kpi-card">
+                <i class="fa-solid fa-chess-queen kpi-icon"></i>
+                <div class="kpi-label">Chess Experience Level</div>
+                <div class="kpi-value" id="student-kpi-level">Loading...</div>
+                <div class="kpi-sub">Skill rating classification</div>
+            </div>
+            <div class="glass-card kpi-card">
+                <i class="fa-solid fa-circle-check kpi-icon"></i>
+                <div class="kpi-label">Portal Login Account</div>
+                <div class="kpi-value" id="student-kpi-email" style="font-size: 14px; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Loading...</div>
+                <div class="kpi-sub">Credentials verified via session</div>
+            </div>
+            <div class="glass-card kpi-card">
+                <i class="fa-solid fa-user-group kpi-icon"></i>
+                <div class="kpi-label">Assigned Chess Faculty</div>
+                <div class="kpi-value" id="student-kpi-coach" style="font-size: 18px; margin-top: 8px;">Loading...</div>
+                <div class="kpi-sub">FIDE Professional Instructors</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Layout -->
+        <div class="dashboard-layout">
+            
+            <!-- Left Panel: Demo Booking Detailed Card -->
+            <div style="display:flex; flex-direction:column; gap:25px;">
+                <h2 style="font-size:22px; font-weight:700;">Your Demo Session Details</h2>
+                
+                <div class="glass-card" style="padding: 30px;" id="demo-details-container">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <span style="font-size:12px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;" id="demo-card-id">BOOKING ID: --</span>
+                            <h3 style="font-size:20px; margin-top:4px;">1-on-1 Interactive Demo Lesson</h3>
+                        </div>
+                        <span class="badge" id="demo-status-badge">Demo Booked</span>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; border-bottom: 1px solid var(--border-color); padding-bottom: 24px;">
+                        <div>
+                            <div style="font-size:12px; color:var(--text-secondary);"><i class="fa-regular fa-calendar" style="color:var(--primary); margin-right:6px;"></i>Date & Day</div>
+                            <div style="font-weight:600; margin-top:4px; font-size:15px;" id="demo-date-val">--</div>
+                        </div>
+                        <div>
+                            <div style="font-size:12px; color:var(--text-secondary);"><i class="fa-regular fa-clock" style="color:var(--primary); margin-right:6px;"></i>Time Slot</div>
+                            <div style="font-weight:600; margin-top:4px; font-size:15px;" id="demo-slot-val">--</div>
+                        </div>
+                        <div>
+                            <div style="font-size:12px; color:var(--text-secondary);"><i class="fa-solid fa-earth-americas" style="color:var(--primary); margin-right:6px;"></i>Timezone & Lang</div>
+                            <div style="font-weight:600; margin-top:4px; font-size:15px;" id="demo-timezone-val">--</div>
+                        </div>
+                    </div>
+
+                    <!-- Meeting Join Section -->
+                    <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+                        <h4 style="font-size:14px; font-weight:600; color:var(--text-primary);">Classroom Link</h4>
+                        <p style="font-size:12px; color:var(--text-secondary);">Your class will take place in our interactive video classroom. Please join using the Google Meet link below at the scheduled time.</p>
+                        
+                        <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin-top: 6px;">
+                            <a id="demo-meet-btn" href="#" target="_blank" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">
+                                <i class="fa-solid fa-video"></i> Enter Live Classroom
+                            </a>
+                            <span style="font-size:11px; color:var(--text-muted);" id="demo-meet-note">Link is active. Make sure your microphone & camera work!</span>
+                        </div>
+                    </div>
+
+                    <!-- Diagnostic Feedback Report (If completed) -->
+                    <div id="diagnostic-wrapper" style="border-top:1px solid var(--border-color); margin-top:24px; padding-top:24px;">
+                        <h4 style="font-size:15px; font-weight:700;"><i class="fa-solid fa-square-poll-vertical" style="color:var(--primary); margin-right:8px;"></i>Coach Diagnostic Evaluation & Recommendations</h4>
+                        
+                        <div id="diagnostic-content">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Profile Specifications -->
+            <div style="display:flex; flex-direction:column; gap:25px;">
+                <h2 style="font-size:22px; font-weight:700;">Account Details</h2>
+                
+                <div class="glass-card" style="padding:24px; display:flex; flex-direction:column; gap:18px;">
+                    <div>
+                        <h3 style="font-size:16px; margin-bottom:12px; color:var(--primary);">Candidate Profile</h3>
+                        <div style="display:flex; flex-direction:column; gap:10px; font-size:13px;">
+                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,0.02); padding-bottom:6px;">
+                                <span style="color:var(--text-secondary);">Student Name:</span>
+                                <strong style="color:var(--text-primary);" id="profile-student-name">--</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,0.02); padding-bottom:6px;">
+                                <span style="color:var(--text-secondary);">Parent Name:</span>
+                                <strong style="color:var(--text-primary);" id="profile-parent-name">--</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,0.02); padding-bottom:6px;">
+                                <span style="color:var(--text-secondary);">Mobile Number:</span>
+                                <strong style="color:var(--text-primary);" id="profile-mobile">--</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,0.02); padding-bottom:6px;">
+                                <span style="color:var(--text-secondary);">Location:</span>
+                                <strong style="color:var(--text-primary);" id="profile-location">--</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid rgba(0,0,0,0.02); padding-bottom:6px;">
+                                <span style="color:var(--text-secondary);">Age Group:</span>
+                                <strong style="color:var(--text-primary);" id="profile-age">--</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="border-top:1px solid var(--border-color); padding-top:18px;">
+                        <h3 style="font-size:16px; margin-bottom:12px; color:var(--primary);">Your Instructor</h3>
+                        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">A master FIDE chess coach has been allocated to provide your trial evaluation.</p>
+                        
+                        <div class="coach-card-info" id="assigned-coach-info">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Shared Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/student.js"></script>
+</body>
+</html>
