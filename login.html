@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parash Chess Academy | Login Portal</title>
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Vector Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top left, var(--background), var(--surface-bg));
+            position: relative;
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .role-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 5px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+        
+        .login-form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .login-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+        
+        #login-error {
+            color: #EF4444;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo" id="header-logo">
+                <i class="fa-solid fa-chess-knight" style="color: var(--primary); filter: drop-shadow(0 2px 8px var(--primary-glow)); font-size: 24px;"></i>
+                Parash Chess<span>Academy</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <!-- Nav injected dynamically via JS -->
+                </ul>
+            </nav>
+            <a href="book.html" class="btn btn-primary" style="padding: 10px 20px; font-size:14px;" id="nav-cta-btn">Book Free Class</a>
+        </div>
+    </header>
+
+    <div class="login-page">
+        <!-- Floating shapes for aesthetic -->
+        <div class="floating-shape shape-1" style="width: 300px; height: 300px; background: var(--primary); top: 10%; left: 10%;"></div>
+        <div class="floating-shape shape-2" style="width: 400px; height: 400px; background: #3b82f6; bottom: -10%; right: 5%;"></div>
+        
+        <div class="glass-card login-card">
+            <div style="margin-bottom: 30px;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 36px; color: var(--primary); margin-bottom: 15px; filter: drop-shadow(0 4px 12px var(--primary-glow));"></i>
+                <h2 style="font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px;">Secure Access</h2>
+                <p style="font-size: 14px; color: var(--text-secondary);">Enter your credentials to continue</p>
+            </div>
+            
+            <div class="role-selector" id="role-selector">
+                <button type="button" class="role-btn active" data-role="student">Student</button>
+                <button type="button" class="role-btn" data-role="teacher">Coach</button>
+                <button type="button" class="role-btn" data-role="admin">Admin</button>
+            </div>
+            
+            <div id="login-error">Invalid email or password. Please try again.</div>
+            
+            <form id="login-form">
+                <div class="login-form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" class="login-input" placeholder="e.g. user@example.com" required>
+                </div>
+                <div class="login-form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" class="login-input" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 15px; margin-top: 10px;" id="login-btn">
+                    Authenticate Session
+                </button>
+            </form>
+            
+            <div style="margin-top: 25px; font-size: 13px; color: var(--text-muted);">
+                Trouble logging in? <a href="#" style="color: var(--primary);">Contact Support</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

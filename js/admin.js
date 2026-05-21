@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 class AdminController {
     static init() {
+        if (window.Auth) {
+            window.Auth.protect('admin');
+        }
         this.activeBookingId = null;
         this.cacheDOM();
         this.bindEvents();
@@ -17,6 +20,7 @@ class AdminController {
         this.loadTeacherRosters();
         this.loadCRMPipeline();
         this.renderReports();
+        this.loadDetailedReports();
 
         // Initialize tomorrow's date as default roster planner date
         if (this.rosterDateSelect) {
@@ -661,6 +665,7 @@ class AdminController {
             
             const name = document.getElementById("addt-name").value;
             const email = document.getElementById("addt-email").value;
+            const password = document.getElementById("addt-password").value.trim();
             const phone = document.getElementById("addt-phone").value;
             const exp = document.getElementById("addt-exp").value;
             const langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim());
@@ -683,6 +688,7 @@ class AdminController {
                 name,
                 email,
                 phone,
+                password, // Designated password from admin panel
                 experience: exp,
                 rating: 4.8,
                 languages: langs,
@@ -692,13 +698,16 @@ class AdminController {
                 priorityScore: 80,
                 avatar: avatarBase64,
                 activeStudents: 0,
-                leaves: []
+                leaves: [],
+                phoneAccessApproved: false
             };
 
             teachers.push(newCoach);
             window.ChessDB.saveTeachers(teachers);
 
             window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
+            // Dispatch credentials email
+            window.NotificationCenter.dispatch("email", `Hi Coach ${name}, welcome to Parash Chess Academy! An account has been created for you. Login ID (Email): ${email}, Password: ${password}. Portal Dashboard: teacher.html.`);
 
             this.closeModal(this.modalAddt);
             this.addtForm.reset();

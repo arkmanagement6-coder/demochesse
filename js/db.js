@@ -158,6 +158,25 @@ class DB {
         if (!localStorage.getItem("chess_logs")) {
             localStorage.setItem("chess_logs", JSON.stringify(DEFAULT_LOGS));
         }
+
+        // Migration: Ensure all teachers have a password
+        try {
+            let tList = JSON.parse(localStorage.getItem("chess_teachers")) || [];
+            let updatedT = false;
+            tList.forEach(t => {
+                if (!t.password) { t.password = 'teacher123'; updatedT = true; }
+            });
+            if (updatedT) localStorage.setItem("chess_teachers", JSON.stringify(tList));
+
+            let bList = JSON.parse(localStorage.getItem("chess_bookings")) || [];
+            let updatedB = false;
+            bList.forEach(b => {
+                if (!b.password) { b.password = 'student123'; updatedB = true; }
+            });
+            if (updatedB) localStorage.setItem("chess_bookings", JSON.stringify(bList));
+        } catch (e) {
+            console.error("Migration error:", e);
+        }
     }
 
     static getTeachers() {

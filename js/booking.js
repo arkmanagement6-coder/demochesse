@@ -562,6 +562,14 @@ class BookingWizard {
 
         // Create new booking object
         const bookingId = "b_" + Date.now();
+        
+        // Generate a random, secure 8-character password
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let generatedPassword = "";
+        for (let i = 0; i < 8; i++) {
+            generatedPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
         const newBooking = {
             id: bookingId,
             studentName,
@@ -570,6 +578,7 @@ class BookingWizard {
             grade,
             mobile,
             email,
+            password: generatedPassword, // Saved to candidate record
             city,
             country,
             date: this.selectedDateStr,
@@ -596,6 +605,9 @@ class BookingWizard {
         // Dispatch simulated customer alerts
         window.NotificationCenter.triggerStudentConfirmation(studentName, parentName, this.selectedDateStr, this.selectedSlotStr, matchResult.teacher.name, "whatsapp");
         window.NotificationCenter.triggerTeacherConfirmation(matchResult.teacher.name, studentName, this.studentLevel, this.selectedDateStr, this.selectedSlotStr);
+        
+        // Dispatch credentials welcome email to student parent
+        window.NotificationCenter.dispatch("email", `Welcome to Parash Chess Academy! A student demo portal account has been created for ${studentName}. Log in to view your schedule. Email: ${email}, Password: ${generatedPassword}.`);
 
         // Redirect to success screen with booking query
         window.Toast.show("Booking Success", "Demo match initialized. Redirecting...", "success");

@@ -6,12 +6,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 class TeacherController {
     static init() {
-        this.activeTeacherId = "";
+        if (window.Auth) {
+            window.Auth.protect('teacher');
+            this.activeTeacherId = window.Auth.session.id;
+        } else {
+            this.activeTeacherId = "";
+        }
         this.activeBookingId = null;
 
         this.cacheDOM();
         this.bindEvents();
-        this.initializeProfileSwitcher();
+        
+        // Hide the switcher dropdown container since they are securely logged in
+        if (this.switcher) {
+            const switcherWrapper = this.switcher.parentElement;
+            if (switcherWrapper) {
+                switcherWrapper.style.display = "none";
+            }
+        }
+
+        this.loadProfile();
     }
 
     static cacheDOM() {
