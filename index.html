@@ -10,30 +10,30 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- FontAwesome Vector Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Premium Black & Gold Theme Override CSS -->
+    <!-- Premium Navy & White Modern Theme Override CSS -->
     <style>
         :root {
-            --bg-dark-chess: #07080A;
-            --surface-chess: #0F1014;
-            --surface-chess-light: #16181F;
-            --gold-primary: #D4AF37;
-            --gold-hover: #C5A02E;
-            --gold-gradient: linear-gradient(135deg, #F9D976 0%, #B38728 100%);
-            --gold-glow: rgba(212, 175, 55, 0.15);
-            --gold-border: rgba(212, 175, 55, 0.15);
-            --text-gold-light: #F6E5C3;
-            --text-main-dark: #F3F4F6;
-            --text-secondary-dark: #9CA3AF;
+            --bg-light-chess: #F8FAFC;
+            --surface-chess: #FFFFFF;
+            --surface-chess-light: #F1F5F9;
+            --primary-navy: #1E3A8A;
+            --primary-blue: #3B82F6;
+            --blue-gradient: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+            --blue-glow: rgba(59, 130, 246, 0.1);
+            --border-light: rgba(15, 23, 42, 0.08);
+            --text-main: #0F172A;
+            --text-secondary: #475569;
+            --text-muted-light: #64748B;
         }
 
-        body.dark-chess-theme {
-            background-color: var(--bg-dark-chess);
-            color: var(--text-main-dark);
+        body.light-chess-theme {
+            background-color: var(--bg-light-chess);
+            color: var(--text-main);
             font-family: 'Inter', sans-serif;
             position: relative;
         }
 
-        body.dark-chess-theme::before {
+        body.light-chess-theme::before {
             content: '';
             position: absolute;
             width: 100%;
@@ -41,52 +41,52 @@
             top: 0;
             left: 0;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.02) 0%, transparent 50%);
             z-index: -2;
             pointer-events: none;
         }
 
         /* Header Overrides */
-        .dark-chess-theme .header {
-            background: rgba(7, 8, 10, 0.9) !important;
-            border-bottom: 1px solid var(--gold-border) !important;
+        .light-chess-theme .header {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border-bottom: 1px solid var(--border-light) !important;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
 
-        .dark-chess-theme .logo {
-            color: #FFFFFF !important;
+        .light-chess-theme .logo {
+            color: #0F172A !important;
         }
 
-        .dark-chess-theme .logo span {
-            color: var(--gold-primary) !important;
-            text-shadow: 0 0 10px var(--gold-glow);
+        .light-chess-theme .logo span {
+            color: var(--primary-blue) !important;
+            text-shadow: none;
         }
 
         /* Buttons Overrides */
         .btn-gold {
-            background: var(--gold-gradient) !important;
-            color: #07080A !important;
+            background: var(--blue-gradient) !important;
+            color: #FFFFFF !important;
             font-weight: 700 !important;
-            box-shadow: 0 4px 15px var(--gold-glow) !important;
+            box-shadow: 0 4px 15px var(--blue-glow) !important;
             border: none !important;
         }
 
         .btn-gold:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35) !important;
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.25) !important;
         }
 
         .btn-outline-gold {
             background: transparent !important;
-            color: var(--text-gold-light) !important;
-            border: 1px solid rgba(212, 175, 55, 0.4) !important;
+            color: var(--primary-navy) !important;
+            border: 1px solid rgba(30, 64, 175, 0.3) !important;
         }
 
         .btn-outline-gold:hover {
-            background: rgba(212, 175, 55, 0.08) !important;
-            border-color: var(--gold-primary) !important;
+            background: rgba(59, 130, 246, 0.08) !important;
+            border-color: var(--primary-blue) !important;
         }
 
         /* Custom Floating Action Buttons */
@@ -109,7 +109,7 @@
             justify-content: center;
             color: #FFFFFF;
             font-size: 22px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             text-decoration: none;
@@ -128,8 +128,8 @@
         }
 
         .floating-btn.demo-float {
-            background: var(--gold-gradient);
-            color: #07080A;
+            background: var(--blue-gradient);
+            color: #FFFFFF;
         }
 
         /* Chess floating animation */
@@ -146,7 +146,7 @@
         /* Sections standard stylings */
         .section-padding-chess {
             padding: 80px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .section-title-gold {
@@ -154,12 +154,12 @@
             font-weight: 800;
             text-align: center;
             margin-bottom: 16px;
-            color: #FFFFFF;
+            color: var(--text-main);
             letter-spacing: -0.02em;
         }
 
         .section-title-gold span {
-            background: var(--gold-gradient);
+            background: var(--blue-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
@@ -167,7 +167,7 @@
 
         .section-sub-chess {
             font-size: 16px;
-            color: var(--text-secondary-dark);
+            color: var(--text-secondary);
             text-align: center;
             max-width: 600px;
             margin: 0 auto 50px;
@@ -175,16 +175,16 @@
 
         .glass-card-dark {
             background: var(--surface-chess) !important;
-            border: 1px solid var(--gold-border) !important;
+            border: 1px solid var(--border-light) !important;
             border-radius: var(--radius-md);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
             transition: all 0.3s !important;
-            color: var(--text-main-dark) !important;
+            color: var(--text-main) !important;
         }
 
         .glass-card-dark:hover {
-            border-color: rgba(212, 175, 55, 0.35) !important;
-            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.1) !important;
+            border-color: rgba(59, 130, 246, 0.3) !important;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08) !important;
             transform: translateY(-4px);
         }
 
@@ -214,21 +214,22 @@
             text-align: center;
             border-radius: var(--radius-md);
             background: var(--surface-chess);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-light);
             position: relative;
             transition: all 0.3s;
+            color: var(--text-main);
         }
 
         .how-card-chess:hover {
-            border-color: var(--gold-primary);
+            border-color: var(--primary-blue);
             background: var(--surface-chess-light);
         }
 
         .how-step-num-gold {
             font-size: 14px;
             font-weight: 800;
-            color: var(--gold-primary);
-            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-blue);
+            background: rgba(59, 130, 246, 0.1);
             width: 32px;
             height: 32px;
             border-radius: 50%;
@@ -236,7 +237,7 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto 16px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         /* Programs switcher Tabs */
@@ -253,18 +254,18 @@
             font-size: 15px;
             font-weight: 700;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-light);
             background: var(--surface-chess);
-            color: var(--text-secondary-dark);
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .program-tab-btn.active {
-            background: var(--gold-gradient);
-            color: #07080A;
+            background: var(--blue-gradient);
+            color: #FFFFFF;
             border: none;
-            box-shadow: 0 4px 15px var(--gold-glow);
+            box-shadow: 0 4px 15px var(--blue-glow);
         }
 
         /* Accordion for level syllabus */
@@ -276,8 +277,8 @@
         }
 
         .accordion-item {
-            background: var(--surface-chess-light);
-            border: 1px solid rgba(255,255,255,0.03);
+            background: var(--surface-chess);
+            border: 1px solid var(--border-light);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -289,16 +290,16 @@
             align-items: center;
             cursor: pointer;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-main);
             transition: all 0.3s;
         }
 
         .accordion-header:hover {
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(59, 130, 246, 0.04);
         }
 
         .accordion-header i {
-            color: var(--gold-primary);
+            color: var(--primary-blue);
             transition: transform 0.3s;
         }
 
@@ -307,16 +308,16 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), padding 0.3s;
-            color: var(--text-secondary-dark);
+            color: var(--text-secondary);
             font-size: 14px;
             line-height: 1.6;
-            background: rgba(0,0,0,0.1);
+            background: var(--bg-light-chess);
         }
 
         .accordion-item.active .accordion-content {
             padding: 20px 24px;
             max-height: 500px;
-            border-top: 1px solid rgba(255,255,255,0.02);
+            border-top: 1px solid var(--border-light);
         }
 
         .accordion-item.active .accordion-header i {
@@ -327,29 +328,30 @@
         .download-box {
             padding: 40px;
             border-radius: 20px;
-            background: radial-gradient(circle at top right, var(--surface-chess-light), var(--surface-chess));
-            border: 1px solid var(--gold-border);
+            background: var(--surface-chess);
+            border: 1px solid var(--border-light);
             max-width: 650px;
             margin: 0 auto;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
         .form-control-chess {
             width: 100%;
             height: 48px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #FFFFFF;
+            border: 1px solid rgba(15, 23, 42, 0.15);
             border-radius: 8px;
-            color: #FFFFFF;
+            color: var(--text-main);
             padding: 0 16px;
             font-size: 14px;
             transition: all 0.3s;
         }
 
         .form-control-chess:focus {
-            border-color: var(--gold-primary);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+            border-color: var(--primary-blue);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
         /* Grid specifications for Why Choose Us */
@@ -362,15 +364,16 @@
         .why-card-chess {
             padding: 24px;
             background: var(--surface-chess);
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-light);
             border-radius: 12px;
             display: flex;
             gap: 16px;
+            color: var(--text-main);
         }
 
         .why-card-chess i {
             font-size: 24px;
-            color: var(--gold-primary);
+            color: var(--primary-blue);
             margin-top: 4px;
         }
 
@@ -385,13 +388,14 @@
             background: var(--surface-chess);
             border-radius: var(--radius-md);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-light);
             transition: all 0.3s;
         }
 
         .coach-card-chess:hover {
-            border-color: var(--gold-primary);
+            border-color: var(--primary-blue);
             transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.05);
         }
 
         .coach-img-wrapper {
@@ -415,8 +419,8 @@
             position: absolute;
             bottom: 12px;
             left: 12px;
-            background: var(--gold-gradient);
-            color: #07080A;
+            background: var(--blue-gradient);
+            color: #FFFFFF;
             padding: 4px 10px;
             font-size: 11px;
             font-weight: 700;
@@ -431,7 +435,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(15, 23, 42, 0.7);
             display: none;
             align-items: center;
             justify-content: center;
@@ -441,13 +445,14 @@
 
         .modal-card-chess {
             background: var(--surface-chess);
-            border: 1px solid var(--gold-border);
+            border: 1px solid var(--border-light);
             width: 90%;
             max-width: 500px;
             border-radius: var(--radius-md);
             padding: 35px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             position: relative;
+            color: var(--text-main);
         }
 
         /* Success alerts */
@@ -456,25 +461,25 @@
             top: 24px;
             right: 24px;
             background: var(--surface-chess);
-            border: 1px solid var(--gold-primary);
+            border: 1px solid var(--primary-blue);
             border-radius: 8px;
             padding: 16px 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             display: none;
             align-items: center;
             gap: 12px;
             z-index: 100001;
-            color: #FFFFFF;
+            color: var(--text-main);
         }
     </style>
 </head>
-<body class="dark-chess-theme">
+<body class="light-chess-theme">
 
     <!-- Header Navigation -->
     <header class="header">
         <div class="container header-container">
             <a href="index.html" class="logo" id="header-logo">
-                <i class="fa-solid fa-chess-knight" style="color: var(--gold-primary); filter: drop-shadow(0 2px 8px var(--gold-glow)); font-size: 24px;"></i>
+                <i class="fa-solid fa-chess-knight" style="color: var(--primary-blue); filter: drop-shadow(0 2px 8px var(--blue-glow)); font-size: 24px;"></i>
                 Paras Chess<span>Academy</span>
             </a>
             <nav style="display: none;">
@@ -490,37 +495,37 @@
     </header>
 
     <!-- 1. HERO SECTION -->
-    <section class="hero-section-dark" style="padding: 80px 0 100px; position: relative; overflow: hidden;">
+    <section class="hero-section-dark" style="padding: 80px 0 100px; position: relative; overflow: hidden; background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 60%);">
         <div class="container" style="display: flex; gap: 40px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
             
             <!-- Hero Left Column -->
             <div style="flex: 1.2; min-width: 320px; max-width: 580px;">
-                <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--gold-primary); background: rgba(212, 175, 55, 0.1); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.2); margin-bottom: 20px;">
+                <span style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--primary-blue); background: rgba(59, 130, 246, 0.1); padding: 6px 14px; border-radius: 50px; border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 20px;">
                     🏆 Elite FIDE Coaching Academy
                 </span>
-                <h1 style="font-size: 42px; line-height: 1.15; color: #FFFFFF; font-weight: 800; margin-bottom: 20px; font-family: var(--font-heading);">
-                    Build Your Child’s Chess Skills with <span style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Expert FIDE-Rated Coaching</span>
+                <h1 style="font-size: 42px; line-height: 1.15; color: var(--text-main); font-weight: 800; margin-bottom: 20px; font-family: var(--font-heading);">
+                    Build Your Child’s Chess Skills with <span style="background: var(--blue-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Expert FIDE-Rated Coaching</span>
                 </h1>
-                <p style="font-size: 16px; line-height: 1.6; color: var(--text-secondary-dark); margin-bottom: 30px;">
+                <p style="font-size: 16px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 30px;">
                     Online & Offline Chess Classes for Beginners to Tournament Players. Empower your child's critical thinking, patience, and logic under certified international master mentors.
                 </p>
                 
                 <!-- Selling Checklist Bullet points -->
-                <ul style="list-style: none; padding: 0; margin: 0 0 35px 0; display: flex; flex-direction: column; gap: 12px; font-weight: 600; font-size: 14px; color: #E5E7EB;">
+                <ul style="list-style: none; padding: 0; margin: 0 0 35px 0; display: flex; flex-direction: column; gap: 12px; font-weight: 600; font-size: 14px; color: var(--text-secondary);">
                     <li style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-circle-check" style="color: var(--gold-primary); font-size: 16px;"></i> ✔ Personalized Learning
+                        <i class="fa-solid fa-circle-check" style="color: var(--primary-blue); font-size: 16px;"></i> ✔ Personalized Learning
                     </li>
                     <li style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-circle-check" style="color: var(--gold-primary); font-size: 16px;"></i> ✔ Weekly Live Classes
+                        <i class="fa-solid fa-circle-check" style="color: var(--primary-blue); font-size: 16px;"></i> ✔ Weekly Live Classes
                     </li>
                     <li style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-circle-check" style="color: var(--gold-primary); font-size: 16px;"></i> ✔ Tournament Preparation
+                        <i class="fa-solid fa-circle-check" style="color: var(--primary-blue); font-size: 16px;"></i> ✔ Tournament Preparation
                     </li>
                     <li style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-circle-check" style="color: var(--gold-primary); font-size: 16px;"></i> ✔ Game Analysis
+                        <i class="fa-solid fa-circle-check" style="color: var(--primary-blue); font-size: 16px;"></i> ✔ Game Analysis
                     </li>
                     <li style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-circle-check" style="color: var(--gold-primary); font-size: 16px;"></i> ✔ FIDE Rating Guidance
+                        <i class="fa-solid fa-circle-check" style="color: var(--primary-blue); font-size: 16px;"></i> ✔ FIDE Rating Guidance
                     </li>
                 </ul>
 
@@ -541,20 +546,20 @@
             <!-- Hero Right Column -->
             <div style="flex: 1; min-width: 320px; max-width: 440px; width: 100%; display: flex; flex-direction: column; gap: 30px;">
                 <!-- Animated Golden Chess piece / graphic visual box -->
-                <div class="glass-card-dark animated-chess-graphic" style="height: 180px; display: flex; align-items: center; justify-content: center; position: relative; border-radius: 20px; background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, rgba(22,24,31,0.9) 100%) !important;">
-                    <i class="fa-solid fa-chess-king" style="font-size: 80px; color: var(--gold-primary); filter: drop-shadow(0 4px 15px rgba(212,175,55,0.4));"></i>
+                <div class="glass-card-dark animated-chess-graphic" style="height: 180px; display: flex; align-items: center; justify-content: center; position: relative; border-radius: 20px; background: linear-gradient(135deg, rgba(59,130,246,0.05) 0%, rgba(255,255,255,0.9) 100%) !important;">
+                    <i class="fa-solid fa-chess-king" style="font-size: 80px; color: var(--primary-blue); filter: drop-shadow(0 4px 15px rgba(59,130,246,0.25));"></i>
                     <i class="fa-solid fa-trophy" style="position: absolute; top: 20px; right: 30px; font-size: 28px; color: #FFD700; transform: rotate(10deg); filter: drop-shadow(0 2px 6px rgba(255,215,0,0.3));"></i>
-                    <i class="fa-solid fa-chess-knight" style="position: absolute; bottom: 20px; left: 30px; font-size: 32px; color: rgba(255,255,255,0.25);"></i>
-                    <div style="position: absolute; bottom: 12px; right: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-gold-light); opacity: 0.8;">PARAS ELITE TRAINING</div>
+                    <i class="fa-solid fa-chess-knight" style="position: absolute; bottom: 20px; left: 30px; font-size: 32px; color: rgba(15,23,42,0.15);"></i>
+                    <div style="position: absolute; bottom: 12px; right: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--primary-navy); opacity: 0.8;">PARAS ELITE TRAINING</div>
                 </div>
 
                 <!-- Age selection Booking controller card -->
                 <div class="glass-card-dark" style="padding: 30px; border-radius: 24px;">
-                    <h3 style="font-size: 18px; font-weight: 800; color: #FFFFFF; margin-bottom: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px;">Start Learning From India's Best Academy</h3>
+                    <h3 style="font-size: 18px; font-weight: 800; color: var(--text-main); margin-bottom: 20px; text-align: center; border-bottom: 1px solid var(--border-light); padding-bottom: 15px;">Start Learning From India's Best Academy</h3>
                     
                     <!-- Quick Dropdown Form Group -->
                     <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="hero-age-select" style="font-weight: 700; margin-bottom: 8px; display: block; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; color: var(--gold-primary);">Select Child's Age *</label>
+                        <label for="hero-age-select" style="font-weight: 700; margin-bottom: 8px; display: block; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; color: var(--primary-blue);">Select Child's Age *</label>
                         <select id="hero-age-select" class="form-control-chess" style="cursor: pointer;">
                             <option value="" disabled selected>Choose Age Range</option>
                             <option value="4-6">4 - 6 Years (Beginner Friendly)</option>
@@ -570,14 +575,14 @@
                     </button>
 
                     <!-- Counselor active card -->
-                    <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-light);">
                         <div style="position: relative;">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=60" alt="Counselor Pooja" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-primary);">
-                            <span style="position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; background-color: #22C55E; border: 2px solid #000; border-radius: 50%;"></span>
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=60" alt="Counselor Pooja" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-blue);">
+                            <span style="position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; background-color: #22C55E; border: 2px solid #FFF; border-radius: 50%;"></span>
                         </div>
                         <div>
-                            <p style="margin: 0; font-size: 12px; font-weight: 700; color: #FFFFFF;">Priya Sharma <span style="font-weight: 500; color: var(--text-secondary-dark);">(Counselor)</span></p>
-                            <p style="margin: 0; font-size: 11px; color: #4ADE80; font-weight: 600;"><i class="fa-solid fa-bolt"></i> Active: Online (Callback in 15 mins)</p>
+                            <p style="margin: 0; font-size: 12px; font-weight: 700; color: var(--text-main);">Priya Sharma <span style="font-weight: 500; color: var(--text-secondary);">(Counselor)</span></p>
+                            <p style="margin: 0; font-size: 11px; color: #16A34A; font-weight: 600;"><i class="fa-solid fa-bolt"></i> Active: Online (Callback in 15 mins)</p>
                         </div>
                     </div>
                 </div>
@@ -587,7 +592,7 @@
     </section>
 
     <!-- 2. TRUST SECTION -->
-    <section class="section-padding-chess" style="background: rgba(15, 16, 20, 0.5);">
+    <section class="section-padding-chess" style="background: var(--surface-chess);">
         <div class="container">
             <div class="reviews-badge-container">
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
@@ -597,8 +602,8 @@
                     <i class="fa-solid fa-star" style="color: #FFD700; font-size: 18px;"></i>
                     <i class="fa-solid fa-star" style="color: #FFD700; font-size: 18px;"></i>
                 </div>
-                <h2 style="font-size: 18px; font-weight: 700; color: #FFFFFF; text-align: center; margin-bottom: 4px;">Rated 4.9/5 stars by Google Parents</h2>
-                <p style="font-size: 13px; color: var(--gold-primary); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Based on 500+ student ratings</p>
+                <h2 style="font-size: 18px; font-weight: 700; color: var(--text-main); text-align: center; margin-bottom: 4px;">Rated 4.9/5 stars by Google Parents</h2>
+                <p style="font-size: 13px; color: var(--primary-blue); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Based on 500+ student ratings</p>
             </div>
 
             <h2 class="section-title-gold">What <span>Parents Say</span> About Us</h2>
@@ -610,11 +615,11 @@
                     <div style="display: flex; color: #FFD700; gap: 4px; margin-bottom: 12px; font-size: 13px;">
                         ★★★★★
                     </div>
-                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main-dark); margin-bottom: 16px; font-style: italic;">
+                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main); margin-bottom: 16px; font-style: italic;">
                         "My son improved his focus and tournament confidence within 3 months."
                     </p>
-                    <div style="font-weight: 700; color: var(--gold-primary); font-size: 13px;">— Priya Sharma</div>
-                    <div style="font-size: 11px; color: var(--text-secondary-dark);">Parent of Aarav (Age 8)</div>
+                    <div style="font-weight: 700; color: var(--primary-navy); font-size: 13px;">— Priya Sharma</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">Parent of Aarav (Age 8)</div>
                 </div>
 
                 <!-- Review 2 -->
@@ -622,11 +627,11 @@
                     <div style="display: flex; color: #FFD700; gap: 4px; margin-bottom: 12px; font-size: 13px;">
                         ★★★★★
                     </div>
-                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main-dark); margin-bottom: 16px; font-style: italic;">
+                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main); margin-bottom: 16px; font-style: italic;">
                         "Best online chess coaching with personal attention."
                     </p>
-                    <div style="font-weight: 700; color: var(--gold-primary); font-size: 13px;">— Rahul Verma</div>
-                    <div style="font-size: 11px; color: var(--text-secondary-dark);">Parent of Kabir (Age 10)</div>
+                    <div style="font-weight: 700; color: var(--primary-navy); font-size: 13px;">— Rahul Verma</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">Parent of Kabir (Age 10)</div>
                 </div>
 
                 <!-- Review 3 -->
@@ -634,11 +639,11 @@
                     <div style="display: flex; color: #FFD700; gap: 4px; margin-bottom: 12px; font-size: 13px;">
                         ★★★★★
                     </div>
-                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main-dark); margin-bottom: 16px; font-style: italic;">
+                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main); margin-bottom: 16px; font-style: italic;">
                         "The coaches explain concepts very clearly for beginners."
                     </p>
-                    <div style="font-weight: 700; color: var(--gold-primary); font-size: 13px;">— Neha Gupta</div>
-                    <div style="font-size: 11px; color: var(--text-secondary-dark);">Parent of Diya (Age 6)</div>
+                    <div style="font-weight: 700; color: var(--primary-navy); font-size: 13px;">— Neha Gupta</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">Parent of Diya (Age 6)</div>
                 </div>
 
                 <!-- Review 4 -->
@@ -646,18 +651,18 @@
                     <div style="display: flex; color: #FFD700; gap: 4px; margin-bottom: 12px; font-size: 13px;">
                         ★★★★★
                     </div>
-                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main-dark); margin-bottom: 16px; font-style: italic;">
+                    <p style="font-size: 14px; line-height: 1.6; color: var(--text-main); margin-bottom: 16px; font-style: italic;">
                         "Excellent academy for FIDE tournament preparation."
                     </p>
-                    <div style="font-weight: 700; color: var(--gold-primary); font-size: 13px;">— Amit Jain</div>
-                    <div style="font-size: 11px; color: var(--text-secondary-dark);">Parent of Ryan (Age 12)</div>
+                    <div style="font-weight: 700; color: var(--primary-navy); font-size: 13px;">— Amit Jain</div>
+                    <div style="font-size: 11px; color: var(--text-secondary);">Parent of Ryan (Age 12)</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 3. HOW IT WORKS SECTION -->
-    <section class="section-padding-chess">
+    <section class="section-padding-chess" style="background: var(--bg-light-chess);">
         <div class="container">
             <h2 class="section-title-gold">How Our <span>Training Works</span></h2>
             <p class="section-sub-chess">A systematic, multi-phase curriculum path calibrated to guide child masters toward strategic mastery.</p>
@@ -666,48 +671,48 @@
                 <!-- Card 1 -->
                 <div class="how-card-chess">
                     <span class="how-step-num-gold">1</span>
-                    <i class="fa-solid fa-clipboard-check" style="font-size: 28px; color: var(--gold-primary); margin-bottom: 16px; display: block;"></i>
-                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF;">Skill Check</h3>
-                    <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5;">See where your child needs the most help in chess mechanics.</p>
+                    <i class="fa-solid fa-clipboard-check" style="font-size: 28px; color: var(--primary-blue); margin-bottom: 16px; display: block;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Skill Check</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">See where your child needs the most help in chess mechanics.</p>
                 </div>
 
                 <!-- Card 2 -->
                 <div class="how-card-chess">
                     <span class="how-step-num-gold">2</span>
-                    <i class="fa-solid fa-map-location-dot" style="font-size: 28px; color: var(--gold-primary); margin-bottom: 16px; display: block;"></i>
-                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF;">Custom Plan</h3>
-                    <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5;">We make a learning path just for their individual pacing.</p>
+                    <i class="fa-solid fa-map-location-dot" style="font-size: 28px; color: var(--primary-blue); margin-bottom: 16px; display: block;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Custom Plan</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">We make a learning path just for their individual pacing.</p>
                 </div>
 
                 <!-- Card 3 -->
                 <div class="how-card-chess">
                     <span class="how-step-num-gold">3</span>
-                    <i class="fa-solid fa-laptop-code" style="font-size: 28px; color: var(--gold-primary); margin-bottom: 16px; display: block;"></i>
-                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF;">Live Weekly Classes</h3>
-                    <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5;">Fun online & offline sessions with FIDE-rated tutors.</p>
+                    <i class="fa-solid fa-laptop-code" style="font-size: 28px; color: var(--primary-blue); margin-bottom: 16px; display: block;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Live Weekly Classes</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">Fun online & offline sessions with FIDE-rated tutors.</p>
                 </div>
 
                 <!-- Card 4 -->
                 <div class="how-card-chess">
                     <span class="how-step-num-gold">4</span>
-                    <i class="fa-solid fa-magnifying-glass-chart" style="font-size: 28px; color: var(--gold-primary); margin-bottom: 16px; display: block;"></i>
-                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF;">Game Reviews</h3>
-                    <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5;">We thoroughly analyze tactical matches and fix mistakes.</p>
+                    <i class="fa-solid fa-magnifying-glass-chart" style="font-size: 28px; color: var(--primary-blue); margin-bottom: 16px; display: block;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Game Reviews</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">We thoroughly analyze tactical matches and fix mistakes.</p>
                 </div>
 
                 <!-- Card 5 -->
                 <div class="how-card-chess">
                     <span class="how-step-num-gold">5</span>
-                    <i class="fa-solid fa-award" style="font-size: 28px; color: var(--gold-primary); margin-bottom: 16px; display: block;"></i>
-                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #FFFFFF;">Tournament Prep</h3>
-                    <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5;">Getting students psychologically ready for competitive awards.</p>
+                    <i class="fa-solid fa-award" style="font-size: 28px; color: var(--primary-blue); margin-bottom: 16px; display: block;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Tournament Prep</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">Getting students ready for competitive tourney settings.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 4. PROGRAMS SECTION (Tabs UI) -->
-    <section class="section-padding-chess" style="background: rgba(15,16,20,0.5);" id="programs">
+    <section class="section-padding-chess" style="background: var(--surface-chess);" id="programs">
         <div class="container">
             <h2 class="section-title-gold">Our Specialized <span>Chess Programs</span></h2>
             <p class="section-sub-chess">Select a program level to explore mapped topics, structures, and syllabus tracks.</p>
@@ -723,10 +728,10 @@
             <!-- 5. BEGINNERS PROGRAM -->
             <div id="prog-content-beginner" class="program-block" style="display: block;">
                 <div class="glass-card-dark" style="padding: 40px; border-radius: 16px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:rgba(212,175,55,0.1); color:var(--gold-primary); border:1px solid rgba(212,175,55,0.2);">Ages 5+ Welcome</span>
-                            <h3 style="font-size: 24px; color:#FFFFFF; margin-top:6px;">Foundation & Basics Curriculum</h3>
+                            <span class="badge" style="background:rgba(59, 130, 246, 0.15); color:var(--primary-navy); border:1px solid rgba(59, 130, 246, 0.3);">Ages 5+ Welcome</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Foundation & Basics Curriculum</h3>
                         </div>
                         <button onclick="openDownloadModal('Beginners')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-download"></i> Beginners Syllabus PDF
@@ -734,14 +739,14 @@
                     </div>
 
                     <!-- Benefits Bar -->
-                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; font-size: 13px; color: var(--text-gold-light); font-weight: 600;">
-                        <span><i class="fa-solid fa-check" style="color:var(--gold-primary);"></i> ✔ Beginner Friendly</span>
-                        <span><i class="fa-solid fa-check" style="color:var(--gold-primary);"></i> ✔ Structured Curriculum</span>
-                        <span><i class="fa-solid fa-check" style="color:var(--gold-primary);"></i> ✔ Puzzle Training</span>
-                        <span><i class="fa-solid fa-check" style="color:var(--gold-primary);"></i> ✔ Tournament Basics</span>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; font-size: 13px; color: var(--primary-navy); font-weight: 600;">
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Beginner Friendly</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Structured Curriculum</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Puzzle Training</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Tournament Basics</span>
                     </div>
 
-                    <p style="font-size:14px; color:var(--text-secondary-dark); line-height:1.6;">
+                    <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
                         This course starts from absolute scratch. Ideal for kids who are fresh to chess or know minimal board layout rules. We introduce interactive gamified puzzles to build immediate logical speed.
                     </p>
 
@@ -749,12 +754,12 @@
                     <div class="syllabus-accordion">
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Beginners Level 1 — Chessboard Foundations <span style="font-size:11px; font-weight:500; color:var(--gold-primary); margin-left:12px;">(Duration: 2 Months)</span></span>
+                                <span>🌟 Beginners Level 1 — Chessboard Foundations <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
-                                <ul style="padding-left:18px; margin-bottom:12px;">
-                                    <li>Chessboard basics: Files, ranks, diagonals, coordinates, and light-right rule.</li>
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square;">
+                                    <li>Chessboard basics: Files, ranks, diagonals, coordinates, and coordinates.</li>
                                     <li>Piece movements & values: Detailed moves of Pawns, Knights, Bishops, Rooks, Queens, Kings.</li>
                                     <li>Concept of Check & Escape: Move, Block, Capture rules.</li>
                                     <li>Checkmate patterns & Draw: Scholar's mate, stalemate, 50-move draws.</li>
@@ -766,11 +771,11 @@
 
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Beginners Level 2 — Basic Tactics & Captures <span style="font-size:11px; font-weight:500; color:var(--gold-primary); margin-left:12px;">(Duration: 2 Months)</span></span>
+                                <span>🌟 Beginners Level 2 — Basic Tactics & Captures <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
-                                <ul style="padding-left:18px; margin-bottom:12px;">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square;">
                                     <li>Introduction to Castling, Promotion, and En Passant.</li>
                                     <li>Primary Tactical Weapons: Forks, Skewers, Pins.</li>
                                     <li>Piece Trades: Safe captures vs. bad trades.</li>
@@ -782,11 +787,11 @@
 
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Beginners Level 3 — Endgame Basics <span style="font-size:11px; font-weight:500; color:var(--gold-primary); margin-left:12px;">(Duration: 2 Months)</span></span>
+                                <span>🌟 Beginners Level 3 — Endgame Basics <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
-                                <ul style="padding-left:18px; margin-bottom:12px;">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square;">
                                     <li>King and Queen vs. Lone King Checkmate mechanics.</li>
                                     <li>Double Rook & Single Rook Checkmate patterns.</li>
                                     <li>Introduction to Pawn Promotion endgames.</li>
@@ -801,11 +806,11 @@
 
             <!-- 6. INTERMEDIATE PROGRAM -->
             <div id="prog-content-intermediate" class="program-block" style="display: none;">
-                <div class="glass-card-dark" style="padding: 40px; border-radius: 16px; border-color: rgba(212,175,55,0.25);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:20px;">
+                <div class="glass-card-dark" style="padding: 40px; border-radius: 16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:rgba(212,175,55,0.1); color:var(--gold-primary); border:1px solid rgba(212,175,55,0.2);">Rating: 800 - 1200 Elo</span>
-                            <h3 style="font-size: 24px; color:#FFFFFF; margin-top:6px;">Tactics & Strategy Syllabus</h3>
+                            <span class="badge" style="background:rgba(59, 130, 246, 0.15); color:var(--primary-navy); border:1px solid rgba(59, 130, 246, 0.3);">Rating: 800 - 1200 Elo</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Tactics & Strategy Syllabus</h3>
                         </div>
                         <button onclick="openDownloadModal('Intermediate')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-download"></i> Intermediate Syllabus PDF
@@ -813,19 +818,19 @@
                     </div>
 
                     <!-- Highlights -->
-                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; font-size: 13px; color: var(--text-gold-light); font-weight: 600;">
-                        <span><i class="fa-solid fa-shield" style="color:var(--gold-primary);"></i> ✔ Tactical Calculation</span>
-                        <span><i class="fa-solid fa-chess-board" style="color:var(--gold-primary);"></i> ✔ Opening Principles</span>
-                        <span><i class="fa-solid fa-trophy" style="color:var(--gold-primary);"></i> ✔ Tournament Preparation</span>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; font-size: 13px; color: var(--primary-navy); font-weight: 600;">
+                        <span><i class="fa-solid fa-shield" style="color:var(--primary-blue);"></i> ✔ Tactical Calculation</span>
+                        <span><i class="fa-solid fa-chess-board" style="color:var(--primary-blue);"></i> ✔ Opening Principles</span>
+                        <span><i class="fa-solid fa-trophy" style="color:var(--primary-blue);"></i> ✔ Tournament Preparation</span>
                     </div>
 
-                    <p style="font-size:14px; color:var(--text-secondary-dark); line-height:1.6; margin-bottom: 20px;">
+                    <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom: 20px;">
                         Designed for students who are fluent with chess board rules and basic mate-in-1 concepts. This premium module covers tactical planning, chess openings theory, defense strategies, and middle-game spatial structures.
                     </p>
 
-                    <div style="background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02);">
-                        <h4 style="font-size:15px; color:#FFFFFF; margin-bottom:12px; font-weight:700;"><i class="fa-solid fa-circle-play" style="color:var(--gold-primary); margin-right:6px;"></i> Core Strategy Modules Included:</h4>
-                        <ul style="padding-left: 20px; font-size: 13px; color: var(--text-secondary-dark); display: flex; flex-direction: column; gap: 8px;">
+                    <div style="background: var(--bg-light-chess); padding: 20px; border-radius: 8px; border: 1px solid var(--border-light);">
+                        <h4 style="font-size:15px; color: var(--text-main); margin-bottom:12px; font-weight:700;"><i class="fa-solid fa-circle-play" style="color:var(--primary-blue); margin-right:6px;"></i> Core Strategy Modules Included:</h4>
+                        <ul style="padding-left: 20px; font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
                             <li><strong>Openings Mastery:</strong> Italian Game, Ruy Lopez, Sicilian Defense principles.</li>
                             <li><strong>Tactical Drills:</strong> Windmills, Double Checks, Decoys, Deflection.</li>
                             <li><strong>Strategic Endgames:</strong> Pawn structures, King activity, Opposition rules.</li>
@@ -838,32 +843,32 @@
             <!-- 7. ADVANCED PROGRAM -->
             <div id="prog-content-advanced" class="program-block" style="display: none;">
                 <div class="glass-card-dark" style="padding: 40px; border-radius: 16px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:rgba(212,175,55,0.1); color:var(--gold-primary); border:1px solid rgba(212,175,55,0.2);">Rating: 1200+ Elo</span>
-                            <h3 style="font-size: 24px; color:#FFFFFF; margin-top:6px;">Tournament Players Curriculum</h3>
+                            <span class="badge" style="background:rgba(59, 130, 246, 0.15); color:var(--primary-navy); border:1px solid rgba(59, 130, 246, 0.3);">Rating: 1200+ Elo</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Tournament Players Curriculum</h3>
                         </div>
                         <button onclick="openDownloadModal('Advanced')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-download"></i> Advanced Syllabus PDF
                         </button>
                     </div>
 
-                    <p style="font-size:14px; color:var(--text-secondary-dark); line-height:1.6; margin: 24px 0 20px;">
-                        <strong style="color:var(--gold-primary);">Designed for serious tournament players.</strong> Accelerates calculations, deep tactical combinations, master-level openings preparation, and precise endgame profiles.
+                    <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin: 24px 0 20px;">
+                        <strong style="color:var(--primary-blue);">Designed for serious tournament players.</strong> Accelerates calculations, deep tactical combinations, master-level openings preparation, and precise endgame profiles.
                     </p>
 
                     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div style="background:var(--surface-chess-light); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.02);">
-                            <h4 style="font-size:14px; color:#FFFFFF; margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-brain" style="color:var(--gold-primary); margin-right:6px;"></i> Strategic Concepts</h4>
-                            <p style="font-size:12px; color:var(--text-secondary-dark);">Prophylaxis, weak squares control, piece exchange strategy, pawn storms.</p>
+                        <div style="background:var(--bg-light-chess); padding:20px; border-radius:8px; border:1px solid var(--border-light);">
+                            <h4 style="font-size:14px; color: var(--text-main); margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-brain" style="color:var(--primary-blue); margin-right:6px;"></i> Strategic Concepts</h4>
+                            <p style="font-size:12px; color:var(--text-secondary);">Prophylaxis, weak squares control, piece exchange strategy, pawn storms.</p>
                         </div>
-                        <div style="background:var(--surface-chess-light); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.02);">
-                            <h4 style="font-size:14px; color:#FFFFFF; margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-hourglass-half" style="color:var(--gold-primary); margin-right:6px;"></i> Endgame Training</h4>
-                            <p style="font-size:12px; color:var(--text-secondary-dark);">Lucena position, Philidor position, Rook vs Bishop, advanced pawn breaks.</p>
+                        <div style="background:var(--bg-light-chess); padding:20px; border-radius:8px; border:1px solid var(--border-light);">
+                            <h4 style="font-size:14px; color: var(--text-main); margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-hourglass-half" style="color:var(--primary-blue); margin-right:6px;"></i> Endgame Training</h4>
+                            <p style="font-size:12px; color:var(--text-secondary);">Lucena position, Philidor position, Rook vs Bishop, advanced pawn breaks.</p>
                         </div>
-                        <div style="background:var(--surface-chess-light); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.02);">
-                            <h4 style="font-size:14px; color:#FFFFFF; margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-swords" style="color:var(--gold-primary); margin-right:6px;"></i> FIDE Prep</h4>
-                            <p style="font-size:12px; color:var(--text-secondary-dark);">Pre-tournament psychological preparation, opening repertoire mapping, clock pressure drills.</p>
+                        <div style="background:var(--bg-light-chess); padding:20px; border-radius:8px; border:1px solid var(--border-light);">
+                            <h4 style="font-size:14px; color: var(--text-main); margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-award" style="color:var(--primary-blue); margin-right:6px;"></i> FIDE Prep</h4>
+                            <p style="font-size:12px; color:var(--text-secondary);">Pre-tournament psychological preparation, opening repertoire mapping, clock pressure drills.</p>
                         </div>
                     </div>
                 </div>
@@ -871,40 +876,40 @@
 
             <!-- 8. FIDE RATING PROGRAM -->
             <div id="prog-content-fide" class="program-block" style="display: none;">
-                <div class="glass-card-dark" style="padding: 40px; border-radius: 16px; border:1px solid var(--gold-primary) !important;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:20px;">
+                <div class="glass-card-dark" style="padding: 40px; border-radius: 16px; border: 1px solid var(--primary-blue) !important;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:var(--gold-gradient); color:#07080A; font-weight:800;">1-on-1 FIDE Prep</span>
-                            <h3 style="font-size: 24px; color:#FFFFFF; margin-top:6px;">Personalized FIDE Rating Training</h3>
+                            <span class="badge" style="background:var(--blue-gradient); color:#FFFFFF; font-weight:800;">1-on-1 FIDE Prep</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Personalized FIDE Rating Training</h3>
                         </div>
                         <button onclick="openDownloadModal('FIDE Rating')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-download"></i> FIDE Rating Syllabus PDF
                         </button>
                     </div>
 
-                    <h4 style="font-size: 16px; color: var(--gold-primary); font-weight: 700; margin: 24px 0 12px; text-transform: uppercase; letter-spacing:0.05em;">
+                    <h4 style="font-size: 16px; color: var(--primary-navy); font-weight: 700; margin: 24px 0 12px; text-transform: uppercase; letter-spacing:0.05em;">
                         🌟 Highlight: Dedicated 1-on-1 Coaching with Higher Rated FIDE Masters
                     </h4>
-                    <p style="font-size:14px; color:var(--text-secondary-dark); line-height:1.6; margin-bottom: 25px;">
+                    <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom: 25px;">
                         Our FIDE Rating training is deeply personalized. We do not run group classrooms. You are matched with international masters who analyze your game statistics, detect logical blind spots, and curate openings explicitly designed for you.
                     </p>
 
                     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
-                        <div style="border-left: 2px solid var(--gold-primary); padding-left: 14px;">
-                            <h5 style="color:#FFFFFF; font-size:14px; font-weight:700;">Opening Preparation</h5>
-                            <p style="font-size:12px; color:var(--text-secondary-dark); margin-top:4px;">Custom repertoire matching your cognitive style.</p>
+                        <div style="border-left: 2px solid var(--primary-blue); padding-left: 14px;">
+                            <h5 style="color: var(--text-main); font-size:14px; font-weight:700;">Opening Preparation</h5>
+                            <p style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Custom repertoire matching your cognitive style.</p>
                         </div>
-                        <div style="border-left: 2px solid var(--gold-primary); padding-left: 14px;">
-                            <h5 style="color:#FFFFFF; font-size:14px; font-weight:700;">Middlegame Planning</h5>
-                            <p style="font-size:12px; color:var(--text-secondary-dark); margin-top:4px;">Evaluating piece dynamics & tactical vision.</p>
+                        <div style="border-left: 2px solid var(--primary-blue); padding-left: 14px;">
+                            <h5 style="color: var(--text-main); font-size:14px; font-weight:700;">Middlegame Planning</h5>
+                            <p style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Evaluating piece dynamics & tactical vision.</p>
                         </div>
-                        <div style="border-left: 2px solid var(--gold-primary); padding-left: 14px;">
-                            <h5 style="color:#FFFFFF; font-size:14px; font-weight:700;">Tournament Psychology</h5>
-                            <p style="font-size:12px; color:var(--text-secondary-dark); margin-top:4px;">Time management & handling high-stakes games.</p>
+                        <div style="border-left: 2px solid var(--primary-blue); padding-left: 14px;">
+                            <h5 style="color: var(--text-main); font-size:14px; font-weight:700;">Tournament Psychology</h5>
+                            <p style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Time management & handling high-stakes games.</p>
                         </div>
-                        <div style="border-left: 2px solid var(--gold-primary); padding-left: 14px;">
-                            <h5 style="color:#FFFFFF; font-size:14px; font-weight:700;">Endgame Technique</h5>
-                            <p style="font-size:12px; color:var(--text-secondary-dark); margin-top:4px;">Flawless conversion of winning advantage positions.</p>
+                        <div style="border-left: 2px solid var(--primary-blue); padding-left: 14px;">
+                            <h5 style="color: var(--text-main); font-size:14px; font-weight:700;">Endgame Technique</h5>
+                            <p style="font-size:12px; color:var(--text-secondary); margin-top:4px;">Flawless conversion of winning advantage positions.</p>
                         </div>
                     </div>
                 </div>
@@ -914,25 +919,25 @@
     </section>
 
     <!-- 10. COACHES SECTION -->
-    <section class="section-padding-chess">
+    <section class="section-padding-chess" style="background: var(--bg-light-chess);">
         <div class="container">
             <h2 class="section-title-gold">Learn from <span>Experienced Chess Coaches</span></h2>
             <p class="section-sub-chess">Mentorship matters. Learn FIDE-rated strategies from international masters and youth team champions.</p>
 
             <div class="coaches-grid-chess">
                 <!-- Coach 1 -->
-                <div class="coach-card-chess">
+                <div class="coach-card-chess text-main">
                     <div class="coach-img-wrapper">
                         <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80" alt="FM Vikram Sen">
                         <span class="coach-badge-gold">FIDE Master (FM)</span>
                     </div>
                     <div style="padding: 24px;">
-                        <h3 style="font-size: 18px; color: #FFFFFF; font-weight: 700; margin-bottom: 6px;">FM Vikram Sen</h3>
-                        <p style="color: var(--gold-primary); font-size: 12px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> FIDE Rating: 2310 | 12+ Yrs Exp</p>
-                        <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5; margin-bottom: 16px;">
+                        <h3 style="font-size: 18px; color: var(--text-main); font-weight: 700; margin-bottom: 6px;">FM Vikram Sen</h3>
+                        <p style="color: var(--primary-blue); font-size: 12px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> FIDE Rating: 2310 | 12+ Yrs Exp</p>
+                        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
                             Former National Youth Champion. Dedicated to intermediate and FIDE rated opening preparation techniques.
                         </p>
-                        <div style="font-size: 11px; font-weight: 600; color: var(--text-gold-light);"><i class="fa-solid fa-award"></i> Trained 50+ rated junior players</div>
+                        <div style="font-size: 11px; font-weight: 600; color: var(--primary-navy);"><i class="fa-solid fa-award"></i> Trained 50+ rated junior players</div>
                     </div>
                 </div>
 
@@ -943,12 +948,12 @@
                         <span class="coach-badge-gold">WGM Candidate</span>
                     </div>
                     <div style="padding: 24px;">
-                        <h3 style="font-size: 18px; color: #FFFFFF; font-weight: 700; margin-bottom: 6px;">WFM Ananya Rao</h3>
-                        <p style="color: var(--gold-primary); font-size: 12px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> FIDE Rating: 2180 | 8+ Yrs Exp</p>
-                        <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5; margin-bottom: 16px;">
+                        <h3 style="font-size: 18px; color: var(--text-main); font-weight: 700; margin-bottom: 6px;">WFM Ananya Rao</h3>
+                        <p style="color: var(--primary-blue); font-size: 12px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> FIDE Rating: 2180 | 8+ Yrs Exp</p>
+                        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
                             Highly patient specialist for beginner children. Integrates logical game-building techniques through fun storyboards.
                         </p>
-                        <div style="font-size: 11px; font-weight: 600; color: var(--text-gold-light);"><i class="fa-solid fa-award"></i> WIM norms holder | Beginner Specialist</div>
+                        <div style="font-size: 11px; font-weight: 600; color: var(--primary-navy);"><i class="fa-solid fa-award"></i> WIM norms holder | Beginner Specialist</div>
                     </div>
                 </div>
 
@@ -959,12 +964,12 @@
                         <span class="coach-badge-gold">Elite Coach</span>
                     </div>
                     <div style="padding: 24px;">
-                        <h3 style="font-size: 18px; color: #FFFFFF; font-weight: 700; margin-bottom: 6px;">Coach Rahul Dev</h3>
-                        <p style="color: var(--gold-primary); font-size: 12px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> FIDE Rating: 2050 | 10+ Yrs Exp</p>
-                        <p style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.5; margin-bottom: 16px;">
+                        <h3 style="font-size: 18px; color: var(--text-main); font-weight: 700; margin-bottom: 6px;">Coach Rahul Dev</h3>
+                        <p style="color: var(--primary-blue); font-size: 12px; font-weight: 700; margin-bottom: 12px;"><i class="fa-solid fa-chess-knight"></i> FIDE Rating: 2050 | 10+ Yrs Exp</p>
+                        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
                             Expert tactical endgame planner. Specialized in improving spatial calculations and tactical checkmate puzzle solving.
                         </p>
-                        <div style="font-size: 11px; font-weight: 600; color: var(--text-gold-light);"><i class="fa-solid fa-award"></i> Chief arbiter & strategic tactician</div>
+                        <div style="font-size: 11px; font-weight: 600; color: var(--primary-navy);"><i class="fa-solid fa-award"></i> Chief arbiter & strategic tactician</div>
                     </div>
                 </div>
             </div>
@@ -972,23 +977,23 @@
     </section>
 
     <!-- 9. DOWNLOAD SYLLABUS SECTION -->
-    <section class="section-padding-chess" style="background: rgba(15,16,20,0.5);" id="download-syllabus">
+    <section class="section-padding-chess" style="background: var(--surface-chess);" id="download-syllabus">
         <div class="container">
             <div class="download-box">
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <i class="fa-solid fa-file-pdf" style="font-size: 48px; color: var(--gold-primary); margin-bottom: 16px; filter: drop-shadow(0 2px 10px rgba(212,175,55,0.3));"></i>
-                    <h2 style="font-size: 26px; color:#FFFFFF; font-weight:800; margin-bottom:8px;">Download Complete Chess Syllabus</h2>
-                    <p style="font-size: 13px; color: var(--text-secondary-dark);">Get detailed curriculum blueprints for all levels in PDF format.</p>
+                    <i class="fa-solid fa-file-pdf" style="font-size: 48px; color: var(--primary-blue); margin-bottom: 16px; filter: drop-shadow(0 2px 10px rgba(59,130,246,0.25));"></i>
+                    <h2 style="font-size: 26px; color: var(--text-main); font-weight:800; margin-bottom:8px;">Download Complete Chess Syllabus</h2>
+                    <p style="font-size: 13px; color: var(--text-secondary);">Get detailed curriculum blueprints for all levels in PDF format.</p>
                 </div>
 
                 <form id="syllabus-lead-form" onsubmit="handleLeadSubmit(event)">
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
                         <div>
-                            <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:6px; text-transform:uppercase;">Parent Name *</label>
+                            <label style="display:block; font-size:11px; font-weight:700; color: var(--text-secondary); margin-bottom:6px; text-transform:uppercase;">Parent Name *</label>
                             <input type="text" id="lead-name" class="form-control-chess" placeholder="e.g. Rahul Sharma" required>
                         </div>
                         <div>
-                            <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:6px; text-transform:uppercase;">Child Age *</label>
+                            <label style="display:block; font-size:11px; font-weight:700; color: var(--text-secondary); margin-bottom:6px; text-transform:uppercase;">Child Age *</label>
                             <select id="lead-age" class="form-control-chess" required>
                                 <option value="" disabled selected>Select age</option>
                                 <option value="4-6">4 - 6 Years</option>
@@ -1000,11 +1005,11 @@
                     </div>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
                         <div>
-                            <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:6px; text-transform:uppercase;">Phone Number *</label>
+                            <label style="display:block; font-size:11px; font-weight:700; color: var(--text-secondary); margin-bottom:6px; text-transform:uppercase;">Phone Number *</label>
                             <input type="tel" id="lead-phone" class="form-control-chess" placeholder="e.g. 9876543210" required>
                         </div>
                         <div>
-                            <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:6px; text-transform:uppercase;">Email Address *</label>
+                            <label style="display:block; font-size:11px; font-weight:700; color: var(--text-secondary); margin-bottom:6px; text-transform:uppercase;">Email Address *</label>
                             <input type="email" id="lead-email" class="form-control-chess" placeholder="e.g. parent@gmail.com" required>
                         </div>
                     </div>
@@ -1014,15 +1019,15 @@
                     </button>
                 </form>
 
-                <p style="font-size:11px; color:var(--text-secondary-dark); text-align:center; margin-top:15px; line-height:1.4;">
-                    <i class="fa-solid fa-lock" style="color:var(--gold-primary); margin-right:4px;"></i> By downloading, you consent to receive simulated automated class booking notifications & syllabus emails.
+                <p style="font-size:11px; color:var(--text-muted-light); text-align:center; margin-top:15px; line-height:1.4;">
+                    <i class="fa-solid fa-lock" style="color:var(--primary-blue); margin-right:4px;"></i> By downloading, you consent to receive simulated automated class booking notifications & syllabus emails.
                 </p>
             </div>
         </div>
     </section>
 
     <!-- 11. WHY CHOOSE US -->
-    <section class="section-padding-chess">
+    <section class="section-padding-chess" style="background: var(--bg-light-chess);">
         <div class="container">
             <h2 class="section-title-gold">Why <span>Choose Paras Chess</span></h2>
             <p class="section-sub-chess">A high-performance environment designed to bring out peak focus and sportsmanship.</p>
@@ -1031,64 +1036,64 @@
                 <div class="why-card-chess">
                     <i class="fa-solid fa-medal"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">FIDE Rated Coaches</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Learn strategic tactics directly from FIDE international masters.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">FIDE Rated Coaches</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Learn strategic tactics directly from FIDE international masters.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-user-check"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Personalized Training</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Strictly 1-on-1 session structure designed matching student speeds.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Personalized Training</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Strictly 1-on-1 session structure designed matching student speeds.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-chess"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Weekly Practice</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Weekly live tourneys and practice games on global portals.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Weekly Practice</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Weekly live tourneys and practice games on global portals.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-route"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Tournament Guidance</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">End-to-end guidance to acquire official ratings fast.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Tournament Guidance</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">End-to-end guidance to acquire official ratings fast.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-house-laptop"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Online & Offline Classes</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Learn from the comfort of home or attend elite physical classes.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Online & Offline Classes</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Learn from the comfort of home or attend elite physical classes.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-record-vinyl"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Recorded Sessions</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Rewind, pause, and review past coaching sessions anytime.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Recorded Sessions</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Rewind, pause, and review past coaching sessions anytime.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-chart-pie"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Game Analysis</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Detailed game post-mortems checking tactical accuracy.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Game Analysis</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Detailed game post-mortems checking tactical accuracy.</p>
                     </div>
                 </div>
 
                 <div class="why-card-chess">
                     <i class="fa-solid fa-wallet"></i>
                     <div>
-                        <h4 style="color:#FFFFFF; font-size:15px; font-weight:700; margin-bottom:4px;">Affordable Fees</h4>
-                        <p style="font-size:12px; color:var(--text-secondary-dark); line-height:1.5;">Top-tier mentorship packages fitting every family budget.</p>
+                        <h4 style="color: var(--text-main); font-size:15px; font-weight:700; margin-bottom:4px;">Affordable Fees</h4>
+                        <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">Top-tier mentorship packages fitting every family budget.</p>
                     </div>
                 </div>
             </div>
@@ -1096,7 +1101,7 @@
     </section>
 
     <!-- 12. FAQ SECTION -->
-    <section class="section-padding-chess" style="background: rgba(15,16,20,0.5);" id="faqs">
+    <section class="section-padding-chess" style="background: var(--surface-chess);" id="faqs">
         <div class="container" style="max-width:800px;">
             <h2 class="section-title-gold">Frequently Asked <span>Questions</span></h2>
             <p class="section-sub-chess">Find instant answers to questions regarding trial formats and tournament guidance.</p>
@@ -1161,19 +1166,19 @@
     </section>
 
     <!-- 13. FINAL CTA SECTION -->
-    <section class="section-padding-chess" style="background: radial-gradient(circle at center, #161822 0%, #07080A 100%);">
+    <section class="section-padding-chess" style="background: radial-gradient(circle at center, #1E3A8A 0%, #0F172A 100%);">
         <div class="container" style="text-align: center; max-width: 800px; padding: 40px 24px;">
-            <i class="fa-solid fa-chess-queen" style="font-size: 48px; color: var(--gold-primary); margin-bottom: 24px; filter: drop-shadow(0 2px 12px var(--gold-glow));"></i>
+            <i class="fa-solid fa-chess-queen" style="font-size: 48px; color: #FFFFFF; margin-bottom: 24px; filter: drop-shadow(0 2px 12px rgba(255,255,255,0.25));"></i>
             <h2 style="font-size: 34px; font-weight: 800; color: #FFFFFF; margin-bottom: 16px;">Start Your Child’s Chess Journey Today</h2>
-            <p style="font-size: 15px; color: var(--text-secondary-dark); line-height: 1.6; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 15px; color: #E2E8F0; line-height: 1.6; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto;">
                 Unlock focus, logic, and a permanent international rating roadmap. Book a free 1-on-1 assessment demo lesson with our elite coaches.
             </p>
             
             <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                <button onclick="openBookingDrawer()" class="btn btn-primary btn-gold">
+                <button onclick="openBookingDrawer()" class="btn btn-primary" style="background:#FFFFFF; color:#1E3A8A; font-weight:700; border:none; box-shadow:0 4px 15px rgba(255,255,255,0.2);">
                     🎯 Book Free Demo
                 </button>
-                <button onclick="openDownloadModal()" class="btn btn-secondary btn-outline-gold">
+                <button onclick="openDownloadModal()" class="btn btn-secondary btn-outline-gold" style="color:#FFFFFF !important; border-color:rgba(255,255,255,0.4) !important;">
                     📥 Download Syllabus
                 </button>
                 <a href="https://wa.me/919876543210?text=Hi,%20I'm%20interested%20in%20enrolling%20my%20child%20in%20Paras%20Chess%20Academy.%20Please%20provide%20demo%20details." target="_blank" class="btn" style="background:#25D366; color:#FFFFFF; border:none; font-weight:700;">
@@ -1184,21 +1189,21 @@
     </section>
 
     <!-- 14. FOOTER -->
-    <footer class="footer" style="background: #090A0D; border-top: 1px solid var(--gold-border); padding: 60px 0 30px;">
+    <footer class="footer" style="background: #0F172A; border-top: 1px solid var(--border-light); padding: 60px 0 30px;">
         <div class="container">
             <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-bottom: 40px;">
                 <div>
                     <a href="index.html" class="logo" style="display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:20px; color:#FFF; margin-bottom:16px;">
-                        <i class="fa-solid fa-chess-knight" style="color: var(--gold-primary);"></i>
+                        <i class="fa-solid fa-chess-knight" style="color: var(--primary-blue);"></i>
                         Paras Chess<span>Academy</span>
                     </a>
-                    <p class="footer-desc" style="font-size: 13px; color: var(--text-secondary-dark); line-height: 1.6;">
+                    <p class="footer-desc" style="font-size: 13px; color: #94A3B8; line-height: 1.6;">
                         Elite international academy shaping the grandmasters of tomorrow, one move at a time. Empowering cognitive brain development via professional chess methodologies.
                     </p>
                 </div>
                 <div>
                     <h4 class="footer-title" style="font-size: 15px; color: #FFFFFF; font-weight: 700; margin-bottom: 20px;">Quick Programs</h4>
-                    <ul class="footer-links" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--text-secondary-dark);">
+                    <ul class="footer-links" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #94A3B8;">
                         <li><a href="#programs" onclick="switchProgram('beginner')">Beginners Course</a></li>
                         <li><a href="#programs" onclick="switchProgram('intermediate')">Intermediate Course</a></li>
                         <li><a href="#programs" onclick="switchProgram('advanced')">Advanced Mastery</a></li>
@@ -1207,24 +1212,24 @@
                 </div>
                 <div>
                     <h4 class="footer-title" style="font-size: 15px; color: #FFFFFF; font-weight: 700; margin-bottom: 20px;">Contact Us</h4>
-                    <p style="color:var(--text-secondary-dark); font-size:13px; margin-bottom: 8px;"><i class="fa-solid fa-envelope" style="color:var(--gold-primary); margin-right:6px;"></i> support@parashchess.com</p>
-                    <p style="color:var(--text-secondary-dark); font-size:13px; margin-bottom: 8px;"><i class="fa-solid fa-phone" style="color:var(--gold-primary); margin-right:6px;"></i> +91 98765 43210</p>
-                    <p style="color:var(--text-secondary-dark); font-size:13px;"><i class="fa-solid fa-location-dot" style="color:var(--gold-primary); margin-right:6px;"></i> 12, Elite Sports Complex, Sector 4, Bangalore, India</p>
+                    <p style="color:#94A3B8; font-size:13px; margin-bottom: 8px;"><i class="fa-solid fa-envelope" style="color:var(--primary-blue); margin-right:6px;"></i> support@parashchess.com</p>
+                    <p style="color:#94A3B8; font-size:13px; margin-bottom: 8px;"><i class="fa-solid fa-phone" style="color:var(--primary-blue); margin-right:6px;"></i> +91 98765 43210</p>
+                    <p style="color:#94A3B8; font-size:13px;"><i class="fa-solid fa-location-dot" style="color:var(--primary-blue); margin-right:6px;"></i> 12, Elite Sports Complex, Sector 4, Bangalore, India</p>
                 </div>
                 <div>
                     <h4 class="footer-title" style="font-size: 15px; color: #FFFFFF; font-weight: 700; margin-bottom: 20px;">Locations Served</h4>
-                    <p style="color:var(--text-secondary-dark); font-size:13px; line-height: 1.5;">
+                    <p style="color:#94A3B8; font-size:13px; line-height: 1.5;">
                         🏆 Offline Hubs in Bangalore, Mumbai & Delhi.<br>
                         🌍 Online FIDE classes serving USA, India, UK, Singapore, UAE, and 20+ countries.
                     </p>
                 </div>
             </div>
             
-            <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 12px; color: var(--text-secondary-dark);">
+            <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #94A3B8;">
                 <p>&copy; 2026 Paras Chess Academy. All Rights Reserved.</p>
                 <div style="display:flex; gap:16px;">
-                    <a href="#" style="hover:color:var(--gold-primary);">Privacy Policy</a>
-                    <a href="#" style="hover:color:var(--gold-primary);">Terms of Service</a>
+                    <a href="#" style="hover:color:var(--primary-blue);">Privacy Policy</a>
+                    <a href="#" style="hover:color:var(--primary-blue);">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -1246,19 +1251,19 @@
     <!-- Lead Syllabus Modal Popup -->
     <div class="modal-overlay-chess" id="syllabus-modal" onclick="closeDownloadModal()">
         <div class="modal-card-chess" onclick="event.stopPropagation()">
-            <span onclick="closeDownloadModal()" style="position:absolute; top:15px; right:20px; font-size:24px; color:var(--text-secondary-dark); cursor:pointer;">&times;</span>
+            <span onclick="closeDownloadModal()" style="position:absolute; top:15px; right:20px; font-size:24px; color:var(--text-muted-light); cursor:pointer;">&times;</span>
             <div style="text-align: center; margin-bottom: 20px;">
-                <i class="fa-solid fa-file-pdf" style="font-size: 38px; color: var(--gold-primary); margin-bottom: 8px;"></i>
-                <h3 style="font-size:20px; color:#FFFFFF; font-weight:700;">Download Chess Syllabus</h3>
-                <p style="font-size:12px; color:var(--text-secondary-dark);" id="modal-syllabus-subtitle">Access structured lessons blueprint instantly</p>
+                <i class="fa-solid fa-file-pdf" style="font-size: 38px; color: var(--primary-blue); margin-bottom: 8px;"></i>
+                <h3 style="font-size:20px; color:var(--text-main); font-weight:700;">Download Chess Syllabus</h3>
+                <p style="font-size:12px; color:var(--text-secondary);" id="modal-syllabus-subtitle">Access structured lessons blueprint instantly</p>
             </div>
             <form onsubmit="handleModalLeadSubmit(event)">
                 <div style="margin-bottom:12px;">
-                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:4px;">PARENT NAME *</label>
+                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:4px;">PARENT NAME *</label>
                     <input type="text" id="modal-lead-name" class="form-control-chess" placeholder="e.g. Priyesh Sharma" required>
                 </div>
                 <div style="margin-bottom:12px;">
-                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:4px;">CHILD AGE *</label>
+                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:4px;">CHILD AGE *</label>
                     <select id="modal-lead-age" class="form-control-chess" required>
                         <option value="" disabled selected>Select child's age</option>
                         <option value="4-6">4 - 6 Years</option>
@@ -1268,11 +1273,11 @@
                     </select>
                 </div>
                 <div style="margin-bottom:12px;">
-                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:4px;">WHATSAPP NUMBER *</label>
+                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:4px;">WHATSAPP NUMBER *</label>
                     <input type="tel" id="modal-lead-phone" class="form-control-chess" placeholder="10-digit number" required>
                 </div>
                 <div style="margin-bottom:20px;">
-                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-gold-light); margin-bottom:4px;">EMAIL ADDRESS *</label>
+                    <label style="display:block; font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:4px;">EMAIL ADDRESS *</label>
                     <input type="email" id="modal-lead-email" class="form-control-chess" placeholder="parent@gmail.com" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-gold" style="width: 100%; height: 48px; border-radius: 8px;">
@@ -1284,10 +1289,10 @@
 
     <!-- Success Toast Alert -->
     <div class="toast-chess" id="success-toast">
-        <i class="fa-solid fa-circle-check" style="color:var(--gold-primary); font-size: 20px;"></i>
+        <i class="fa-solid fa-circle-check" style="color:var(--primary-blue); font-size: 20px;"></i>
         <div>
             <h4 style="font-size:13px; font-weight:700; margin:0;" id="toast-title">Lead Saved Successfully!</h4>
-            <p style="font-size:11px; color:var(--text-secondary-dark); margin:0;" id="toast-desc">Simulating download process...</p>
+            <p style="font-size:11px; color:var(--text-secondary); margin:0;" id="toast-desc">Simulating download process...</p>
         </div>
     </div>
 
@@ -1656,6 +1661,7 @@ Book your Free Trial 1-on-1 Class at: https://demochesse.vercel.app/`;
             URL.revokeObjectURL(url);
         }
 
+        // Form submits handlers
         function handleLeadSubmit(event) {
             event.preventDefault();
             const name = document.getElementById('lead-name').value;
