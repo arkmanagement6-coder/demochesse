@@ -71,7 +71,69 @@ class Auth {
             buttonGroup.appendChild(ctaBtn);
         }
 
-        if (this.session) {
+        const currentPath = window.location.pathname.split("/").pop() || "index.html";
+        const isHomePage = currentPath === "index.html" || currentPath === "";
+
+        if (isHomePage) {
+            // Keep home page extremely clean and clear of all center menu options
+            navLinks.innerHTML = '';
+            navLinks.style.display = 'none';
+            
+            // Still manage action buttons on the right
+            if (buttonGroup) {
+                if (this.session) {
+                    // Hide outline Login button if present
+                    const loginBtn = document.getElementById('nav-login-btn');
+                    if (loginBtn) loginBtn.style.display = 'none';
+
+                    if (this.session.role === 'student') {
+                        ctaBtn.style.display = 'inline-block';
+                        ctaBtn.innerText = "Enter Classroom";
+                        ctaBtn.href = "student.html";
+                        ctaBtn.className = "btn btn-primary";
+                    } else if (this.session.role === 'admin') {
+                        ctaBtn.style.display = 'inline-block';
+                        ctaBtn.innerText = "Admin Panel";
+                        ctaBtn.href = "admin.html";
+                        ctaBtn.className = "btn btn-primary";
+                    } else if (this.session.role === 'teacher') {
+                        ctaBtn.style.display = 'inline-block';
+                        ctaBtn.innerText = "Coach Portal";
+                        ctaBtn.href = "teacher.html";
+                        ctaBtn.className = "btn btn-primary";
+                    } else {
+                        ctaBtn.style.display = 'none';
+                    }
+                } else {
+                    ctaBtn.style.display = 'inline-block';
+                    ctaBtn.innerText = "Book Free Class";
+                    ctaBtn.href = "book.html";
+                    ctaBtn.className = "btn btn-primary";
+
+                    let loginBtn = document.getElementById('nav-login-btn');
+                    if (!loginBtn) {
+                        loginBtn = document.createElement('a');
+                        loginBtn.id = 'nav-login-btn';
+                        loginBtn.href = 'login.html';
+                        loginBtn.className = 'btn btn-secondary';
+                        loginBtn.style.padding = '10px 20px';
+                        loginBtn.style.fontSize = '14px';
+                        loginBtn.style.textDecoration = 'none';
+                        loginBtn.style.display = 'inline-flex';
+                        loginBtn.style.alignItems = 'center';
+                        loginBtn.style.gap = '6px';
+                        loginBtn.style.borderRadius = '8px';
+                        loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
+                        
+                        // Insert Login button before Book Free Class button
+                        buttonGroup.insertBefore(loginBtn, ctaBtn);
+                    } else {
+                        loginBtn.style.display = 'inline-flex';
+                    }
+                }
+            }
+        } else if (this.session) {
+            navLinks.style.display = 'flex';
             // Logged in State
             let dashboardLink = "index.html";
             if (this.session.role === 'admin') dashboardLink = "admin.html";
@@ -110,6 +172,7 @@ class Auth {
                 }
             }
         } else {
+            navLinks.style.display = 'flex';
             // Logged out State
             navLinks.innerHTML = `
                 <li><a href="index.html">Home</a></li>
@@ -125,7 +188,6 @@ class Auth {
                 ctaBtn.className = "btn btn-primary";
 
                 // Add outline Login button dynamically
-                const currentPath = window.location.pathname.split("/").pop() || "index.html";
                 if (currentPath === "login.html") {
                     const loginBtn = document.getElementById('nav-login-btn');
                     if (loginBtn) loginBtn.style.display = 'none';
