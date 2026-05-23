@@ -191,6 +191,12 @@ document.head.appendChild(style);
 // ----------------------------------------------------
 class NotificationCenter {
     static init() {
+        // Only initialize on secure dashboard portal pages
+        const path = window.location.pathname.toLowerCase();
+        if (!path.includes("admin.html") && !path.includes("teacher.html") && !path.includes("student.html")) {
+            return;
+        }
+
         // Prevent double insertion
         if (document.getElementById("notif-drawer-container")) return;
 
