@@ -1609,12 +1609,17 @@ button, input, select, textarea {
 
 @media (max-width: 768px) {
     .header {
-        padding: 16px 0;
+        padding: 12px 0;
     }
     .header-container {
-        flex-direction: column;
-        gap: 14px;
-        text-align: center;
+        flex-direction: row !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        gap: 12px !important;
+        text-align: left;
+    }
+    .logo {
+        margin-right: auto !important;
     }
     .nav-links {
         justify-content: center;
