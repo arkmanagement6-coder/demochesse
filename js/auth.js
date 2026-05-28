@@ -36,9 +36,14 @@ class Auth {
     }
 
     static logout() {
+        const currentRole = this.session ? this.session.role : null;
         localStorage.removeItem("chess_active_session");
         this.session = null;
-        window.location.href = "login.html";
+        if (currentRole === 'admin' || currentRole === 'teacher') {
+            window.location.href = "portal.html";
+        } else {
+            window.location.href = "login.html";
+        }
     }
 
     static protect(roleRequired) {
@@ -46,7 +51,11 @@ class Auth {
             this.session = JSON.parse(localStorage.getItem("chess_active_session"));
         }
         if (!this.session || this.session.role !== roleRequired) {
-            window.location.href = "login.html";
+            if (roleRequired === 'admin' || roleRequired === 'teacher') {
+                window.location.href = "portal.html";
+            } else {
+                window.location.href = "login.html";
+            }
         }
     }
 
@@ -177,8 +186,8 @@ class Auth {
             navLinks.innerHTML = `
                 <li><a href="index.html">Home</a></li>
                 <li><a href="book.html">Book Demo</a></li>
-                <li><a href="login.html">Admin Hub</a></li>
-                <li><a href="login.html">Teacher Portal</a></li>
+                <li><a href="portal.html">Admin Hub</a></li>
+                <li><a href="portal.html">Teacher Portal</a></li>
             `;
             
             if (buttonGroup) {
@@ -188,7 +197,7 @@ class Auth {
                 ctaBtn.className = "btn btn-primary";
 
                 // Add outline Login button dynamically
-                if (currentPath === "login.html") {
+                if (currentPath === "login.html" || currentPath === "portal.html") {
                     const loginBtn = document.getElementById('nav-login-btn');
                     if (loginBtn) loginBtn.style.display = 'none';
                 } else {

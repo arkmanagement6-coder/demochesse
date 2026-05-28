@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parash Chess Academy | Student Login</title>
+    <title>Parash Chess Academy | Staff Portal</title>
     <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="css/style.css">
     <!-- FontAwesome Vector Icons CDN -->
@@ -124,9 +124,14 @@
         
         <div class="glass-card login-card">
             <div style="margin-bottom: 30px;">
-                <i class="fa-solid fa-graduation-cap" style="font-size: 36px; color: var(--primary); margin-bottom: 15px; filter: drop-shadow(0 4px 12px var(--primary-glow));"></i>
-                <h2 style="font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px;">Student Portal</h2>
-                <p style="font-size: 14px; color: var(--text-secondary);">Enter your credentials to access your classroom and diagnostics</p>
+                <i class="fa-solid fa-user-shield" style="font-size: 36px; color: var(--primary); margin-bottom: 15px; filter: drop-shadow(0 4px 12px var(--primary-glow));"></i>
+                <h2 style="font-size: 24px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px;">Staff Portal</h2>
+                <p style="font-size: 14px; color: var(--text-secondary);">Academy operations & coaching hub</p>
+            </div>
+            
+            <div class="role-selector" id="role-selector">
+                <button type="button" class="role-btn active" data-role="teacher">Coach</button>
+                <button type="button" class="role-btn" data-role="admin">Admin</button>
             </div>
             
             <div id="login-error">Invalid email or password. Please try again.</div>
@@ -134,7 +139,7 @@
             <form id="login-form">
                 <div class="login-form-group">
                     <label>Email Address</label>
-                    <input type="email" id="login-email" class="login-input" placeholder="student@example.com" required>
+                    <input type="email" id="login-email" class="login-input" placeholder="coach@example.com" required>
                 </div>
                 <div class="login-form-group">
                     <label>Password</label>
@@ -150,18 +155,22 @@
             <div style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed var(--border-color); text-align: left;">
                 <h4 style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i>
-                    <span>Quick Login Helper (Student Testing)</span>
+                    <span>Quick Login Helper (Staff Testing)</span>
                 </h4>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <button type="button" class="btn btn-secondary quick-fill-btn" data-role="student" data-email="kabir.mehta@gmail.com" data-pass="student123" style="width: 100%; padding: 8px 12px; font-size: 11px; justify-content: flex-start; text-align: left; background: rgba(108,76,245,0.03); border: 1px solid var(--border-color); border-radius: 6px;">
-                        <i class="fa-solid fa-user-graduate" style="margin-right: 6px; width: 14px;"></i>
-                        <span>Student Kabir (kabir.mehta@gmail.com / student123)</span>
+                    <button type="button" class="btn btn-secondary quick-fill-btn" data-role="teacher" data-email="aarav@parashchess.com" data-pass="teacher123" style="width: 100%; padding: 8px 12px; font-size: 11px; justify-content: flex-start; text-align: left; background: rgba(108,76,245,0.03); border: 1px solid var(--border-color); border-radius: 6px;">
+                        <i class="fa-solid fa-user-tie" style="margin-right: 6px; width: 14px;"></i>
+                        <span>Coach Aarav (aarav@parashchess.com / teacher123)</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary quick-fill-btn" data-role="admin" data-email="admin@parashchess.com" data-pass="admin123" style="width: 100%; padding: 8px 12px; font-size: 11px; justify-content: flex-start; text-align: left; background: rgba(108,76,245,0.03); border: 1px solid var(--border-color); border-radius: 6px;">
+                        <i class="fa-solid fa-user-gear" style="margin-right: 6px; width: 14px;"></i>
+                        <span>Admin (admin@parashchess.com / admin123)</span>
                     </button>
                 </div>
             </div>
             
             <div style="margin-top: 25px; font-size: 13px; color: var(--text-muted);">
-                Trouble logging in? <a href="#" style="color: var(--primary);">Contact Student Support</a>
+                Trouble logging in? <a href="#" style="color: var(--primary);">Contact Tech Operations</a>
             </div>
         </div>
     </div>
@@ -169,6 +178,6 @@
     <!-- Scripts -->
     <script src="js/db.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/login.js"></script>
+    <script src="js/portal-login.js"></script>
 </body>
 </html>
