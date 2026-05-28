@@ -4,15 +4,15 @@
 
 /* Color Variables & Global Styles */
 :root {
-    --primary: #6C4CF1;
-    --primary-hover: #5A3CDA;
-    --primary-glow: rgba(108, 76, 245, 0.15);
+    --primary: #D11A2A;
+    --primary-hover: #B21524;
+    --primary-glow: rgba(209, 26, 42, 0.15);
     --secondary: #F3F4F6;
     --accent: #22C55E;
     --accent-glow: rgba(34, 197, 94, 0.1);
     --bg-dark: #F9FAFB;
     --bg-card: rgba(255, 255, 255, 0.85);
-    --border-color: rgba(108, 76, 245, 0.08);
+    --border-color: rgba(209, 26, 42, 0.08);
     --text-primary: #111827;
     --text-secondary: #4B5563;
     --text-muted: #9CA3AF;
@@ -21,7 +21,7 @@
     --radius-sm: 8px;
     --radius-md: 16px;
     --radius-lg: 24px;
-    --shadow-glow: 0 10px 30px rgba(108, 76, 241, 0.08);
+    --shadow-glow: 0 10px 30px rgba(209, 26, 42, 0.08);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -50,7 +50,7 @@ body::before {
     top: -200px;
     left: 50%;
     transform: translateX(-50%);
-    background: radial-gradient(circle, rgba(108, 76, 241, 0.06) 0%, rgba(108, 76, 241, 0) 70%);
+    background: radial-gradient(circle, rgba(209, 26, 42, 0.06) 0%, rgba(209, 26, 42, 0) 70%);
     z-index: -1;
     pointer-events: none;
 }
@@ -81,7 +81,7 @@ button, input, select, textarea {
     background: var(--bg-dark);
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(108, 76, 241, 0.3);
+    background: rgba(209, 26, 42, 0.3);
     border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -110,23 +110,23 @@ button, input, select, textarea {
     overflow: hidden;
 }
 .glass-card:hover {
-    border-color: rgba(108, 76, 241, 0.2);
-    box-shadow: 0 12px 40px rgba(108, 76, 241, 0.08);
+    border-color: rgba(209, 26, 42, 0.2);
+    box-shadow: 0 12px 40px rgba(209, 26, 42, 0.08);
 }
 
 .glass-card.interactive:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 40px 0 rgba(108, 76, 241, 0.15);
+    box-shadow: 0 12px 40px 0 rgba(209, 26, 42, 0.15);
 }
 
 /* Text Gradients */
 .text-gradient {
-    background: linear-gradient(135deg, #111827 30%, #6C4CF1 100%);
+    background: linear-gradient(135deg, #111827 30%, #D11A2A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .text-gradient-primary {
-    background: linear-gradient(135deg, #6C4CF1 0%, #4F46E5 100%);
+    background: linear-gradient(135deg, #D11A2A 0%, #0F172A 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -226,7 +226,7 @@ button, input, select, textarea {
 }
 
 .logo-img {
-    height: 58px;
+    height: 72px;
     width: auto;
     object-fit: contain;
     vertical-align: middle;
@@ -266,14 +266,14 @@ button, input, select, textarea {
 .hero-tag {
     display: inline-block;
     padding: 6px 16px;
-    background: rgba(108, 76, 241, 0.1);
+    background: rgba(209, 26, 42, 0.1);
     color: #A78BFA;
-    border: 1px solid rgba(108, 76, 241, 0.25);
+    border: 1px solid rgba(209, 26, 42, 0.25);
     border-radius: 50px;
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 24px;
-    box-shadow: 0 0 15px rgba(108, 76, 241, 0.1);
+    box-shadow: 0 0 15px rgba(209, 26, 42, 0.1);
 }
 
 .hero-title {
@@ -345,7 +345,7 @@ button, input, select, textarea {
 .benefit-icon {
     width: 64px;
     height: 64px;
-    background: rgba(108, 76, 241, 0.1);
+    background: rgba(209, 26, 42, 0.1);
     color: var(--primary);
     border-radius: 50%;
     display: inline-flex;
@@ -353,8 +353,8 @@ button, input, select, textarea {
     justify-content: center;
     margin-bottom: 24px;
     font-size: 24px;
-    box-shadow: 0 0 20px rgba(108, 76, 241, 0.1) inset;
-    border: 1px solid rgba(108, 76, 241, 0.2);
+    box-shadow: 0 0 20px rgba(209, 26, 42, 0.1) inset;
+    border: 1px solid rgba(209, 26, 42, 0.2);
 }
 
 .benefit-card h3 {
@@ -399,7 +399,7 @@ button, input, select, textarea {
 .step-num {
     font-size: 40px;
     font-weight: 800;
-    color: rgba(108, 76, 241, 0.2);
+    color: rgba(209, 26, 42, 0.2);
     font-family: var(--font-heading);
     margin-bottom: 10px;
 }
@@ -681,7 +681,7 @@ button, input, select, textarea {
 
 .form-control:focus {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.05);
+    background: rgba(209, 26, 42, 0.05);
     box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
@@ -708,7 +708,7 @@ button, input, select, textarea {
 
 .option-card.selected {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.05);
+    background: rgba(209, 26, 42, 0.05);
     box-shadow: 0 0 15px var(--primary-glow);
 }
 
@@ -839,7 +839,7 @@ button, input, select, textarea {
 
 .slot-card.selected {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.08);
+    background: rgba(209, 26, 42, 0.08);
 }
 
 .slot-card.full {
@@ -886,7 +886,7 @@ button, input, select, textarea {
 
 .price-card.selected {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.05);
+    background: rgba(209, 26, 42, 0.05);
     box-shadow: 0 0 20px var(--primary-glow);
 }
 
@@ -956,8 +956,8 @@ button, input, select, textarea {
 }
 
 .pay-btn.selected {
-    border-color: #3B82F6;
-    background: rgba(59, 130, 246, 0.05);
+    border-color: var(--primary);
+    background: var(--primary-glow);
 }
 
 .pay-logo {
@@ -1129,7 +1129,7 @@ button, input, select, textarea {
 
 .rationale-container.active .rationale-header {
     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    border-color: rgba(108, 76, 241, 0.4);
+    border-color: rgba(209, 26, 42, 0.4);
 }
 
 .decision-log-list {
@@ -1192,7 +1192,7 @@ button, input, select, textarea {
 }
 
 .sidebar-link:hover, .sidebar-link.active {
-    background: rgba(108, 76, 241, 0.1);
+    background: rgba(209, 26, 42, 0.1);
     color: var(--primary);
 }
 
@@ -1374,9 +1374,9 @@ button, input, select, textarea {
 }
 
 .action-icon-btn:hover {
-    background: rgba(108, 76, 241, 0.1);
+    background: rgba(209, 26, 42, 0.1);
     color: var(--primary);
-    border-color: rgba(108, 76, 241, 0.4);
+    border-color: rgba(209, 26, 42, 0.4);
 }
 
 /* Modals */
@@ -1630,7 +1630,7 @@ button, input, select, textarea {
         margin-right: auto !important;
     }
     .logo-img {
-        height: 46px !important;
+        height: 54px !important;
     }
     .nav-links {
         justify-content: center;
@@ -1920,7 +1920,7 @@ button, input, select, textarea {
     max-width: 780px;
     background: #FFFFFF;
     border-radius: 24px; /* Premium fully rounded corners */
-    box-shadow: 0 20px 50px rgba(108, 76, 241, 0.15);
+    box-shadow: 0 20px 50px rgba(209, 26, 42, 0.15);
     z-index: 1001;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-sizing: border-box;
@@ -1976,7 +1976,7 @@ button, input, select, textarea {
 }
 .drawer-progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary) 0%, #3B82F6 100%);
+    background: linear-gradient(90deg, var(--primary) 0%, #0F172A 100%);
     border-radius: 3px;
     transition: width 0.4s ease;
 }
@@ -2043,7 +2043,7 @@ button, input, select, textarea {
 .drawer-input:focus {
     border-color: var(--primary);
     background-color: #FFFFFF;
-    box-shadow: 0 0 0 3px rgba(108, 76, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(209, 26, 42, 0.1);
 }
 
 /* Step 1 Split elements side-card */
@@ -2110,12 +2110,12 @@ button, input, select, textarea {
 }
 .drawer-goal-card:hover {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.02);
+    background: rgba(209, 26, 42, 0.02);
 }
 .drawer-goal-card.selected {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.04);
-    box-shadow: 0 4px 15px rgba(108, 76, 241, 0.06);
+    background: rgba(209, 26, 42, 0.04);
+    box-shadow: 0 4px 15px rgba(209, 26, 42, 0.06);
 }
 .goal-checkbox {
     width: 18px;
@@ -2189,7 +2189,7 @@ button, input, select, textarea {
     border-color: var(--primary);
     background: var(--primary);
     color: #FFFFFF;
-    box-shadow: 0 4px 15px rgba(108, 76, 241, 0.2);
+    box-shadow: 0 4px 15px rgba(209, 26, 42, 0.2);
 }
 .date-pill .day-name {
     font-size: 10px;
@@ -2269,7 +2269,7 @@ button, input, select, textarea {
 }
 .drawer-slot-pill.selected {
     border-color: var(--primary);
-    background: rgba(108, 76, 241, 0.05);
+    background: rgba(209, 26, 42, 0.05);
     color: var(--primary);
     box-shadow: 0 0 0 1px var(--primary);
 }
@@ -2327,7 +2327,7 @@ button, input, select, textarea {
     border-radius: 8px;
 }
 .mobile-nav-toggle:hover {
-    background: rgba(108, 76, 241, 0.05);
+    background: rgba(209, 26, 42, 0.05);
     color: var(--primary);
 }
 
