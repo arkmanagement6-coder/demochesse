@@ -226,7 +226,7 @@ button, input, select, textarea {
 }
 
 .logo-img {
-    height: 40px;
+    height: 58px;
     width: auto;
     object-fit: contain;
     vertical-align: middle;
@@ -1630,7 +1630,7 @@ button, input, select, textarea {
         margin-right: auto !important;
     }
     .logo-img {
-        height: 32px !important;
+        height: 46px !important;
     }
     .nav-links {
         justify-content: center;
