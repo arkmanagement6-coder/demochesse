@@ -225,6 +225,14 @@ button, input, select, textarea {
     font-family: var(--font-heading);
 }
 
+.logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    vertical-align: middle;
+    transition: var(--transition);
+}
+
 .logo svg {
     color: var(--primary);
     filter: drop-shadow(0 0 8px var(--primary));
@@ -1620,6 +1628,9 @@ button, input, select, textarea {
     }
     .logo {
         margin-right: auto !important;
+    }
+    .logo-img {
+        height: 32px !important;
     }
     .nav-links {
         justify-content: center;
