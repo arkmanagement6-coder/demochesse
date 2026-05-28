@@ -486,9 +486,6 @@
                 <ul class="nav-links"></ul>
             </nav>
             <div style="display:flex; align-items:center; gap:12px;">
-                <a href="login.html" class="btn btn-secondary btn-outline-gold" style="padding: 10px 20px; font-size:14px;" id="nav-login-btn">
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
-                </a>
                 <button onclick="openBookingDrawer()" class="btn btn-primary btn-gold" style="padding: 10px 20px; font-size:14px;" id="nav-cta-btn">Book Free Class</button>
             </div>
         </div>
@@ -1227,7 +1224,10 @@
             
             <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 12px; color: #94A3B8;">
                 <p>&copy; 2026 Paras Chess Academy. All Rights Reserved.</p>
-                <div style="display:flex; gap:16px;">
+                <div style="display:flex; gap:16px; align-items:center;">
+                    <a href="login.html" style="color:#94A3B8; text-decoration:none; transition:var(--transition);" onmouseover="this.style.color='var(--primary-blue)'" onmouseout="this.style.color='#94A3B8'">Student Login</a>
+                    <a href="portal.html" style="color:#94A3B8; text-decoration:none; transition:var(--transition);" onmouseover="this.style.color='var(--primary-blue)'" onmouseout="this.style.color='#94A3B8'">Staff Portal</a>
+                    <span style="color:rgba(255,255,255,0.15)">|</span>
                     <a href="#" style="hover:color:var(--primary-blue);">Privacy Policy</a>
                     <a href="#" style="hover:color:var(--primary-blue);">Terms of Service</a>
                 </div>

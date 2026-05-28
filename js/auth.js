@@ -119,26 +119,9 @@ class Auth {
                     ctaBtn.href = "book.html";
                     ctaBtn.className = "btn btn-primary";
 
-                    let loginBtn = document.getElementById('nav-login-btn');
-                    if (!loginBtn) {
-                        loginBtn = document.createElement('a');
-                        loginBtn.id = 'nav-login-btn';
-                        loginBtn.href = 'login.html';
-                        loginBtn.className = 'btn btn-secondary';
-                        loginBtn.style.padding = '10px 20px';
-                        loginBtn.style.fontSize = '14px';
-                        loginBtn.style.textDecoration = 'none';
-                        loginBtn.style.display = 'inline-flex';
-                        loginBtn.style.alignItems = 'center';
-                        loginBtn.style.gap = '6px';
-                        loginBtn.style.borderRadius = '8px';
-                        loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
-                        
-                        // Insert Login button before Book Free Class button
-                        buttonGroup.insertBefore(loginBtn, ctaBtn);
-                    } else {
-                        loginBtn.style.display = 'inline-flex';
-                    }
+                    // Hide outline Login button on the homepage
+                    const loginBtn = document.getElementById('nav-login-btn');
+                    if (loginBtn) loginBtn.style.display = 'none';
                 }
             }
         } else if (this.session) {

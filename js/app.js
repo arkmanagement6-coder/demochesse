@@ -49,6 +49,15 @@ function highlightActiveNavLink() {
 
 // Dynamic Hamburger Mobile Nav Injection & Handler
 function setupMobileNav() {
+    // Do not render or display hamburger menu on the landing page
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    const isHomePage = currentPath === "index.html" || currentPath === "";
+    if (isHomePage) {
+        const toggle = document.getElementById("mobile-toggle");
+        if (toggle) toggle.style.display = 'none';
+        return;
+    }
+
     const headerContainer = document.querySelector(".header-container");
     if (!headerContainer) return;
     
