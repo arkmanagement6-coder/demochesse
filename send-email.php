@@ -3,6 +3,119 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
+// Diagnostic error logger
+function log_smtp_error($msg) {
+    file_put_contents("email-errors.log", "[" . date("Y-m-d H:i:s") . "] " . $msg . "\n", FILE_APPEND);
+}
+
+function send_smtp_email($to, $subject, $body_html, $from_email, $password) {
+    $smtp_server = "ssl://smtp.hostinger.com";
+    $port = 465;
+    
+    // Connect via secure socket
+    $socket = @fsockopen($smtp_server, $port, $errno, $errstr, 15);
+    if (!$socket) {
+        log_smtp_error("Connection failed: $errstr ($errno)");
+        return false;
+    }
+    
+    function read_response($socket) {
+        $response = "";
+        while ($str = fgets($socket, 515)) {
+            $response .= $str;
+            if (substr($str, 3, 1) == " ") {
+                break;
+            }
+        }
+        return $response;
+    }
+    
+    $greeting = read_response($socket);
+    if (strpos($greeting, "220") === false) {
+        log_smtp_error("Greeting failed: $greeting");
+        fclose($socket);
+        return false;
+    }
+    
+    // EHLO
+    fwrite($socket, "EHLO paraschessacademy.com\r\n");
+    $ehlo = read_response($socket);
+    
+    // AUTH LOGIN
+    fwrite($socket, "AUTH LOGIN\r\n");
+    $auth = read_response($socket);
+    if (strpos($auth, "334") === false) {
+        log_smtp_error("AUTH LOGIN initiation failed: $auth");
+        fclose($socket);
+        return false;
+    }
+    
+    // Send Username
+    fwrite($socket, base64_encode($from_email) . "\r\n");
+    $user_resp = read_response($socket);
+    if (strpos($user_resp, "334") === false) {
+        log_smtp_error("Username rejected: $user_resp");
+        fclose($socket);
+        return false;
+    }
+    
+    // Send Password
+    fwrite($socket, base64_encode($password) . "\r\n");
+    $pass_resp = read_response($socket);
+    if (strpos($pass_resp, "235") === false) {
+        log_smtp_error("Password rejected / authentication failed: $pass_resp");
+        fclose($socket);
+        return false;
+    }
+    
+    // MAIL FROM
+    fwrite($socket, "MAIL FROM: <$from_email>\r\n");
+    $from_resp = read_response($socket);
+    
+    // RCPT TO
+    fwrite($socket, "RCPT TO: <$to>\r\n");
+    $to_resp = read_response($socket);
+    if (strpos($to_resp, "250") === false && strpos($to_resp, "251") === false) {
+        log_smtp_error("Recipient rejected: $to_resp");
+        fclose($socket);
+        return false;
+    }
+    
+    // DATA
+    fwrite($socket, "DATA\r\n");
+    $data_resp = read_response($socket);
+    if (strpos($data_resp, "354") === false) {
+        log_smtp_error("DATA command rejected: $data_resp");
+        fclose($socket);
+        return false;
+    }
+    
+    // Construct standard headers and payload
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Paras Chess Academy <" . $from_email . ">\r\n";
+    $headers .= "Reply-To: " . $from_email . "\r\n";
+    $headers .= "Subject: " . $subject . "\r\n";
+    $headers .= "To: " . $to . "\r\n";
+    
+    $email_payload = $headers . "\r\n" . $body_html . "\r\n.\r\n";
+    
+    fwrite($socket, $email_payload);
+    $send_resp = read_response($socket);
+    if (strpos($send_resp, "250") === false) {
+        log_smtp_error("Failed to deliver body payload: $send_resp");
+        fclose($socket);
+        return false;
+    }
+    
+    // QUIT
+    fwrite($socket, "QUIT\r\n");
+    read_response($socket);
+    fclose($socket);
+    
+    return true;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Get the JSON data
     $json = file_get_contents("php://input");
@@ -20,17 +133,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    // Email to the Candidate (Syllabus PDF email)
-    $to = $email;
     $from = "support@paraschessacademy.com";
-    $subject = "Your Paras Chess Academy Syllabus - $levelName Program";
+    $password = "Paras@2709@";
 
-    // Email content with syllabus overview and direct download link
+    // 1. Email Content for the Candidate
+    $subject = "Your Paras Chess Academy Syllabus - $levelName Program";
     $message = "
     <html>
-    <head>
-        <title>Your Paras Chess Academy Syllabus</title>
-    </head>
     <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
         <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
             <div style='text-align: center; margin-bottom: 20px;'>
@@ -64,16 +173,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </html>
     ";
 
-    // HTML Headers
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: Paras Chess Academy <" . $from . ">" . "\r\n";
-    $headers .= "Reply-To: " . $from . "\r\n";
+    // Send to candidate using SMTP
+    $mailSent = send_smtp_email($email, $subject, $message, $from, $password);
 
-    // Send syllabus to candidate
-    $mailSent = mail($to, $subject, $message, $headers);
+    if (!$mailSent) {
+        log_smtp_error("Syllabus dispatch failed to send to $email.");
+    }
 
-    // Email to Admin/Owner as Lead Notification
+    // 2. Email Content for Admin (Notification Lead)
     $adminTo = "paraschessacademy@gmail.com";
     $adminSubject = "New Lead: Syllabus Requested by $name";
     $adminMessage = "
@@ -89,17 +196,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </body>
     </html>
     ";
-    $adminHeaders = "MIME-Version: 1.0" . "\r\n";
-    $adminHeaders .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $adminHeaders .= "From: Lead Generator <" . $from . ">" . "\r\n";
-    
-    mail($adminTo, $adminSubject, $adminMessage, $adminHeaders);
+
+    // Send to Admin using SMTP
+    $adminMailSent = send_smtp_email($adminTo, $adminSubject, $adminMessage, $from, $password);
+    if (!$adminMailSent) {
+        log_smtp_error("Lead notification failed to send to $adminTo.");
+    }
 
     if ($mailSent) {
         echo json_encode(["status" => "success", "message" => "Syllabus sent successfully to your email."]);
     } else {
         http_response_code(500);
-        echo json_encode(["status" => "error", "message" => "Failed to send email."]);
+        echo json_encode(["status" => "error", "message" => "Failed to deliver email via Hostinger SMTP. Checked diagnostics logs."]);
     }
 } else {
     http_response_code(405);
