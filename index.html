@@ -1540,7 +1540,9 @@
         }
 
         // Lead Modal Popup triggers
+        let currentSyllabusLevel = "Complete";
         function openDownloadModal(levelName = "Complete") {
+            currentSyllabusLevel = levelName;
             const modal = document.getElementById('syllabus-modal');
             const subtitle = document.getElementById('modal-syllabus-subtitle');
             if (subtitle) {
@@ -1554,21 +1556,49 @@
             modal.style.display = 'none';
         }
 
-        // Lead capture localStorage helpers & dummy file triggers
-        function captureLead(name, age, phone, email) {
+        // Lead capture localStorage helpers & email dispatch
+        function captureLead(name, age, phone, email, levelName = "Complete") {
             const existingLeads = JSON.parse(localStorage.getItem("chess_syllabus_leads")) || [];
             existingLeads.push({
                 name,
                 age,
                 phone,
                 email,
+                levelName,
                 timestamp: new Date().toISOString()
             });
             localStorage.setItem("chess_syllabus_leads", JSON.stringify(existingLeads));
             
-            // Simulating email dispatch
-            console.log("Simulating sending syllabus PDF to " + email);
-            showToast("Syllabus Sent to Email!", "The complete chess syllabus has been sent to " + email + ". Priya Sharma will also reach out on WhatsApp shortly!");
+            // Show sending loader
+            showToast("Sending Email...", "Sending the complete syllabus to " + email + "...");
+            
+            // Send email via PHP Backend
+            fetch('send-email.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    age: age,
+                    levelName: levelName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showToast("Syllabus Sent to Email!", "The complete chess syllabus has been sent to " + email + ". Priya Sharma will also reach out on WhatsApp shortly!");
+                } else {
+                    showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
+                }
+            })
+            .catch(error => {
+                console.error('Error sending email:', error);
+                // Fallback success notification in case of local offline testing
+                showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
+            });
         }
 
         function triggerDummySyllabusDownload(name, age) {
@@ -1625,7 +1655,7 @@ Book your Free Trial 1-on-1 Class at: https://demochesse.vercel.app/`;
             const phone = document.getElementById('lead-phone').value;
             const email = document.getElementById('lead-email').value;
             
-            captureLead(name, age, phone, email);
+            captureLead(name, age, phone, email, "Complete");
             event.target.reset();
         }
 
@@ -1636,7 +1666,7 @@ Book your Free Trial 1-on-1 Class at: https://demochesse.vercel.app/`;
             const phone = document.getElementById('modal-lead-phone').value;
             const email = document.getElementById('modal-lead-email').value;
             
-            captureLead(name, age, phone, email);
+            captureLead(name, age, phone, email, currentSyllabusLevel);
             closeDownloadModal();
             event.target.reset();
         }
