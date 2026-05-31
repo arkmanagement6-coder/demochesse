@@ -175,8 +175,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
             <div style='max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
                 <div style='text-align: center; margin-bottom: 25px;'>
-                    <h2 style='color: #D11A2A; margin: 0;'>🏆 Paras Chess Academy</h2>
-                    <p style='color: #16A34A; font-weight: bold; font-size: 18px; margin-top: 5px;'>✓ Demo Booking Confirmed!</p>
+                    <h2 style='color: #D11A2A; margin: 0;'>Paras Chess Academy</h2>
+                    <p style='color: #16A34A; font-weight: bold; font-size: 18px; margin-top: 5px;'>Demo Booking Confirmed!</p>
                 </div>
                 
                 <p>Dear <strong>$parentName</strong>,</p>
@@ -206,7 +206,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <!-- Portal Credentials Card -->
                 <div style='background: #FFFBEB; padding: 20px; border-radius: 8px; border: 1px solid #FDE68A; margin: 20px 0;'>
-                    <h4 style='color: #D97706; margin-top: 0; margin-bottom: 10px;'>🔑 Student Portal Credentials</h4>
+                    <h4 style='color: #D97706; margin-top: 0; margin-bottom: 10px;'>Student Portal Credentials</h4>
                     <p style='margin: 0 0 10px 0; font-size: 13px;'>We have created a student portal account for your child. Log in to track progress, access worksheets, and join future sessions.</p>
                     <table style='width: 100%; font-size: 13px;'>
                         <tr>
@@ -269,7 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (strpos(strtolower($levelName), "begin") !== false) {
             $pdfFilename = "syllabus-beginners.pdf";
             $syllabusDetailsHTML = "
-            <h3 style='margin-top: 0; color: #0F172A;'>♟️ Beginners Chess Program Syllabus</h3>
+            <h3 style='margin-top: 0; color: #0F172A;'>Beginners Chess Program Syllabus</h3>
             <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Foundations (2-3 Months)</p>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
                 <li>Introduction to the Chessboard (Squares, files, ranks, diagonals, notations)</li>
@@ -295,7 +295,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif (strpos(strtolower($levelName), "inter") !== false) {
             $pdfFilename = "syllabus-intermediate.pdf";
             $syllabusDetailsHTML = "
-            <h3 style='margin-top: 0; color: #0F172A;'>♟️ Intermediate Chess Program Syllabus</h3>
+            <h3 style='margin-top: 0; color: #0F172A;'>Intermediate Chess Program Syllabus</h3>
             <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Tactical Vision & Major Openings (6 Months)</p>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
                 <li>Tactical Training (Mate in 2, Mate in 3, Double Attack, Fork, Pin, Skewer Level 2)</li>
@@ -312,7 +312,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif (strpos(strtolower($levelName), "advan") !== false) {
             $pdfFilename = "syllabus-advanced.pdf";
             $syllabusDetailsHTML = "
-            <h3 style='margin-top: 0; color: #0F172A;'>♟️ Advanced Chess Program Syllabus</h3>
+            <h3 style='margin-top: 0; color: #0F172A;'>Advanced Chess Program Syllabus</h3>
             <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Advanced Strategic & Tactical Concepts (6 Months)</p>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
                 <li>Positional & Strategic calculation to improve calculation and practical play</li>
@@ -335,7 +335,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // FIDE Rating or Complete
             $pdfFilename = "syllabus-fide.pdf";
             $syllabusDetailsHTML = "
-            <h3 style='margin-top: 0; color: #0F172A;'>🏆 Personalized FIDE Rating Training Outline</h3>
+            <h3 style='margin-top: 0; color: #0F172A;'>Personalized FIDE Rating Training Outline</h3>
             <p style='font-size: 14px; color: #475569; font-weight: bold; margin-bottom: 5px;'>Dedicated 1-on-1 Coaching with Higher Rated FIDE Masters</p>
             <p style='font-size: 13px; line-height: 1.5; color: #475569; margin: 0 0 10px 0;'>Our FIDE Rating training is deeply personalized. You are matched with international masters who analyze your game statistics, detect logical blind spots, and curate openings explicitly designed for you.</p>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
@@ -353,7 +353,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
             <div style='max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
                 <div style='text-align: center; margin-bottom: 25px;'>
-                    <h2 style='color: #D11A2A; margin: 0;'>🏆 Paras Chess Academy</h2>
+                    <h2 style='color: #D11A2A; margin: 0;'>Paras Chess Academy</h2>
                     <p style='font-size: 16px; font-weight: bold; color: #0F172A; margin-top: 5px;'>Hello $name,</p>
                 </div>
                 <p>Thank you for your interest in <strong>Paras Chess Academy</strong>. As requested, we have prepared and attached the detailed chess curriculum outline for your child below:</p>
@@ -365,7 +365,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <p style='margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: bold; color: #0F172A;'>Ready to experience our world-class teaching firsthand?</p>
                 <div style='text-align: center; margin-bottom: 25px;'>
-                    <a href='https://paraschessacademy.com/book.html' style='background: #D11A2A; color: white; padding: 14px 30px; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 12px rgba(209, 26, 42, 0.25); display: inline-block; font-size: 15px;'>📅 Book a FREE 1-on-1 Chess Class Now</a>
+                    <a href='https://paraschessacademy.com/book.html' style='background: #D11A2A; color: white; padding: 14px 30px; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 12px rgba(209, 26, 42, 0.25); display: inline-block; font-size: 15px;'>Book a FREE 1-on-1 Chess Class Now</a>
                 </div>
 
                 <hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>
