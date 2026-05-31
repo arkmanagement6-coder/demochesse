@@ -570,6 +570,7 @@ class AdminController {
                         <div style="display:flex; gap:6px;">
                             <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:${phoneBtnBg}; border-color:transparent; color:${phoneBtnColor};" title="${phoneBtnTitle}" onclick="AdminController.toggleTeacherPhoneAccess('${t.id}')">${phoneBtnIcon} Phone</button>
                             <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(255,255,255,0.1); border-color:transparent;" title="Edit Coach" onclick="AdminController.editTeacher('${t.id}')">✏️ Edit</button>
+                            <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(245,158,11,0.1); border-color:transparent; color:#f59e0b;" title="Reset Password" onclick="AdminController.resetTeacherPassword('${t.id}')">🔑 Pass</button>
                             <button type="button" class="btn btn-secondary" style="padding:4px 8px; font-size:10px; background:rgba(239,68,68,0.1); border-color:transparent; color:#ef4444;" title="Delete Coach" onclick="AdminController.deleteTeacher('${t.id}')">🗑️ Del</button>
                             <button type="button" class="btn btn-primary" style="padding:4px 8px; font-size:10px;" onclick="AdminController.viewTeacherDetails('${t.id}')">🔍 View</button>
                         </div>
@@ -750,6 +751,36 @@ class AdminController {
             this.loadTeacherRosters();
             window.Toast.show("Deleted", "Coach profile has been removed.", "danger");
         }
+    }
+
+    static resetTeacherPassword(teacherId) {
+        const teachers = window.ChessDB.getTeachers();
+        const teacher = teachers.find(t => t.id === teacherId);
+        if (!teacher) {
+            window.Toast.show("Error", "Coach profile not found.", "danger");
+            return;
+        }
+
+        const defaultPass = this.generateRandomPassword();
+        const newPassword = prompt(`Enter a new password for Coach ${teacher.name}:`, defaultPass);
+        if (newPassword === null) return; // user cancelled
+
+        const trimmed = newPassword.trim();
+        if (trimmed === "") {
+            window.Toast.show("Error", "Password cannot be empty.", "danger");
+            return;
+        }
+
+        teacher.password = trimmed;
+        window.ChessDB.saveTeachers(teachers);
+
+        // System notification
+        window.NotificationCenter.dispatch("system", `Admin reset password for Coach ${teacher.name} to [${trimmed}].`);
+        // Notify coach via email simulation
+        window.NotificationCenter.dispatch("email", `Hi Coach ${teacher.name}, your account password has been reset by the Admin. Your new password is: ${trimmed}. Portal Dashboard: teacher.html.`);
+
+        this.loadTeacherRosters();
+        window.Toast.show("Password Reset", `Password updated successfully for ${teacher.name}!`, "success");
     }
 
     static toggleCoachLeave(id) {
