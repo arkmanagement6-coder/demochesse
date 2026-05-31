@@ -363,9 +363,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $syllabusDetailsHTML
                 </div>
 
-                <p style='margin-bottom: 25px; font-size: 13px;'>You can download the full detailed PDF version of this syllabus directly using the button below (please ensure your coach has uploaded the PDF in the host directory):</p>
+                <p style='margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: bold; color: #0F172A;'>Ready to experience our world-class teaching firsthand?</p>
                 <div style='text-align: center; margin-bottom: 25px;'>
-                    <a href='https://paraschessacademy.com/$pdfFilename' style='background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2);'>📥 Download Syllabus PDF</a>
+                    <a href='https://paraschessacademy.com/book.html' style='background: #D11A2A; color: white; padding: 14px 30px; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 12px rgba(209, 26, 42, 0.25); display: inline-block; font-size: 15px;'>📅 Book a FREE 1-on-1 Chess Class Now</a>
                 </div>
 
                 <hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>
