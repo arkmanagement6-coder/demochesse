@@ -10,6 +10,7 @@ class AdminController {
             window.Auth.protect('admin');
         }
         this.activeBookingId = null;
+        this.editingTeacherId = null;
         this.cacheDOM();
         this.bindEvents();
         
@@ -142,7 +143,34 @@ class AdminController {
         this.btnSaveReassign.addEventListener("click", () => this.saveReassignment());
 
         // Add Coach triggers
-        this.btnAddtOpen.addEventListener("click", () => this.openModal(this.modalAddt));
+        this.btnAddtOpen.addEventListener("click", () => {
+            this.editingTeacherId = null;
+            this.addtForm.reset();
+            const modalTitle = this.modalAddt.querySelector('.modal-header h3');
+            if (modalTitle) {
+                modalTitle.innerText = "Add New Chess Coach";
+            }
+            const avatarInput = document.getElementById("addt-avatar");
+            if (avatarInput) {
+                avatarInput.required = true;
+            }
+            
+            // Reset custom dropdown state
+            const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
+            allAddtCheckboxes.forEach(cb => {
+                cb.checked = false;
+                const parent = cb.closest(".dropdown-slot-item");
+                if (parent) {
+                    parent.classList.remove("checked");
+                }
+            });
+            const selectedTextVal = document.getElementById("addt-slots-selected-text");
+            if (selectedTextVal) {
+                selectedTextVal.innerText = "Select Available Slots";
+            }
+
+            this.openModal(this.modalAddt);
+        });
         this.addtForm.addEventListener("submit", (e) => {
             e.preventDefault();
             this.saveNewTeacher();
@@ -650,7 +678,68 @@ class AdminController {
     }
 
     static editTeacher(teacherId) {
-        window.Toast.show("Edit Coach", "Edit form opened for " + teacherId + " (Mock Action)", "success");
+        const teachers = window.ChessDB.getTeachers();
+        const coach = teachers.find(t => t.id === teacherId);
+        if (!coach) {
+            window.Toast.show("Error", "Coach profile not found.", "danger");
+            return;
+        }
+
+        this.editingTeacherId = teacherId;
+
+        // Update modal title
+        const modalTitle = this.modalAddt.querySelector('.modal-header h3');
+        if (modalTitle) {
+            modalTitle.innerText = "Edit Chess Coach Profile";
+        }
+
+        // Photo upload is optional during editing
+        const avatarInput = document.getElementById("addt-avatar");
+        if (avatarInput) {
+            avatarInput.required = false;
+            avatarInput.value = ""; // Clear file input
+        }
+
+        // Pre-fill text and select fields
+        document.getElementById("addt-name").value = coach.name || "";
+        document.getElementById("addt-email").value = coach.email || "";
+        document.getElementById("addt-password").value = coach.password || "";
+        document.getElementById("addt-phone").value = coach.phone || "";
+        document.getElementById("addt-exp").value = coach.experience || "";
+        document.getElementById("addt-langs").value = Array.isArray(coach.languages) ? coach.languages.join(", ") : "";
+        document.getElementById("addt-exp-levels").value = Array.isArray(coach.expertise) ? coach.expertise.join(", ") : "";
+
+        // Pre-fill slots checkboxes
+        const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
+        let checkedCount = 0;
+        allAddtCheckboxes.forEach(cb => {
+            const isChecked = Array.isArray(coach.slots) && coach.slots.includes(cb.value);
+            cb.checked = isChecked;
+            const parent = cb.closest(".dropdown-slot-item");
+            if (parent) {
+                if (isChecked) {
+                    parent.classList.add("checked");
+                    checkedCount++;
+                } else {
+                    parent.classList.remove("checked");
+                }
+            }
+        });
+
+        // Update dropdown text display
+        const selectedText = document.getElementById("addt-slots-selected-text");
+        if (selectedText) {
+            if (checkedCount === 0) {
+                selectedText.innerText = "Select Available Slots";
+            } else if (checkedCount === 1) {
+                selectedText.innerText = "1 Slot Selected";
+            } else {
+                selectedText.innerText = `${checkedCount} Slots Selected`;
+            }
+        }
+
+        // Open modal
+        this.openModal(this.modalAddt);
     }
 
     static deleteTeacher(teacherId) {
@@ -689,15 +778,14 @@ class AdminController {
         const fileInput = document.getElementById("addt-avatar");
         const file = fileInput.files[0];
 
-        if (!file) {
+        const isEditing = !!this.editingTeacherId;
+
+        if (!file && !isEditing) {
             window.Toast.show("Validation Failed", "Please upload a coach photo.", "danger");
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const avatarBase64 = e.target.result;
-            
+        const saveProcedure = (avatarBase64) => {
             const name = document.getElementById("addt-name").value;
             const email = document.getElementById("addt-email").value;
             const password = document.getElementById("addt-password").value.trim();
@@ -716,36 +804,71 @@ class AdminController {
             }
 
             const teachers = window.ChessDB.getTeachers();
-            const id = "t_" + name.toLowerCase().replace(/\s+/g, "_");
 
-            const newCoach = {
-                id,
-                name,
-                email,
-                phone,
-                password, // Designated password from admin panel
-                experience: exp,
-                rating: 4.8,
-                languages: langs,
-                expertise: levels,
-                slots: slots,
-                maxDemosPerDay: 4,
-                priorityScore: 80,
-                avatar: avatarBase64,
-                activeStudents: 0,
-                leaves: [],
-                phoneAccessApproved: false
-            };
+            if (isEditing) {
+                const coachIndex = teachers.findIndex(t => t.id === this.editingTeacherId);
+                if (coachIndex !== -1) {
+                    const existingCoach = teachers[coachIndex];
+                    existingCoach.name = name;
+                    existingCoach.email = email;
+                    existingCoach.phone = phone;
+                    existingCoach.password = password;
+                    existingCoach.experience = exp;
+                    existingCoach.languages = langs;
+                    existingCoach.expertise = levels;
+                    existingCoach.slots = slots;
+                    if (avatarBase64) {
+                        existingCoach.avatar = avatarBase64;
+                    }
+                    window.ChessDB.saveTeachers(teachers);
 
-            teachers.push(newCoach);
-            window.ChessDB.saveTeachers(teachers);
+                    window.NotificationCenter.dispatch("system", `Coach profile updated for ${name}.`);
+                    window.Toast.show("Saved", "Coach profile updated successfully.", "success");
+                }
+            } else {
+                const id = "t_" + name.toLowerCase().replace(/\s+/g, "_");
 
-            window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
-            // Dispatch credentials email
-            window.NotificationCenter.dispatch("email", `Hi Coach ${name}, welcome to Parash Chess Academy! An account has been created for you. Login ID (Email): ${email}, Password: ${password}. Portal Dashboard: teacher.html.`);
+                const newCoach = {
+                    id,
+                    name,
+                    email,
+                    phone,
+                    password, // Designated password from admin panel
+                    experience: exp,
+                    rating: 4.8,
+                    languages: langs,
+                    expertise: levels,
+                    slots: slots,
+                    maxDemosPerDay: 4,
+                    priorityScore: 80,
+                    avatar: avatarBase64 || "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
+                    activeStudents: 0,
+                    leaves: [],
+                    phoneAccessApproved: false
+                };
+
+                teachers.push(newCoach);
+                window.ChessDB.saveTeachers(teachers);
+
+                window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
+                // Dispatch credentials email
+                window.NotificationCenter.dispatch("email", `Hi Coach ${name}, welcome to Parash Chess Academy! An account has been created for you. Login ID (Email): ${email}, Password: ${password}. Portal Dashboard: teacher.html.`);
+                window.Toast.show("Saved", "New Coach added to roster directory.", "success");
+            }
 
             this.closeModal(this.modalAddt);
             this.addtForm.reset();
+
+            // Reset modal title and file field requirements
+            const modalTitle = this.modalAddt.querySelector('.modal-header h3');
+            if (modalTitle) {
+                modalTitle.innerText = "Add New Chess Coach";
+            }
+            const avatarInput = document.getElementById("addt-avatar");
+            if (avatarInput) {
+                avatarInput.required = true;
+            }
+            this.editingTeacherId = null;
 
             // Reset custom dropdown state
             const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
@@ -761,9 +884,15 @@ class AdminController {
             }
 
             this.refreshAllData();
-            window.Toast.show("Saved", "New Coach added to roster directory.", "success");
         };
-        reader.readAsDataURL(file);
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => saveProcedure(e.target.result);
+            reader.readAsDataURL(file);
+        } else {
+            saveProcedure(null);
+        }
     }
 
     static openAddStudentModal() {
