@@ -289,10 +289,35 @@ class BookingDrawer {
     static renderTimeSlots(segment) {
         this.slotGrid.innerHTML = "";
         
+        const morningSlots = [];
+        for (let h = 10; h <= 11; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                morningSlots.push(`${h}:${m === 0 ? "00" : m} AM`);
+            }
+        }
+
+        const afternoonSlots = [];
+        for (let m = 0; m < 60; m += 15) {
+            afternoonSlots.push(`12:${m === 0 ? "00" : m} PM`);
+        }
+        for (let h = 1; h <= 4; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                afternoonSlots.push(`0${h}:${m === 0 ? "00" : m} PM`);
+            }
+        }
+
+        const eveningSlots = [];
+        for (let h = 5; h <= 8; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                eveningSlots.push(`0${h}:${m === 0 ? "00" : m} PM`);
+            }
+        }
+        eveningSlots.push("09:00 PM", "09:15 PM", "09:30 PM");
+        
         const slotsMap = {
-            morning: ["10:00 AM", "11:00 AM", "12:00 PM"],
-            afternoon: ["01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"],
-            evening: ["06:00 PM", "07:00 PM", "08:00 PM", "09:00 PM"]
+            morning: morningSlots,
+            afternoon: afternoonSlots,
+            evening: eveningSlots
         };
         
         const slots = slotsMap[segment] || [];

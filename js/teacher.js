@@ -15,6 +15,7 @@ class TeacherController {
         this.activeBookingId = null;
 
         this.cacheDOM();
+        this.initSlots();
         this.bindEvents();
         
         // Hide the switcher dropdown container since they are securely logged in
@@ -26,6 +27,32 @@ class TeacherController {
         }
 
         this.loadProfile();
+    }
+
+    static initSlots() {
+        const slots = [];
+        // AM slots (10:00 AM to 11:45 AM)
+        for (let h = 10; h <= 11; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                slots.push(`${h}:${m === 0 ? "00" : m} AM`);
+            }
+        }
+        // 12:00 PM to 12:45 PM
+        for (let m = 0; m < 60; m += 15) {
+            slots.push(`12:${m === 0 ? "00" : m} PM`);
+        }
+        // PM slots (01:00 PM to 08:45 PM)
+        for (let h = 1; h <= 8; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                slots.push(`0${h}:${m === 0 ? "00" : m} PM`);
+            }
+        }
+        // 09:00 PM to 09:30 PM
+        slots.push("09:00 PM", "09:15 PM", "09:30 PM");
+
+        if (this.reschedSlot) {
+            this.reschedSlot.innerHTML = slots.map(s => `<option value="${s}">${s}</option>`).join("");
+        }
     }
 
     static cacheDOM() {

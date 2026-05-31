@@ -12,6 +12,7 @@ class AdminController {
         this.activeBookingId = null;
         this.editingTeacherId = null;
         this.cacheDOM();
+        this.initSlots();
         this.bindEvents();
         
         // Load default views
@@ -28,6 +29,65 @@ class AdminController {
             const tomorrowStr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
             this.rosterDateSelect.value = tomorrowStr;
             this.loadRosterPlanner();
+        }
+    }
+
+    static initSlots() {
+        const slots = [];
+        
+        // AM slots (10:00 AM to 11:45 AM)
+        for (let h = 10; h <= 11; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                const minStr = m === 0 ? "00" : m;
+                slots.push(`${h}:${minStr} AM`);
+            }
+        }
+        
+        // 12:00 PM to 12:45 PM
+        for (let m = 0; m < 60; m += 15) {
+            const minStr = m === 0 ? "00" : m;
+            slots.push(`12:${minStr} PM`);
+        }
+        
+        // PM slots (01:00 PM to 08:45 PM)
+        for (let h = 1; h <= 8; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                const minStr = m === 0 ? "00" : m;
+                slots.push(`0${h}:${minStr} PM`);
+            }
+        }
+        
+        // 09:00 PM to 09:30 PM
+        slots.push("09:00 PM");
+        slots.push("09:15 PM");
+        slots.push("09:30 PM");
+
+        this.standardSlotsList = slots;
+
+        // 1. Populate Reschedule Slot select dropdown
+        const reschedSlot = document.getElementById("resched-slot-input");
+        if (reschedSlot) {
+            reschedSlot.innerHTML = slots.map(s => `<option value="${s}">${s}</option>`).join("");
+        }
+
+        // 2. Populate Add Student Slot select dropdown
+        const addsSlot = document.getElementById("adds-slot");
+        if (addsSlot) {
+            addsSlot.innerHTML = slots.map(s => `<option value="${s}">${s}</option>`).join("");
+        }
+
+        // 3. Populate Available Slots Checkboxes Dropdown in Add/Edit Teacher Modal
+        const addtDropdownContent = document.getElementById("addt-slots-dropdown-content");
+        if (addtDropdownContent) {
+            const container = addtDropdownContent.querySelector("div");
+            if (container) {
+                container.innerHTML = slots.map(s => `
+                    <label style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s; color: var(--text-secondary); font-size: 13px;" class="dropdown-slot-item">
+                        <input type="checkbox" name="addt-slot-checkbox" value="${s}" style="accent-color: var(--primary); cursor: pointer;">
+                        <span>${s}</span>
+                    </label>
+                `).join("");
+            }
         }
     }
 
@@ -1169,20 +1229,7 @@ class AdminController {
         const bookings = window.ChessDB.getBookings();
         
         // 1. Popular Slot statistics
-        const slots = [
-            "10:00 AM",
-            "11:00 AM",
-            "12:00 PM",
-            "01:00 PM",
-            "02:00 PM",
-            "03:00 PM",
-            "04:00 PM",
-            "05:00 PM",
-            "06:00 PM",
-            "07:00 PM",
-            "08:00 PM",
-            "09:00 PM"
-        ];
+        const slots = this.standardSlotsList || [];
         this.barChart.innerHTML = "";
         this.barChart.style.gap = "8px";
         
@@ -1333,20 +1380,7 @@ class AdminController {
             slotsContainer.style.width = "100%";
 
             // Static slots available for this teacher
-            const allSlots = t.slots || [
-                "10:00 AM",
-                "11:00 AM",
-                "12:00 PM",
-                "01:00 PM",
-                "02:00 PM",
-                "03:00 PM",
-                "04:00 PM",
-                "05:00 PM",
-                "06:00 PM",
-                "07:00 PM",
-                "08:00 PM",
-                "09:00 PM"
-            ];
+            const allSlots = t.slots || this.standardSlotsList || [];
             allSlots.forEach(slot => {
                 const isChecked = rosteredSlots.includes(slot);
                 

@@ -430,20 +430,30 @@ class BookingWizard {
     static renderTimeSlots(dateState) {
         this.slotsListView.innerHTML = "";
         
-        const standardSlots = [
-            "10:00 AM",
-            "11:00 AM",
-            "12:00 PM",
-            "01:00 PM",
-            "02:00 PM",
-            "03:00 PM",
-            "04:00 PM",
-            "05:00 PM",
-            "06:00 PM",
-            "07:00 PM",
-            "08:00 PM",
-            "09:00 PM"
-        ];
+        const standardSlots = [];
+        // AM slots (10:00 AM to 11:45 AM)
+        for (let h = 10; h <= 11; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                const minStr = m === 0 ? "00" : m;
+                standardSlots.push(`${h}:${minStr} AM`);
+            }
+        }
+        // 12:00 PM to 12:45 PM
+        for (let m = 0; m < 60; m += 15) {
+            const minStr = m === 0 ? "00" : m;
+            standardSlots.push(`12:${minStr} PM`);
+        }
+        // PM slots (01:00 PM to 08:45 PM)
+        for (let h = 1; h <= 8; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                const minStr = m === 0 ? "00" : m;
+                standardSlots.push(`0${h}:${minStr} PM`);
+            }
+        }
+        // 09:00 PM to 09:30 PM
+        standardSlots.push("09:00 PM");
+        standardSlots.push("09:15 PM");
+        standardSlots.push("09:30 PM");
 
         const date = this.selectedDateStr;
         const dailyRoster = window.ChessDB.getDailyRosterForDate(date);
