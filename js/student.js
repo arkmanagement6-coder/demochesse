@@ -113,7 +113,7 @@ class StudentController {
                 this.demoMeetBtn.innerHTML = `<i class="fa-solid fa-ban"></i> Classroom Suspended`;
                 if (this.demoMeetNote) this.demoMeetNote.innerText = "This class has been cancelled.";
             } else {
-                this.demoMeetBtn.href = booking.meetingLink || "https://meet.google.com/chess-demo";
+                this.demoMeetBtn.href = `classroom.html?id=${booking.id}`;
             }
         }
 

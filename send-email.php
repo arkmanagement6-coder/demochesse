@@ -158,6 +158,71 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $from = "support@paraschessacademy.com";
     $password = "Paras@2709@";
 
+    if ($type === "update-meet-link") {
+        $studentName = isset($data["studentName"]) ? strip_tags($data["studentName"]) : "Student";
+        $parentName = isset($data["parentName"]) ? strip_tags($data["parentName"]) : "Parent";
+        $date = isset($data["date"]) ? strip_tags($data["date"]) : "";
+        $slot = isset($data["slot"]) ? strip_tags($data["slot"]) : "";
+        $teacherName = isset($data["teacherName"]) ? strip_tags($data["teacherName"]) : "Expert Coach";
+        $meetingLink = isset($data["meetingLink"]) ? strip_tags($data["meetingLink"]) : "";
+
+        $subject = "Live Class Link Updated - Paras Chess Academy";
+        
+        $message = "
+        <html>
+        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+            <div style='max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                <div style='text-align: center; margin-bottom: 25px;'>
+                    <h2 style='color: #D11A2A; margin: 0;'>Paras Chess Academy</h2>
+                    <p style='color: #3B82F6; font-weight: bold; font-size: 18px; margin-top: 5px;'>Live Class Link Updated!</p>
+                </div>
+                
+                <p>Dear <strong>$parentName</strong>,</p>
+                <p>Your child's (<strong>$studentName</strong>) Chess class link has been updated by Coach <strong>$teacherName</strong>. Please use the new link below to join the live session:</p>
+                
+                <!-- Class Details Card -->
+                <div style='background: #F8FAFC; padding: 20px; border-radius: 8px; border: 1px solid #E2E8F0; margin: 20px 0;'>
+                    <table style='width: 100%; font-size: 14px;'>
+                        <tr>
+                            <td style='font-weight: bold; width: 35%; padding: 6px 0;'>Date:</td>
+                            <td style='color: #0F172A;'>$date</td>
+                        </tr>
+                        <tr>
+                            <td style='font-weight: bold; padding: 6px 0;'>Time Slot:</td>
+                            <td style='color: #0F172A;'>$slot</td>
+                        </tr>
+                        <tr>
+                            <td style='font-weight: bold; padding: 6px 0;'>Assigned Coach:</td>
+                            <td style='color: #0F172A;'>Coach $teacherName</td>
+                        </tr>
+                        <tr>
+                            <td style='font-weight: bold; padding: 6px 0;'>NEW Classroom Link:</td>
+                            <td><a href='$meetingLink' style='color: #3B82F6; font-weight: bold;'>Join Live Class on Google Meet</a></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <p style='font-size: 13px; color: #555;'>You can also enter your Live Chess Classroom directly from your <a href='https://paraschessacademy.com/login.html' style='color: #D11A2A; font-weight: bold;'>Candidate Dashboard</a> to access homework, worksheets, and future sessions.</p>
+
+                <hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>
+                <p style='font-size: 12px; color: #777; text-align: center;'>
+                    For immediate assistance, please reply to this email or contact support at <a href='mailto:support@paraschessacademy.com'>support@paraschessacademy.com</a>
+                </p>
+            </div>
+        </body>
+        </html>
+        ";
+
+        $mailSent = send_smtp_email($email, $subject, $message, $from, $password);
+        if ($mailSent) {
+            echo json_encode(["status" => "success", "message" => "Update email sent successfully."]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["status" => "error", "message" => "Failed to send update email."]);
+        }
+        exit;
+    }
+
     if ($type === "booking") {
         // --- 1. DEMO CLASS BOOKING CONFIRMATION EMAIL ---
         $studentName = isset($data["studentName"]) ? strip_tags($data["studentName"]) : "Student";

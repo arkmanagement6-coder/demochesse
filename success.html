@@ -113,10 +113,10 @@
     </div>
 
     <!-- Shared Scripts -->
-    <script src="js/db.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/engine.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/db.js?v=3.0"></script>
+    <script src="js/auth.js?v=3.0"></script>
+    <script src="js/engine.js?v=3.0"></script>
+    <script src="js/app.js?v=3.0"></script>
     
     <!-- Local Success Page script to extract booking parameter and mock matching scanner -->
     <script>
@@ -158,7 +158,8 @@
             document.getElementById("sched-date").innerText = dateStrFormatted;
             document.getElementById("sched-slot").innerText = booking.slot;
             document.getElementById("sched-tz").innerText = booking.timezone;
-            document.getElementById("meet-join-btn").href = booking.meetingLink;
+            document.getElementById("meet-join-btn").href = `classroom.html?id=${booking.id}`;
+            document.getElementById("meet-join-btn").innerHTML = `<i class="fa-solid fa-circle-play"></i> Enter Video Classroom`;
 
             // Decision Logs Injection
             const logsContainer = document.getElementById("match-logs-container");

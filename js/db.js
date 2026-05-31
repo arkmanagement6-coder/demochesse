@@ -228,6 +228,87 @@ class DB {
         try {
             let tList = JSON.parse(localStorage.getItem("chess_teachers")) || [];
             let updatedT = false;
+
+            // Self-healing: Deduplicate teachers sharing the same ID
+            let deduplicatedTeachers = [];
+            let seenIds = {};
+            let isTListUpdated = false;
+
+            tList.forEach(t => {
+                if (!t.id) return; // skip invalid records
+                if (!seenIds[t.id]) {
+                    seenIds[t.id] = t;
+                    deduplicatedTeachers.push(t);
+                } else {
+                    // We found a duplicate! Merge t into seenIds[t.id]
+                    let existing = seenIds[t.id];
+                    isTListUpdated = true;
+
+                    const isPlaceholderEmail = (email, name) => {
+                        if (!email) return true;
+                        const defaultEmail = name.toLowerCase().replace(/\s+/g, "") + "@parashchess.com";
+                        return email.toLowerCase() === defaultEmail;
+                    };
+                    const isPlaceholderPhone = (phone) => {
+                        return !phone || phone === "+91 98765 43210";
+                    };
+                    const isPlaceholderPassword = (pass) => {
+                        return !pass || pass === "teacher123";
+                    };
+
+                    // Priority 1: Custom fields entered by user
+                    if (t.name && (!existing.name || existing.name.length < t.name.length)) {
+                        existing.name = t.name;
+                    }
+                    if (t.email && !isPlaceholderEmail(t.email, t.name)) {
+                        existing.email = t.email;
+                    }
+                    if (t.phone && !isPlaceholderPhone(t.phone)) {
+                        existing.phone = t.phone;
+                    }
+                    if (t.password && !isPlaceholderPassword(t.password)) {
+                        existing.password = t.password;
+                    }
+                    if (t.experience && (!existing.experience || existing.experience === "6 Years (FIDE Master - Rating 2150)" || existing.experience.length < t.experience.length)) {
+                        existing.experience = t.experience;
+                    }
+                    // Languages, expertise, slots
+                    if (t.languages && Array.isArray(t.languages) && (!existing.languages || t.languages.length > existing.languages.length)) {
+                        existing.languages = t.languages;
+                    }
+                    if (t.expertise && Array.isArray(t.expertise) && (!existing.expertise || t.expertise.length > existing.expertise.length)) {
+                        existing.expertise = t.expertise;
+                    }
+                    if (t.slots && Array.isArray(t.slots) && (!existing.slots || t.slots.length > existing.slots.length)) {
+                        existing.slots = t.slots;
+                    }
+                    // Avatar (base64 uploads over unsplash)
+                    if (t.avatar && !t.avatar.startsWith("https://images.unsplash") && t.avatar.startsWith("data:")) {
+                        existing.avatar = t.avatar;
+                    } else if (t.avatar && !existing.avatar) {
+                        existing.avatar = t.avatar;
+                    }
+                    // Other attributes
+                    if (t.maxDemosPerDay !== undefined && t.maxDemosPerDay !== 4) existing.maxDemosPerDay = t.maxDemosPerDay;
+                    if (t.priorityScore !== undefined && t.priorityScore !== 80) existing.priorityScore = t.priorityScore;
+                    if (t.rating !== undefined && t.rating !== 4.8) existing.rating = t.rating;
+                    if (t.activeStudents !== undefined && t.activeStudents > (existing.activeStudents || 0)) {
+                        existing.activeStudents = t.activeStudents;
+                    }
+                    if (t.leaves && Array.isArray(t.leaves)) {
+                        existing.leaves = Array.from(new Set([...(existing.leaves || []), ...t.leaves]));
+                    }
+                    if (t.phoneAccessApproved !== undefined) {
+                        existing.phoneAccessApproved = existing.phoneAccessApproved || t.phoneAccessApproved;
+                    }
+                }
+            });
+
+            if (isTListUpdated) {
+                tList = deduplicatedTeachers;
+                updatedT = true;
+            }
+
             tList.forEach(t => {
                 if (!t.password) { t.password = 'teacher123'; updatedT = true; }
                 if (!t.email) {

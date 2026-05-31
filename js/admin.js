@@ -949,33 +949,53 @@ class AdminController {
                 }
             } else {
                 const id = "t_" + name.toLowerCase().replace(/\s+/g, "_");
+                const existingIndex = teachers.findIndex(t => t.id === id);
 
-                const newCoach = {
-                    id,
-                    name,
-                    email,
-                    phone,
-                    password, // Designated password from admin panel
-                    experience: exp,
-                    rating: 4.8,
-                    languages: langs,
-                    expertise: levels,
-                    slots: slots,
-                    maxDemosPerDay: 4,
-                    priorityScore: 80,
-                    avatar: avatarBase64 || "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
-                    activeStudents: 0,
-                    leaves: [],
-                    phoneAccessApproved: false
-                };
+                if (existingIndex !== -1) {
+                    const existingCoach = teachers[existingIndex];
+                    existingCoach.name = name;
+                    existingCoach.email = email;
+                    existingCoach.phone = phone;
+                    existingCoach.password = password;
+                    existingCoach.experience = exp;
+                    existingCoach.languages = langs;
+                    existingCoach.expertise = levels;
+                    existingCoach.slots = slots;
+                    if (avatarBase64) {
+                        existingCoach.avatar = avatarBase64;
+                    }
+                    window.ChessDB.saveTeachers(teachers);
 
-                teachers.push(newCoach);
-                window.ChessDB.saveTeachers(teachers);
+                    window.NotificationCenter.dispatch("system", `Coach profile updated for ${name} (Duplicate prevented).`);
+                    window.Toast.show("Saved", "Coach profile updated successfully.", "success");
+                } else {
+                    const newCoach = {
+                        id,
+                        name,
+                        email,
+                        phone,
+                        password, // Designated password from admin panel
+                        experience: exp,
+                        rating: 4.8,
+                        languages: langs,
+                        expertise: levels,
+                        slots: slots,
+                        maxDemosPerDay: 4,
+                        priorityScore: 80,
+                        avatar: avatarBase64 || "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
+                        activeStudents: 0,
+                        leaves: [],
+                        phoneAccessApproved: false
+                    };
 
-                window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
-                // Dispatch credentials email
-                window.NotificationCenter.dispatch("email", `Hi Coach ${name}, welcome to Parash Chess Academy! An account has been created for you. Login ID (Email): ${email}, Password: ${password}. Portal Dashboard: teacher.html.`);
-                window.Toast.show("Saved", "New Coach added to roster directory.", "success");
+                    teachers.push(newCoach);
+                    window.ChessDB.saveTeachers(teachers);
+
+                    window.NotificationCenter.dispatch("system", `New coach profile registered for ${name}.`);
+                    // Dispatch credentials email
+                    window.NotificationCenter.dispatch("email", `Hi Coach ${name}, welcome to Parash Chess Academy! An account has been created for you. Login ID (Email): ${email}, Password: ${password}. Portal Dashboard: teacher.html.`);
+                    window.Toast.show("Saved", "New Coach added to roster directory.", "success");
+                }
             }
 
             this.closeModal(this.modalAddt);

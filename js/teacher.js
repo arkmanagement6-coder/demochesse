@@ -238,7 +238,7 @@ class TeacherController {
                 ` : ""}
 
                 <div style="display:flex; gap:10px; margin-top:auto; padding-top:10px; border-top:1px solid var(--border-color);">
-                    <a href="${b.meetingLink}" target="_blank" class="btn btn-primary" style="flex:1; padding:8px 16px; font-size:12px; text-align:center;">
+                    <a href="classroom.html?id=${b.id}" class="btn btn-primary" style="flex:1; padding:8px 16px; font-size:12px; text-align:center;">
                         Join Classroom
                     </a>
                     ${!b.feedback && b.status !== "Cancelled" ? `

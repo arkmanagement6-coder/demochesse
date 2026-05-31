@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Classroom Portal | Paras Chess Academy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Vector Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --classroom-bg: #090D16;
+            --classroom-card: rgba(17, 24, 39, 0.7);
+            --classroom-border: rgba(139, 92, 246, 0.15);
+            --classroom-glow: rgba(139, 92, 246, 0.25);
+            --classroom-text-primary: #F3F4F6;
+            --classroom-text-secondary: #9CA3AF;
+        }
+
+        body.classroom-body {
+            background-color: var(--classroom-bg);
+            color: var(--classroom-text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        body.classroom-body::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, rgba(209, 26, 42, 0.03) 50%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .classroom-container {
+            max-width: 1100px;
+            margin: 60px auto 100px;
+            padding: 0 24px;
+            flex: 1;
+        }
+
+        .classroom-glass-card {
+            background: var(--classroom-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--classroom-border);
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .classroom-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--classroom-border);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .classroom-badge {
+            background: rgba(139, 92, 246, 0.15);
+            color: #C084FC;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .class-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .class-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .class-panel-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #C084FC;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .detail-icon {
+            font-size: 20px;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(209, 26, 42, 0.1);
+            border-radius: 50%;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: var(--classroom-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-val {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--classroom-text-primary);
+        }
+
+        .launch-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .launch-box:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.05);
+        }
+
+        .launch-box.premium-highlight {
+            border-color: rgba(34, 197, 94, 0.3);
+            background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.03) 0%, transparent 70%);
+        }
+        
+        .launch-box.premium-highlight:hover {
+            border-color: rgba(34, 197, 94, 0.5);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.05);
+        }
+
+        .launch-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .launch-desc {
+            font-size: 12px;
+            color: var(--classroom-text-secondary);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .btn-launch-jitsi {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFF;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+            width: 100%;
+            padding: 14px;
+            font-weight: 700;
+        }
+        
+        .btn-launch-jitsi:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-launch-meet {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+            color: #FFF;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+            width: 100%;
+            padding: 14px;
+            font-weight: 700;
+        }
+
+        .btn-launch-meet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .input-meet-link {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--classroom-border);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            color: #FFF;
+            font-size: 13px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .input-meet-link:focus {
+            border-color: #A78BFA;
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
+        }
+
+        .alert-banner {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            font-size: 12px;
+            color: #FBBF24;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .alert-banner i {
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        .classroom-header-logo img {
+            height: 36px;
+            filter: brightness(0) invert(1);
+        }
+    </style>
+</head>
+<body class="classroom-body">
+
+    <!-- Header Navigation -->
+    <header class="header" style="border-bottom: 1px solid var(--classroom-border); background: rgba(9, 13, 22, 0.8);">
+        <div class="container header-container">
+            <a href="index.html" class="classroom-header-logo">
+                <img src="images/logo.png" alt="Paras Chess Academy">
+            </a>
+            <span class="classroom-badge">
+                <i class="fa-solid fa-circle-play"></i> LIVE CLASSROOM SESSION
+            </span>
+        </div>
+    </header>
+
+    <div class="classroom-container">
+        
+        <!-- Not Found View -->
+        <div id="classroom-not-found" class="classroom-glass-card" style="display:none; text-align:center; padding: 60px 24px;">
+            <i class="fa-solid fa-chess-queen" style="font-size: 64px; color: var(--primary); margin-bottom: 24px; display:block;"></i>
+            <h2 style="font-size: 26px; margin-bottom: 12px;">Classroom Session Not Found</h2>
+            <p style="color:var(--classroom-text-secondary); max-width: 500px; margin: 0 auto 30px;">
+                We could not locate any trial class booking with this classroom ID. Please check the URL or contact academy support.
+            </p>
+            <a href="index.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.05); color: #FFF; border-color: var(--classroom-border);">
+                Go Back Home
+            </a>
+        </div>
+
+        <!-- Main Classroom Dashboard View -->
+        <div id="classroom-dashboard" class="classroom-glass-card" style="display:none;">
+            
+            <div class="classroom-header">
+                <div>
+                    <span style="font-size:12px; color:var(--classroom-text-secondary); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:4px;">
+                        Interactive Chess Training Session
+                    </span>
+                    <h1 style="font-size: 28px; margin: 0; color: #FFF;" id="class-title-name">Candidate Classroom</h1>
+                </div>
+                <div style="text-align: right;" id="classroom-schedule-box">
+                    <span id="class-badge-status"></span>
+                </div>
+            </div>
+
+            <div class="class-grid">
+                
+                <!-- Left Side: Session details & instructions -->
+                <div>
+                    <h3 class="class-panel-title">
+                        <i class="fa-solid fa-chess-board"></i> Session Details
+                    </h3>
+
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                        <div>
+                            <div class="detail-label">Student / Candidate</div>
+                            <div class="detail-val" id="detail-student">Student Name</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                        <div>
+                            <div class="detail-label">Assigned Chess Coach</div>
+                            <div class="detail-val" id="detail-coach">Coach Name</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fa-solid fa-calendar-day"></i></div>
+                        <div>
+                            <div class="detail-label">Date & Time</div>
+                            <div class="detail-val" id="detail-time">Date & Time Slot</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fa-solid fa-circle-info"></i></div>
+                        <div>
+                            <div class="detail-label">Languages & Level</div>
+                            <div class="detail-val" id="detail-specs">English • Beginner</div>
+                        </div>
+                    </div>
+
+                    <div style="background:rgba(139, 92, 246, 0.04); border: 1px dashed var(--classroom-border); border-radius: var(--radius-sm); padding: 20px; margin-top: 30px;">
+                        <h4 style="font-size:14px; margin-bottom:10px; color:#FFF; display:flex; align-items:center; gap:6px;">
+                            <i class="fa-solid fa-lightbulb" style="color:#FBBF24;"></i> Quick Classroom Rules
+                        </h4>
+                        <ul style="font-size:12px; color:var(--classroom-text-secondary); padding-left:18px; line-height:1.8;">
+                            <li>Please use a Laptop or PC for a better interactive chessboard experience.</li>
+                            <li>Enable your Webcam and Microphone before entering the video call.</li>
+                            <li>Have a notebook ready to write down opening principles and tactics.</li>
+                            <li>If using Google Meet, ensure the coach is active and admits you.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Side: Video Conference Launch Channels -->
+                <div>
+                    <h3 class="class-panel-title">
+                        <i class="fa-solid fa-video"></i> Video Classroom Launchpad
+                    </h3>
+
+                    <!-- Option 1: Jitsi Instant classroom -->
+                    <div class="launch-box premium-highlight">
+                        <span class="badge badge-success" style="position:absolute; top:12px; right:12px; font-size:9px; background:rgba(34,197,94,0.2); color:#4ADE80; border:1px solid rgba(34,197,94,0.4);">RECOMMENDED</span>
+                        <h4 class="launch-title" style="color:#10B981;">
+                            <i class="fa-solid fa-bolt"></i> Instant Video Class (Jitsi Meet)
+                        </h4>
+                        <p class="launch-desc">
+                            Starts immediately in your browser without any setup or account! <strong>Works 100% of the time instantly.</strong> Both Coach and Candidate just click to join.
+                        </p>
+                        <a href="" target="_blank" class="btn btn-launch-jitsi" id="btn-jitsi-link">
+                            <i class="fa-solid fa-circle-arrow-right"></i> Launch Instant Classroom Now
+                        </a>
+                    </div>
+
+                    <!-- Option 2: Google Meet (Dynamic Setup) -->
+                    <div class="launch-box" style="border-color: rgba(59, 130, 246, 0.2);">
+                        <h4 class="launch-title" style="color:#3B82F6;">
+                            <i class="fa-brands fa-google"></i> Google Meet Classroom
+                        </h4>
+                        <p class="launch-desc">
+                            Join the class using Google Meet. Real Google Meet room codes must be activated and updated below.
+                        </p>
+
+                        <!-- Alert message for student if link is placeholder -->
+                        <div id="meet-placeholder-banner" class="alert-banner" style="display:none;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <strong>Waiting for Coach:</strong> The current link is an inactive placeholder code. Please ask your Chess Coach to update it or join the **Instant Video Class** above!
+                            </div>
+                        </div>
+
+                        <!-- Update field for Teachers / Admins -->
+                        <div id="meet-staff-panel" style="display:none; background:rgba(0,0,0,0.2); border:1px solid var(--classroom-border); padding:16px; border-radius:var(--radius-sm); margin-bottom:16px;">
+                            <span style="font-size:11px; color:#C084FC; font-weight:600; display:block; margin-bottom:8px; text-transform:uppercase;">COACH CONTROL PANEL</span>
+                            <div style="margin-bottom:12px;">
+                                <a href="https://meet.google.com/new" target="_blank" class="btn btn-secondary" style="width:100%; padding:8px 12px; font-size:12px; background:rgba(59, 130, 246, 0.1); border-color:rgba(59, 130, 246, 0.4); color:#60A5FA; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
+                                    <i class="fa-solid fa-square-plus"></i> Step 1: Create Real Google Meet Link
+                                </a>
+                                <span style="font-size:10px; color:var(--classroom-text-secondary); display:block; margin-top:4px;">(Opens Google Meet in new tab to start an instant active classroom)</span>
+                            </div>
+                            <label style="font-size:11px; color:var(--classroom-text-secondary); display:block; margin-bottom:6px;">Step 2: Paste Copied Link Here:</label>
+                            <input type="text" id="meet-url-input" class="input-meet-link" placeholder="https://meet.google.com/abc-defg-hij">
+                            <button type="button" class="btn btn-primary" id="btn-save-meet-url" style="width:100%; padding:8px 12px; font-size:12px;">
+                                <i class="fa-solid fa-floppy-disk"></i> Step 3: Update Meet Link for Student
+                            </button>
+                        </div>
+
+                        <!-- Active join Google Meet Button -->
+                        <a href="" target="_blank" class="btn btn-launch-meet" id="btn-meet-link">
+                            <i class="fa-solid fa-video"></i> Enter Google Meet
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Back to dashboard footer link -->
+            <div style="border-top:1px solid var(--classroom-border); padding-top:20px; margin-top:30px; text-align:center;">
+                <a href="" id="btn-classroom-back" class="btn btn-secondary" style="background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.06); color: var(--classroom-text-secondary); font-size: 13px;">
+                    <i class="fa-solid fa-arrow-left-long"></i> Back to My Portal Dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="border-top:1px solid var(--classroom-border); background:rgba(9, 13, 22, 0.9); padding: 30px 24px;">
+        <div class="container" style="text-align: center;">
+            <p style="font-size:12px; color:var(--classroom-text-secondary);">&copy; 2026 Paras Chess Academy Classroom Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Extract parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get("id");
+
+            if (!bookingId) {
+                document.getElementById("classroom-not-found").style.display = "block";
+                return;
+            }
+
+            // Fetch booking from database
+            const bookings = window.ChessDB.getBookings();
+            const booking = bookings.find(b => b.id === bookingId);
+
+            if (!booking) {
+                document.getElementById("classroom-not-found").style.display = "block";
+                return;
+            }
+
+            // Display main classroom
+            document.getElementById("classroom-dashboard").style.display = "block";
+
+            // Bind Session Data
+            document.getElementById("class-title-name").innerText = `${booking.studentName}'s Live Class`;
+            document.getElementById("detail-student").innerText = `${booking.studentName} (Age: ${booking.age})`;
+            document.getElementById("detail-coach").innerText = booking.teacherName;
+            
+            // Format dates
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            const formattedDate = new Date(booking.date).toLocaleDateString("en-US", options);
+            document.getElementById("detail-time").innerText = `${formattedDate} at ${booking.slot}`;
+            document.getElementById("detail-specs").innerText = `${booking.language} • ${booking.level}`;
+
+            // Status indicator
+            const statusBox = document.getElementById("class-badge-status");
+            statusBox.innerText = booking.status;
+            statusBox.className = "badge"; // reset
+            if (booking.status === "Demo Booked") statusBox.classList.add("badge-pending");
+            else if (booking.status === "Demo Attended") statusBox.classList.add("badge-success");
+            else if (booking.status === "Cancelled") statusBox.classList.add("badge-cancelled");
+
+            // Option 1: Generate Jitsi link dynamically
+            const jitsiRoomName = `ParasChessAcademy_class_${booking.id}`;
+            const jitsiUrl = `https://meet.jit.si/${jitsiRoomName}`;
+            document.getElementById("btn-jitsi-link").href = jitsiUrl;
+
+            // Option 2: Handle Google Meet link
+            const meetUrlElement = document.getElementById("btn-meet-link");
+            const meetUrl = booking.meetingLink || "https://meet.google.com/";
+            meetUrlElement.href = meetUrl;
+
+            // Check if the current URL is a placeholder (ends with random string that might not be real)
+            // Statically generated random URLs from DB have no active host.
+            // We consider it a placeholder if the database initialization random URL has not been replaced by coach/staff.
+            // All statically generated random URLs start with generateGoogleMeetLink().
+            // We check if it is placeholder by checking if it contains the random flag or if the coach hasn't updated it.
+            // To make this robust, we add a flag `booking.isRealMeetingLink` or check if the link is not updated.
+            const isRealLink = booking.isRealMeetingLink || false;
+
+            const placeholderBanner = document.getElementById("meet-placeholder-banner");
+            if (!isRealLink) {
+                placeholderBanner.style.display = "flex";
+            } else {
+                placeholderBanner.style.display = "none";
+            }
+
+            // Identify logged in role
+            const session = JSON.parse(localStorage.getItem("chess_active_session"));
+            const isStaff = session && (session.role === 'teacher' || session.role === 'admin');
+
+            const staffPanel = document.getElementById("meet-staff-panel");
+            const meetInput = document.getElementById("meet-url-input");
+            const saveBtn = document.getElementById("btn-save-meet-url");
+
+            if (isStaff) {
+                staffPanel.style.display = "block";
+                meetInput.value = meetUrl;
+
+                saveBtn.addEventListener("click", () => {
+                    const enteredUrl = meetInput.value.trim();
+                    if (!enteredUrl.startsWith("https://meet.google.com/")) {
+                        window.Toast.show("Validation Error", "Please paste a valid Google Meet link (starts with https://meet.google.com/)", "danger");
+                        return;
+                    }
+
+                    // Update booking details
+                    booking.meetingLink = enteredUrl;
+                    booking.isRealMeetingLink = true; // Mark as real updated link!
+
+                    // Save back
+                    window.ChessDB.saveBooking(booking);
+
+                    // Send Email notification to parent via Hostinger
+                    fetch('send-email.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            type: 'update-meet-link',
+                            studentName: booking.studentName,
+                            parentName: booking.parentName,
+                            email: booking.email,
+                            date: formattedDate,
+                            slot: booking.slot,
+                            teacherName: booking.teacherName,
+                            meetingLink: enteredUrl
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Classroom link update email dispatch result:", data);
+                    })
+                    .catch(error => {
+                        console.error("Failed to send classroom link update email:", error);
+                    });
+
+                    // Add simulation log
+                    window.ChessDB.addLog("system", `Coach ${session.name} updated the Google Meet classroom URL for ${booking.studentName} to [${enteredUrl}].`);
+                    window.ChessDB.addLog("whatsapp", `Hi ${booking.parentName}, Coach ${booking.teacherName} has updated the Google Meet classroom link. Join live trial class: ${enteredUrl}`);
+                    
+                    // Show success alert
+                    window.Toast.show("Classroom Updated", "Google Meet link updated successfully and email sent to parent!", "success");
+                    
+                    // Refresh view
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                });
+            }
+
+            // Setup dynamic back button
+            const backBtn = document.getElementById("btn-classroom-back");
+            if (session) {
+                if (session.role === 'admin') backBtn.href = "admin.html";
+                else if (session.role === 'teacher') backBtn.href = "teacher.html";
+                else if (session.role === 'student') backBtn.href = "student.html";
+            } else {
+                backBtn.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>
