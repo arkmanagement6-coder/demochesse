@@ -1592,7 +1592,7 @@ class AdminController {
                     <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; font-weight:700;">ASSIGNED CHESS COACH</div>
                     <div style="font-size:14px; font-weight:700; color:var(--text-primary); margin-top:2px;">${coachName}</div>
                 </div>
-                <a href="${booking.meetingLink || '#'}" target="_blank" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 8px rgba(139,92,246,0.3);">💻 Join Class Link</a>
+                <a href="classroom.html?id=${booking.id}" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 8px rgba(139,92,246,0.3);">💻 Join Class Link</a>
             </div>
 
             <!-- Lead Goals & Notes Box -->
