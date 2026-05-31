@@ -451,12 +451,14 @@ class BookingWizard {
         const bookings = window.ChessDB.getBookings();
 
         standardSlots.forEach(timeSlot => {
-            // Find coaches rostered for this slot on this date who are not on leave
+            // Find coaches rostered for this slot on this date who are not on leave and match level/language
             const rosteredCoaches = teachers.filter(t => {
                 const slots = dailyRoster[t.id] || [];
                 const isRostered = slots.includes(timeSlot);
                 const isLeave = t.leaves && t.leaves.includes(date);
-                return isRostered && !isLeave;
+                const supportsLevel = !this.studentLevel || (t.expertise && t.expertise.includes(this.studentLevel));
+                const supportsLang = !this.studentLang || !this.studentLang.value || (t.languages && t.languages.includes(this.studentLang.value));
+                return isRostered && !isLeave && supportsLevel && supportsLang;
             });
 
             let status = "full";
@@ -609,31 +611,119 @@ class BookingWizard {
         // Dispatch credentials welcome email to student parent
         window.NotificationCenter.dispatch("email", `Welcome to Parash Chess Academy! A student demo portal account has been created for ${studentName}. Log in to view your schedule. Email: ${email}, Password: ${generatedPassword}.`);
 
-        // Send actual booking confirmation email to candidate via PHP Backend
-        fetch('send-email.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                type: 'booking',
-                studentName: studentName,
-                parentName: parentName,
-                email: email,
-                mobile: mobile,
-                date: this.selectedDateStr,
-                slot: this.selectedSlotStr,
-                teacherName: matchResult.teacher.name,
-                meetingLink: newBooking.meetingLink,
-                generatedPassword: generatedPassword
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Email dispatch result:", data);
-        })
-        .catch(error => {
-            console.error("Failed to send booking email:", error);
+        // Send actual booking confirmation email to candidate via SMTP.js
+        const bookingMessage = `
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <h2 style="color: #D11A2A; margin: 0;">🏆 Paras Chess Academy</h2>
+                    <p style="color: #16A34A; font-weight: bold; font-size: 18px; margin-top: 5px;">✓ Demo Booking Confirmed!</p>
+                </div>
+                
+                <p>Dear <strong>${parentName}</strong>,</p>
+                <p>Your child's (<strong>${studentName}</strong>) personalized 1-on-1 Chess Demo Assessment Class has been scheduled successfully. Below are the class details:</p>
+                
+                <!-- Class Details Card -->
+                <div style="background: #F8FAFC; padding: 20px; border-radius: 8px; border: 1px solid #E2E8F0; margin: 20px 0;">
+                    <table style="width: 100%; font-size: 14px;">
+                        <tr>
+                            <td style="font-weight: bold; width: 35%; padding: 6px 0;">Date:</td>
+                            <td style="color: #0F172A;">${this.selectedDateStr}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; padding: 6px 0;">Time Slot:</td>
+                            <td style="color: #0F172A;">${this.selectedSlotStr}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; padding: 6px 0;">Assigned Coach:</td>
+                            <td style="color: #0F172A;">Coach ${matchResult.teacher.name}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold; padding: 6px 0;">Class Link:</td>
+                            <td><a href="${newBooking.meetingLink}" style="color: #D11A2A; font-weight: bold;">Join Google Meet Class</a></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Portal Credentials Card -->
+                <div style="background: #FFFBEB; padding: 20px; border-radius: 8px; border: 1px solid #FDE68A; margin: 20px 0;">
+                    <h4 style="color: #D97706; margin-top: 0; margin-bottom: 10px;">🔑 Student Portal Credentials</h4>
+                    <p style="margin: 0 0 10px 0; font-size: 13px;">We have created a student portal account for your child. Log in to track progress, access worksheets, and join future sessions.</p>
+                    <table style="width: 100%; font-size: 13px;">
+                        <tr>
+                            <td style="font-weight: bold; width: 25%;">Portal URL:</td>
+                            <td><a href="https://paraschessacademy.com/login.html" style="color: #D97706;">paraschessacademy.com/login.html</a></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Login Email:</td>
+                            <td style="font-family: monospace;">${email}</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">Password:</td>
+                            <td style="font-family: monospace; font-weight: bold; color: #D11A2A;">${generatedPassword}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <p style="margin-top: 25px;"><strong>Important Class Instructions:</strong></p>
+                <ul style="font-size: 13px; padding-left: 20px;">
+                    <li>Please join the Google Meet class using a laptop or tablet for the best board view experience.</li>
+                    <li>Ensure your webcam and microphone are working correctly.</li>
+                    <li>Join exactly 5 minutes before the scheduled time slot.</li>
+                </ul>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                <p style="font-size: 12px; color: #777; text-align: center;">
+                    Our counselor will connect on WhatsApp shortly. For immediate support, email us at <a href="mailto:support@paraschessacademy.com">support@paraschessacademy.com</a>
+                </p>
+            </div>
+        </body>
+        </html>
+        `;
+
+        const adminBookingMessage = `
+        <html>
+        <body>
+            <h2>New 1-on-1 Chess Demo Class Booked</h2>
+            <p><strong>Student Name:</strong> ${studentName}</p>
+            <p><strong>Parent Name:</strong> ${parentName}</p>
+            <p><strong>Parent Email:</strong> ${email}</p>
+            <p><strong>Mobile:</strong> ${mobile}</p>
+            <p><strong>Date & Slot:</strong> ${this.selectedDateStr} at ${this.selectedSlotStr}</p>
+            <p><strong>Assigned Coach:</strong> Coach ${matchResult.teacher.name}</p>
+            <p><strong>Portal Temp Password:</strong> ${generatedPassword}</p>
+            <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
+        </body>
+        </html>
+        `;
+
+        // Send confirmation to candidate via SMTP.js
+        Email.send({
+            Host: "smtp.hostinger.com",
+            Username: "support@paraschessacademy.com",
+            Password: "Paras@2709@",
+            To: email,
+            From: "support@paraschessacademy.com",
+            Subject: "Confirmed: 1-on-1 Chess Demo Class - Paras Chess Academy",
+            Body: bookingMessage
+        }).then(msg1 => {
+            console.log("Candidate demo booking email dispatch status:", msg1);
+            
+            // Send alert to admin via SMTP.js
+            Email.send({
+                Host: "smtp.hostinger.com",
+                Username: "support@paraschessacademy.com",
+                Password: "Paras@2709@",
+                To: "paraschessacademy@gmail.com",
+                From: "support@paraschessacademy.com",
+                Subject: `New Demo Class Booked by ${studentName}`,
+                Body: adminBookingMessage
+            }).then(msg2 => {
+                console.log("Admin demo booking email dispatch status:", msg2);
+            });
+        }).catch(err => {
+            console.error("Error dispatching booking emails via SMTP.js:", err);
         });
 
         // Redirect to success screen with booking query

@@ -164,18 +164,20 @@ class AssignmentEngine {
     }
  
     static generateWaitlistResult(logs) {
-        logs.push(`🟠 Putting student on Waitlist. Admin will be notified to review manual assignment.`);
+        logs.push(`🟠 Matching criteria failed. Fallback to first available admin coach.`);
+        const teachers = window.ChessDB.getTeachers();
+        const fallbackTeacher = (teachers && teachers.length > 0) ? teachers[0] : {
+            id: "t_aarav",
+            name: "Aarav Sharma",
+            experience: "6 Years (FIDE Master - Rating 2150)",
+            rating: 4.9,
+            avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
+            languages: ["English", "Hindi"],
+            expertise: ["Beginner", "Intermediate"]
+        };
         return {
             status: "Waitlisted",
-            teacher: {
-                id: "waitlist",
-                name: "Waitlist / Pool Coach",
-                experience: "Assigning soon",
-                rating: 4.8,
-                avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
-                languages: ["All languages"],
-                expertise: ["All levels"],
-            },
+            teacher: fallbackTeacher,
             logs: logs,
             scoreCard: { rating: 0, loadBalancing: 0, priority: 0, total: 0 }
         };

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- FontAwesome Vector Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SMTP.js Direct Mailer integration -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <!-- Premium Navy & White Modern Theme Override CSS -->
     <style>
         :root {
@@ -1572,31 +1574,89 @@
             // Show sending loader
             showToast("Sending Email...", "Sending the complete syllabus to " + email + "...");
             
-            // Send email via PHP Backend
-            fetch('send-email.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    age: age,
-                    levelName: levelName
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
+            // Send Syllabus Email to Candidate Parent
+            const syllabusMessage = `
+            <html>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="color: #D11A2A; margin: 0;">🏆 Paras Chess Academy</h2>
+                        <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">Hello ${name},</p>
+                    </div>
+                    <p>Thank you for your interest in the <strong>Paras Chess Academy</strong>. As requested, we have attached the detailed chess syllabus outline below:</p>
+                    
+                    <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #D11A2A; margin: 20px 0;">
+                        <h3 style="margin-top: 0; color: #0F172A;">${levelName} Chess Syllabus Overview</h3>
+                        <ul>
+                            <li>Chessboard foundations, coordinates, and basics.</li>
+                            <li>Advanced Tactical Drills: Forks, Skewers, Decoys, Windmills.</li>
+                            <li>Personalized 1-on-1 strategy sessions with FIDE-rated coaches.</li>
+                            <li>Weekly live matches and game post-mortem analysis.</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-bottom: 25px;">You can download the full detailed PDF version of the syllabus directly from the link below:</p>
+                    <div style="text-align: center;">
+                        <a href="https://paraschessacademy.com/syllabus.pdf" style="background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2);">📥 Download Syllabus PDF</a>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                    <p style="font-size: 12px; color: #777; text-align: center;">
+                        Our counselor will reach out to you on WhatsApp at <strong>${phone}</strong> shortly to schedule your FREE 1-on-1 demo assessment class.<br>
+                        For support, email us at <a href="mailto:support@paraschessacademy.com">support@paraschessacademy.com</a>
+                    </p>
+                </div>
+            </body>
+            </html>
+            `;
+
+            const adminSyllabusMessage = `
+            <html>
+            <body>
+                <h2>New Chess Syllabus Request Lead</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Child's Age:</strong> ${age} Years</p>
+                <p><strong>Requested Course Level:</strong> ${levelName}</p>
+                <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
+            </body>
+            </html>
+            `;
+
+            // Dispatch to Candidate Parent via SMTP.js
+            Email.send({
+                Host: "smtp.hostinger.com",
+                Username: "support@paraschessacademy.com",
+                Password: "Paras@2709@",
+                To: email,
+                From: "support@paraschessacademy.com",
+                Subject: `Your Paras Chess Academy Syllabus - ${levelName} Program`,
+                Body: syllabusMessage
+            }).then(msg1 => {
+                console.log("Candidate syllabus email dispatch:", msg1);
+                
+                // Dispatch alert to Admin via SMTP.js
+                Email.send({
+                    Host: "smtp.hostinger.com",
+                    Username: "support@paraschessacademy.com",
+                    Password: "Paras@2709@",
+                    To: "paraschessacademy@gmail.com",
+                    From: "support@paraschessacademy.com",
+                    Subject: `New Lead: Syllabus Requested by ${name}`,
+                    Body: adminSyllabusMessage
+                }).then(msg2 => {
+                    console.log("Admin lead email dispatch:", msg2);
+                });
+
+                if (msg1 === "OK") {
                     showToast("Syllabus Sent to Email!", "The complete chess syllabus has been sent to " + email + ". Priya Sharma will also reach out on WhatsApp shortly!");
                 } else {
+                    console.warn("SMTP.js delivery warning:", msg1);
                     showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
                 }
-            })
-            .catch(error => {
-                console.error('Error sending email:', error);
-                // Fallback success notification in case of local offline testing
+            }).catch(error => {
+                console.error("Error sending syllabus emails:", error);
                 showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
             });
         }
