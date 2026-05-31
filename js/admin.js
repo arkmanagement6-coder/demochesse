@@ -1380,7 +1380,7 @@ class AdminController {
             slotsContainer.style.width = "100%";
 
             // Static slots available for this teacher
-            const allSlots = t.slots || this.standardSlotsList || [];
+            const allSlots = this.standardSlotsList || [];
             allSlots.forEach(slot => {
                 const isChecked = rosteredSlots.includes(slot);
                 
