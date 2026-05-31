@@ -262,37 +262,110 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ";
         send_smtp_email($adminTo, $adminSubject, $adminMessage, $from, $password);
 
-    } else {
-        // --- 2. SYLLABUS REQUEST EMAIL ---
-        $name = isset($data["name"]) ? strip_tags($data["name"]) : "Parent";
-        $phone = isset($data["phone"]) ? strip_tags($data["phone"]) : "";
-        $age = isset($data["age"]) ? strip_tags($data["age"]) : "";
-        $levelName = isset($data["levelName"]) ? strip_tags($data["levelName"]) : "Complete";
+        // Dynamic Syllabus Details in Email Body
+        $syllabusDetailsHTML = "";
+        $pdfFilename = "syllabus.pdf"; // Default fallback
+        
+        if (strpos(strtolower($levelName), "begin") !== false) {
+            $pdfFilename = "syllabus-beginners.pdf";
+            $syllabusDetailsHTML = "
+            <h3 style='margin-top: 0; color: #0F172A;'>♟️ Beginners Chess Program Syllabus</h3>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Foundations (2-3 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Introduction to the Chessboard (Squares, files, ranks, diagonals, notations)</li>
+                <li>Introduction to Chess Pieces (Names, movements, and values of all pieces)</li>
+                <li>Attacking a Piece & Capturing Hanging Pieces</li>
+                <li>How to Defend a Piece (Move away, capture, support, or block)</li>
+                <li>Introduction to Check & Checkmate (Two Rooks mate)</li>
+            </ul>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Special Rules & Core Tactics (5-6 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Special Moves (Castling, Pawn Promotion, En Passant)</li>
+                <li>Opening Fundamentals (Center control, development, King safety)</li>
+                <li>Primary Tactics (Double Attack, Knight Fork, Pin, Skewer)</li>
+                <li>Advanced Tactics (Back Rank, Discovered Check, Removing the Defender)</li>
+                <li>Draw Rules (Stalemate, agreement, repetition, insufficient material)</li>
+            </ul>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 3 – Practical Play & Etiquette (3 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Active games and detailed post-game analysis</li>
+                <li>Identifying tactical opportunities & finding opponent's threats</li>
+                <li>Tournament rules, etiquette, and preparation for Intermediate stage</li>
+            </ul>";
+        } elseif (strpos(strtolower($levelName), "inter") !== false) {
+            $pdfFilename = "syllabus-intermediate.pdf";
+            $syllabusDetailsHTML = "
+            <h3 style='margin-top: 0; color: #0F172A;'>♟️ Intermediate Chess Program Syllabus</h3>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Tactical Vision & Major Openings (6 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Tactical Training (Mate in 2, Mate in 3, Double Attack, Fork, Pin, Skewer Level 2)</li>
+                <li>Discovered Check, Discovered Attack, Destroying the Defender Level 1 & 2</li>
+                <li>Opening Preparation (Queen's Gambit Accepted & Declined, Sicilian Defence, Caro-Kann, French)</li>
+            </ul>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Advanced Calculation & Repertoire (6 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Advanced Tactics (Mate in 4 Moves, Double Attack, Fork, Pin, Skewer Level 3)</li>
+                <li>Discovered Check & Attack Level 3, Destroying the Defender Level 3</li>
+                <li>Opening Preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez)</li>
+                <li>Building tournament level tactical calculation skills</li>
+            </ul>";
+        } elseif (strpos(strtolower($levelName), "advan") !== false) {
+            $pdfFilename = "syllabus-advanced.pdf";
+            $syllabusDetailsHTML = "
+            <h3 style='margin-top: 0; color: #0F172A;'>♟️ Advanced Chess Program Syllabus</h3>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Advanced Strategic & Tactical Concepts (6 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Positional & Strategic calculation to improve calculation and practical play</li>
+                <li>Tactical concepts (Overloaded Piece, Line Opening & Closing, Square Vacation, Passed Pawn)</li>
+                <li>Zwischenzug, Drawing Combinations, X-Ray Attack, Windmills</li>
+            </ul>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Advanced Tactics & Attacking (6 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Advanced tactics and elementary checkmates to improve attacking ability</li>
+                <li>Elementary Checkmate with Bishop & Knight, Checkmating Patterns</li>
+                <li>Art of Combining Pieces, Decoy & Deflection tactics</li>
+            </ul>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 3 – Endgame Fundamentals & FIDE Prep (6 Months)</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Endgame Fundamentals (Concept of Opposition, Rule of the Square, King & Pawn Endings)</li>
+                <li>Queen vs Pawn, Knight vs Pawn, Rook vs Pawn, Queen vs Rook, Rook Endings</li>
+                <li>Guidance for official FIDE Rated Tournaments, building confidence</li>
+            </ul>";
+        } else {
+            // FIDE Rating or Complete
+            $pdfFilename = "syllabus-fide.pdf";
+            $syllabusDetailsHTML = "
+            <h3 style='margin-top: 0; color: #0F172A;'>🏆 Personalized FIDE Rating Training Outline</h3>
+            <p style='font-size: 14px; color: #475569; font-weight: bold; margin-bottom: 5px;'>Dedicated 1-on-1 Coaching with Higher Rated FIDE Masters</p>
+            <p style='font-size: 13px; line-height: 1.5; color: #475569; margin: 0 0 10px 0;'>Our FIDE Rating training is deeply personalized. You are matched with international masters who analyze your game statistics, detect logical blind spots, and curate openings explicitly designed for you.</p>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li><strong>Opening Repertoire:</strong> Custom repertoire matching your cognitive style.</li>
+                <li><strong>Middlegame Planning:</strong> Evaluating piece dynamics, planning, and tactical vision.</li>
+                <li><strong>Tournament Psychology:</strong> Time management, coping with pressure, speed-clock psychology.</li>
+                <li><strong>Endgame Technique:</strong> Flawless conversion of winning advantage positions.</li>
+                <li><strong>FIDE Rating Roadmap:</strong> Strategy for official FIDE rated tournaments.</li>
+            </ul>";
+        }
 
         $subject = "Your Paras Chess Academy Syllabus - $levelName Program";
         $message = "
         <html>
         <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
-            <div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
-                <div style='text-align: center; margin-bottom: 20px;'>
-                    <h2 style='color: #D11A2A;'>🏆 Paras Chess Academy</h2>
-                    <p style='font-size: 16px; font-weight: bold;'>Hello $name,</p>
+            <div style='max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);'>
+                <div style='text-align: center; margin-bottom: 25px;'>
+                    <h2 style='color: #D11A2A; margin: 0;'>🏆 Paras Chess Academy</h2>
+                    <p style='font-size: 16px; font-weight: bold; color: #0F172A; margin-top: 5px;'>Hello $name,</p>
                 </div>
-                <p>Thank you for your interest in the <strong>Paras Chess Academy</strong>. As requested, we have attached the detailed chess syllabus outline below:</p>
+                <p>Thank you for your interest in <strong>Paras Chess Academy</strong>. As requested, we have prepared and attached the detailed chess curriculum outline for your child below:</p>
                 
-                <div style='background: #f9f9f9; padding: 15px; border-left: 4px solid #D11A2A; margin: 20px 0;'>
-                    <h3 style='margin-top: 0; color: #0F172A;'>$levelName Chess Syllabus Overview</h3>
-                    <ul>
-                        <li>Chessboard foundations, coordinates, and basics.</li>
-                        <li>Advanced Tactical Drills: Forks, Skewers, Decoys, Windmills.</li>
-                        <li>Personalized 1-on-1 strategy sessions with FIDE-rated coaches.</li>
-                        <li>Weekly live matches and game post-mortem analysis.</li>
-                    </ul>
+                <!-- Dynamic Syllabus Content Block -->
+                <div style='background: #F8FAFC; padding: 20px; border-radius: 8px; border: 1px solid #E2E8F0; margin: 20px 0;'>
+                    $syllabusDetailsHTML
                 </div>
 
-                <p style='margin-bottom: 25px;'>You can download the full detailed PDF version of the syllabus directly from the link below:</p>
-                <div style='text-align: center;'>
-                    <a href='https://paraschessacademy.com/syllabus.pdf' style='background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2);'>📥 Download Syllabus PDF</a>
+                <p style='margin-bottom: 25px; font-size: 13px;'>You can download the full detailed PDF version of this syllabus directly using the button below (please ensure your coach has uploaded the PDF in the host directory):</p>
+                <div style='text-align: center; margin-bottom: 25px;'>
+                    <a href='https://paraschessacademy.com/$pdfFilename' style='background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2);'>📥 Download Syllabus PDF</a>
                 </div>
 
                 <hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>
