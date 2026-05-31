@@ -1329,10 +1329,10 @@
     </div>
 
     <!-- Success Toast Alert -->
-    <div class="toast-chess" id="success-toast">
-        <i class="fa-solid fa-circle-check" style="color:var(--primary-blue); font-size: 20px;"></i>
+    <div class="toast-chess" id="success-toast" style="transition: all 0.3s ease;">
+        <i class="fa-solid fa-circle-check" id="toast-icon" style="color:var(--primary-blue); font-size: 20px; transition: all 0.3s ease;"></i>
         <div>
-            <h4 style="font-size:13px; font-weight:700; margin:0;" id="toast-title">Syllabus Request Received!</h4>
+            <h4 style="font-size:13px; font-weight:700; margin:0; transition: all 0.3s ease;" id="toast-title">Syllabus Request Received!</h4>
             <p style="font-size:11px; color:var(--text-secondary); margin:0;" id="toast-desc">Your requested syllabus blueprint has been successfully sent to your email.</p>
         </div>
     </div>
@@ -1663,7 +1663,7 @@
             localStorage.setItem("chess_syllabus_leads", JSON.stringify(existingLeads));
             
             // Show sending loader
-            showToast("Sending Email...", "Sending the complete syllabus to " + email + "...");
+            showToast("Sending Email...", "Sending the complete syllabus to " + email + "...", "info");
             
             // Send Syllabus Email via Hostinger PHP Mailer
             fetch('https://paraschessacademy.com/send-email.php', {
@@ -1683,15 +1683,15 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    showToast("Syllabus Sent to Email!", "The complete chess syllabus has been sent to " + email + ". Priya Sharma will also reach out on WhatsApp shortly!");
+                    showToast("Syllabus Sent to Email!", "The complete chess syllabus has been sent to " + email + ". Priya Sharma will also reach out on WhatsApp shortly!", "success");
                 } else {
                     console.warn("Mailer response error:", data);
-                    showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
+                    showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!", "warning");
                 }
             })
             .catch(error => {
                 console.error("Error sending syllabus emails:", error);
-                showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
+                showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!", "warning");
             });
         }
 
@@ -1822,18 +1822,70 @@ Book your 1-on-1 Free Class at: https://demochesse.vercel.app/
             event.target.reset();
         }
 
-        function showToast(title, desc) {
+        function showToast(title, desc, type = "success") {
             const toast = document.getElementById('success-toast');
-            document.getElementById('toast-title').innerText = title;
-            // Update the default toast description to match the email-dispatch theme
+            const icon = document.getElementById('toast-icon');
+            const titleEl = document.getElementById('toast-title');
+            const descEl = document.getElementById('toast-desc');
+            
+            titleEl.innerText = title;
             if (desc.includes("download")) {
                 desc = "Your requested syllabus blueprint has been dispatched to your email address.";
             }
-            document.getElementById('toast-desc').innerText = desc;
+            descEl.innerText = desc;
+            
+            if (type === "success") {
+                // Success: Vibrant Premium Green!
+                toast.style.borderColor = "#22C55E";
+                toast.style.background = "#F0FDF4";
+                titleEl.style.color = "#15803D";
+                descEl.style.color = "#166534";
+                if (icon) {
+                    icon.className = "fa-solid fa-circle-check";
+                    icon.style.color = "#22C55E";
+                }
+            } else if (type === "warning") {
+                // Warning / Fallback Request: Amber/Gold
+                toast.style.borderColor = "#F59E0B";
+                toast.style.background = "#FFFBEB";
+                titleEl.style.color = "#B45309";
+                descEl.style.color = "#92400E";
+                if (icon) {
+                    icon.className = "fa-solid fa-circle-info";
+                    icon.style.color = "#F59E0B";
+                }
+            } else if (type === "info" || type === "loading") {
+                // Info / Loading Email: Premium Blue with Spinning Loader
+                toast.style.borderColor = "#3B82F6";
+                toast.style.background = "#EFF6FF";
+                titleEl.style.color = "#1D4ED8";
+                descEl.style.color = "#1E40AF";
+                if (icon) {
+                    icon.className = "fa-solid fa-spinner fa-spin";
+                    icon.style.color = "#3B82F6";
+                }
+            } else {
+                // Error: Crimson Red
+                toast.style.borderColor = "#EF4444";
+                toast.style.background = "#FEF2F2";
+                titleEl.style.color = "#B91C1C";
+                descEl.style.color = "#991B1B";
+                if (icon) {
+                    icon.className = "fa-solid fa-circle-xmark";
+                    icon.style.color = "#EF4444";
+                }
+            }
+            
             toast.style.display = 'flex';
-            setTimeout(() => {
+            
+            // Clear existing timeout if any
+            if (window.toastTimeout) {
+                clearTimeout(window.toastTimeout);
+            }
+            
+            window.toastTimeout = setTimeout(() => {
                 toast.style.display = 'none';
-            }, 5000);
+            }, 6000);
         }
     </script>
 

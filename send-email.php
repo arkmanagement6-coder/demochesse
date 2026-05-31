@@ -1,91 +1,116 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Content-Type: application/json");
+
+// Handle CORS Preflight OPTIONS request
+if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
+    http_response_code(200);
+    exit;
+}
 
 // Diagnostic error logger
 function log_smtp_error($msg) {
     file_put_contents("email-errors.log", "[" . date("Y-m-d H:i:s") . "] " . $msg . "\n", FILE_APPEND);
 }
 
+function read_smtp_response($socket) {
+    $response = "";
+    while ($str = fgets($socket, 515)) {
+        $response .= $str;
+        if (substr($str, 3, 1) == " ") {
+            break;
+        }
+    }
+    return $response;
+}
+
 function send_smtp_email($to, $subject, $body_html, $from_email, $password) {
+    // 1. First, try the standard PHP mail() function which is 100% reliable on Hostinger
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Paras Chess Academy <" . $from_email . ">\r\n";
+    $headers .= "Reply-To: " . $from_email . "\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    
+    // -f option sets the sender envelope address (critical on Hostinger to avoid spoofing filters)
+    $additional_params = "-f" . $from_email;
+    
+    $mail_sent = @mail($to, $subject, $body_html, $headers, $additional_params);
+    if ($mail_sent) {
+        return true;
+    }
+    
+    // Log PHP mail() failure and try SMTP socket fallback
+    log_smtp_error("PHP mail() failed for $to. Trying SMTP socket fallback...");
+
     $smtp_server = "ssl://smtp.hostinger.com";
     $port = 465;
     
     // Connect via secure socket
     $socket = @fsockopen($smtp_server, $port, $errno, $errstr, 15);
     if (!$socket) {
-        log_smtp_error("Connection failed: $errstr ($errno)");
+        log_smtp_error("SMTP Connection failed: $errstr ($errno)");
         return false;
     }
     
-    function read_response($socket) {
-        $response = "";
-        while ($str = fgets($socket, 515)) {
-            $response .= $str;
-            if (substr($str, 3, 1) == " ") {
-                break;
-            }
-        }
-        return $response;
-    }
-    
-    $greeting = read_response($socket);
+    $greeting = read_smtp_response($socket);
     if (strpos($greeting, "220") === false) {
-        log_smtp_error("Greeting failed: $greeting");
+        log_smtp_error("SMTP Greeting failed: $greeting");
         fclose($socket);
         return false;
     }
     
     // EHLO
     fwrite($socket, "EHLO paraschessacademy.com\r\n");
-    $ehlo = read_response($socket);
+    $ehlo = read_smtp_response($socket);
     
     // AUTH LOGIN
     fwrite($socket, "AUTH LOGIN\r\n");
-    $auth = read_response($socket);
+    $auth = read_smtp_response($socket);
     if (strpos($auth, "334") === false) {
-        log_smtp_error("AUTH LOGIN initiation failed: $auth");
+        log_smtp_error("SMTP AUTH LOGIN initiation failed: $auth");
         fclose($socket);
         return false;
     }
     
     // Send Username
     fwrite($socket, base64_encode($from_email) . "\r\n");
-    $user_resp = read_response($socket);
+    $user_resp = read_smtp_response($socket);
     if (strpos($user_resp, "334") === false) {
-        log_smtp_error("Username rejected: $user_resp");
+        log_smtp_error("SMTP Username rejected: $user_resp");
         fclose($socket);
         return false;
     }
     
     // Send Password
     fwrite($socket, base64_encode($password) . "\r\n");
-    $pass_resp = read_response($socket);
+    $pass_resp = read_smtp_response($socket);
     if (strpos($pass_resp, "235") === false) {
-        log_smtp_error("Password rejected / authentication failed: $pass_resp");
+        log_smtp_error("SMTP Password rejected / authentication failed: $pass_resp");
         fclose($socket);
         return false;
     }
     
     // MAIL FROM
     fwrite($socket, "MAIL FROM: <$from_email>\r\n");
-    $from_resp = read_response($socket);
+    $from_resp = read_smtp_response($socket);
     
     // RCPT TO
     fwrite($socket, "RCPT TO: <$to>\r\n");
-    $to_resp = read_response($socket);
+    $to_resp = read_smtp_response($socket);
     if (strpos($to_resp, "250") === false && strpos($to_resp, "251") === false) {
-        log_smtp_error("Recipient rejected: $to_resp");
+        log_smtp_error("SMTP Recipient rejected: $to_resp");
         fclose($socket);
         return false;
     }
     
     // DATA
     fwrite($socket, "DATA\r\n");
-    $data_resp = read_response($socket);
+    $data_resp = read_smtp_response($socket);
     if (strpos($data_resp, "354") === false) {
-        log_smtp_error("DATA command rejected: $data_resp");
+        log_smtp_error("SMTP DATA command rejected: $data_resp");
         fclose($socket);
         return false;
     }
@@ -101,16 +126,16 @@ function send_smtp_email($to, $subject, $body_html, $from_email, $password) {
     $email_payload = $headers . "\r\n" . $body_html . "\r\n.\r\n";
     
     fwrite($socket, $email_payload);
-    $send_resp = read_response($socket);
+    $send_resp = read_smtp_response($socket);
     if (strpos($send_resp, "250") === false) {
-        log_smtp_error("Failed to deliver body payload: $send_resp");
+        log_smtp_error("SMTP Failed to deliver body payload: $send_resp");
         fclose($socket);
         return false;
     }
     
     // QUIT
     fwrite($socket, "QUIT\r\n");
-    read_response($socket);
+    read_smtp_response($socket);
     fclose($socket);
     
     return true;
