@@ -747,8 +747,8 @@
                 <div class="glass-card-dark" style="padding: 40px; border-radius: 16px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:rgba(209, 26, 42, 0.15); color:var(--primary-navy); border:1px solid rgba(209, 26, 42, 0.3);">Ages 5+ Welcome</span>
-                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Foundation & Basics Curriculum</h3>
+                            <span class="badge" style="background:rgba(209, 26, 42, 0.15); color:var(--primary-navy); border:1px solid rgba(209, 26, 42, 0.3);">Learn • Practice • Improve</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Beginners Chess Program</h3>
                         </div>
                         <button onclick="openDownloadModal('Beginners')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-envelope"></i> Beginners Syllabus
@@ -757,64 +757,67 @@
 
                     <!-- Benefits Bar -->
                     <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; font-size: 13px; color: var(--primary-navy); font-weight: 600;">
-                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Beginner Friendly</span>
-                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Structured Curriculum</span>
-                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Puzzle Training</span>
-                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Tournament Basics</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Foundations</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Special Rules</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Basic Tactics</span>
+                        <span><i class="fa-solid fa-check" style="color:var(--primary-blue);"></i> ✔ Game Analysis</span>
                     </div>
 
-                    <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
-                        This course starts from absolute scratch. Ideal for kids who are fresh to chess or know minimal board layout rules. We introduce interactive gamified puzzles to build immediate logical speed.
+                    <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom: 20px;">
+                        Our Beginners Program starts from the absolute basics. It is designed to introduce the beautiful game of chess to young minds, establishing strong logical thinking, deep analysis, and tactical fundamentals.
                     </p>
 
                     <!-- Syllabus Accordion levels -->
                     <div class="syllabus-accordion">
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Beginners Level 1 — Chessboard Foundations <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2 Months)</span></span>
+                                <span>🌟 Beginners Level 1 — Chessboard & Piece Fundamentals <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2-3 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
-                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square;">
-                                    <li>Chessboard basics: Files, ranks, diagonals, coordinates, and coordinates.</li>
-                                    <li>Piece movements & values: Detailed moves of Pawns, Knights, Bishops, Rooks, Queens, Kings.</li>
-                                    <li>Concept of Check & Escape: Move, Block, Capture rules.</li>
-                                    <li>Checkmate patterns & Draw: Scholar's mate, stalemate, 50-move draws.</li>
-                                    <li>Basic Chess Notation: Writing down game moves (Kxd5, e4, etc.).</li>
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Board Foundations:</strong> Number of squares, names of squares, files, ranks, diagonals, and notations.</li>
+                                    <li><strong>Piece Movements:</strong> Move mechanics, capturing hanging pieces, and values of Pawns, Knights, Bishops, Rooks, Queens, and Kings.</li>
+                                    <li><strong>Defense Mechanisms:</strong> Good exchange vs. bad exchange, defense by moving away, capturing, supporting, or blocking.</li>
+                                    <li><strong>Check & Escape:</strong> Creating a check, getting out of check (move, block, capture), checkmate vs check.</li>
+                                    <li><strong>Basic Checkmates:</strong> Double Rook checkmate, basic puzzle solving, and standard chess notation.</li>
                                 </ul>
-                                <button onclick="openDownloadModal()" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                                <button onclick="openDownloadModal('Beginners')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
                             </div>
                         </div>
 
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Beginners Level 2 — Basic Tactics & Captures <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2 Months)</span></span>
+                                <span>🌟 Beginners Level 2 — Special Rules & Core Tactics <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 5-6 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
-                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square;">
-                                    <li>Introduction to Castling, Promotion, and En Passant.</li>
-                                    <li>Primary Tactical Weapons: Forks, Skewers, Pins.</li>
-                                    <li>Piece Trades: Safe captures vs. bad trades.</li>
-                                    <li>Solving beginner mate-in-1 and mate-in-2 tactical puzzles.</li>
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Special Moves:</strong> Castling, Pawn Promotion vs. Underpromotion, and En Passant.</li>
+                                    <li><strong>Opening Fundamentals:</strong> Control of the center, development of pieces, and King safety.</li>
+                                    <li><strong>Core Tactics:</strong> Checkmate in 1 move, double attack, Knight fork, pins, and skewers.</li>
+                                    <li><strong>Discovered Attacks:</strong> Back rank checkmates, discovered checks, discovered attacks, and removing/destroying the defender.</li>
+                                    <li><strong>Draw Rules & Clock:</strong> Stalemate, draw by agreement, threefold repetition, insufficient material, and basic chess clock usage.</li>
+                                    <li><strong>Elementary Endgames:</strong> Checkmate with Queen & King, checkmate with Rook & King, and tactical puzzles.</li>
                                 </ul>
-                                <button onclick="openDownloadModal()" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                                <button onclick="openDownloadModal('Beginners')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
                             </div>
                         </div>
 
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Beginners Level 3 — Endgame Basics <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 2 Months)</span></span>
+                                <span>🌟 Beginners Level 3 — Practical Play & Etiquette <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 3 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
-                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square;">
-                                    <li>King and Queen vs. Lone King Checkmate mechanics.</li>
-                                    <li>Double Rook & Single Rook Checkmate patterns.</li>
-                                    <li>Introduction to Pawn Promotion endgames.</li>
-                                    <li>Basic Chess Etiquettes & Tournament clock settings.</li>
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Game Analysis:</strong> Practice games and post-mortem correction of piece applications.</li>
+                                    <li><strong>Tactical Drills:</strong> Applying forks, pins, skewers, discovered checks, and mate patterns in real games.</li>
+                                    <li><strong>Threat Detection:</strong> Identifying tactical opportunities and finding opponent's threats.</li>
+                                    <li><strong>Mistake Correction:</strong> Basic opening errors, rules of thumb, and correction of practical moves.</li>
+                                    <li><strong>Tournament Rules:</strong> Tournament etiquette, offline clock settings, and preparation for Intermediate syllabus.</li>
                                 </ul>
-                                <button onclick="openDownloadModal()" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                                <button onclick="openDownloadModal('Beginners')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
                             </div>
                         </div>
                     </div>
@@ -826,8 +829,8 @@
                 <div class="glass-card-dark" style="padding: 40px; border-radius: 16px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:rgba(209, 26, 42, 0.15); color:var(--primary-navy); border:1px solid rgba(209, 26, 42, 0.3);">Rating: 800 - 1200 Elo</span>
-                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Tactics & Strategy Syllabus</h3>
+                            <span class="badge" style="background:rgba(209, 26, 42, 0.15); color:var(--primary-navy); border:1px solid rgba(209, 26, 42, 0.3);">Calculate • Prep • Compete</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Intermediate Chess Program</h3>
                         </div>
                         <button onclick="openDownloadModal('Intermediate')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-envelope"></i> Intermediate Syllabus
@@ -836,23 +839,48 @@
 
                     <!-- Highlights -->
                     <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 24px 0; font-size: 13px; color: var(--primary-navy); font-weight: 600;">
-                        <span><i class="fa-solid fa-shield" style="color:var(--primary-blue);"></i> ✔ Tactical Calculation</span>
-                        <span><i class="fa-solid fa-chess-board" style="color:var(--primary-blue);"></i> ✔ Opening Principles</span>
-                        <span><i class="fa-solid fa-trophy" style="color:var(--primary-blue);"></i> ✔ Tournament Preparation</span>
+                        <span><i class="fa-solid fa-shield" style="color:var(--primary-blue);"></i> ✔ Tactical Training</span>
+                        <span><i class="fa-solid fa-chess-board" style="color:var(--primary-blue);"></i> ✔ Opening Preparation</span>
+                        <span><i class="fa-solid fa-trophy" style="color:var(--primary-blue);"></i> ✔ Tournament Prep</span>
                     </div>
 
                     <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom: 20px;">
-                        Designed for students who are fluent with chess board rules and basic mate-in-1 concepts. This premium module covers tactical planning, chess openings theory, defense strategies, and middle-game spatial structures.
+                        Designed for players who know intermediate rules and have basic tactical vision. This module develops calculation speed, tactical patterns, standard openings, and mid-game strategy for tournament play.
                     </p>
 
-                    <div style="background: var(--bg-light-chess); padding: 20px; border-radius: 8px; border: 1px solid var(--border-light);">
-                        <h4 style="font-size:15px; color: var(--text-main); margin-bottom:12px; font-weight:700;"><i class="fa-solid fa-circle-play" style="color:var(--primary-blue); margin-right:6px;"></i> Core Strategy Modules Included:</h4>
-                        <ul style="padding-left: 20px; font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
-                            <li><strong>Openings Mastery:</strong> Italian Game, Ruy Lopez, Sicilian Defense principles.</li>
-                            <li><strong>Tactical Drills:</strong> Windmills, Double Checks, Decoys, Deflection.</li>
-                            <li><strong>Strategic Endgames:</strong> Pawn structures, King activity, Opposition rules.</li>
-                            <li><strong>Live Match Analysis:</strong> Mandatory coach post-mortem reviews of student matches.</li>
-                        </ul>
+                    <!-- Syllabus Accordion levels -->
+                    <div class="syllabus-accordion">
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <span>🌟 Intermediate Level 1 — Tactical Vision & Major Openings <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Tactical Drills:</strong> Mate in 2 moves, Mate in 3 moves, and Double Attack (Level 2).</li>
+                                    <li><strong>Tactics Upgrades:</strong> Knight fork (Level 2), Pins (Level 2), Back Rank (Level 2), and Skewers (Level 2).</li>
+                                    <li><strong>Discovered Actions:</strong> Discovered check & attack (Level 2), and destroying the defender (Level 1 & 2).</li>
+                                    <li><strong>Opening Preparation:</strong> Deep analysis of Queen's Gambit (Accepted & Declined), Sicilian Defence (including Anti-Sicilians), Caro-Kann Defence, and French Defence.</li>
+                                </ul>
+                                <button onclick="openDownloadModal('Intermediate')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <span>🌟 Intermediate Level 2 — Advanced Calculation & Repertoire <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Calculations training:</strong> Mate in 4 moves, and Double Attack (Level 3).</li>
+                                    <li><strong>Tactics Elite:</strong> Knight fork (Level 3), Pins (Level 3), Back Rank checkmate (Level 3), and Skewers (Level 3).</li>
+                                    <li><strong>Discovered Mastery:</strong> Discovered check & attack (Level 3), and destroying the defender (Level 3).</li>
+                                    <li><strong>Opening Repertoire:</strong> Detailed theory on King's Indian Defence, Modern Defence, Pirc Defence, and Ruy Lopez.</li>
+                                </ul>
+                                <button onclick="openDownloadModal('Intermediate')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -862,8 +890,8 @@
                 <div class="glass-card-dark" style="padding: 40px; border-radius: 16px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-bottom:1px solid var(--border-light); padding-bottom:20px;">
                         <div>
-                            <span class="badge" style="background:rgba(209, 26, 42, 0.15); color:var(--primary-navy); border:1px solid rgba(209, 26, 42, 0.3);">Rating: 1200+ Elo</span>
-                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Tournament Players Curriculum</h3>
+                            <span class="badge" style="background:rgba(209, 26, 42, 0.15); color:var(--primary-navy); border:1px solid rgba(209, 26, 42, 0.3);">Analyze • Strategize • Dominate</span>
+                            <h3 style="font-size: 24px; color: var(--text-main); margin-top:6px;">Advanced Chess Program</h3>
                         </div>
                         <button onclick="openDownloadModal('Advanced')" class="btn btn-secondary btn-outline-gold" style="font-size:13px; padding:8px 16px;">
                             <i class="fa-solid fa-envelope"></i> Advanced Syllabus
@@ -871,21 +899,56 @@
                     </div>
 
                     <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin: 24px 0 20px;">
-                        <strong style="color:var(--primary-blue);">Designed for serious tournament players.</strong> Accelerates calculations, deep tactical combinations, master-level openings preparation, and precise endgame profiles.
+                        Our Advanced Program is tailored for serious tournament players. It focuses on strategic concepts, precise calculation, grandmaster level openings, master-level tactics, and technical endgames to prepare students for FIDE tournaments.
                     </p>
 
-                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div style="background:var(--bg-light-chess); padding:20px; border-radius:8px; border:1px solid var(--border-light);">
-                            <h4 style="font-size:14px; color: var(--text-main); margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-brain" style="color:var(--primary-blue); margin-right:6px;"></i> Strategic Concepts</h4>
-                            <p style="font-size:12px; color:var(--text-secondary);">Prophylaxis, weak squares control, piece exchange strategy, pawn storms.</p>
+                    <!-- Syllabus Accordion levels -->
+                    <div class="syllabus-accordion">
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <span>🌟 Level 1 — Advanced Strategic & Tactical Concepts <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Positional Calculation:</strong> Calculation training, positional understanding, and active practical play.</li>
+                                    <li><strong>Tactical Concepts:</strong> Overloaded pieces, Line Opening, and Line Closing methods.</li>
+                                    <li><strong>Strategic Maneuvers:</strong> Square Vacation, Passed Pawns control, and the Zwischenzug (in-between move).</li>
+                                    <li><strong>Attacking Combinations:</strong> Drawing combinations, X-Ray Attacks, and Windmills.</li>
+                                </ul>
+                                <button onclick="openDownloadModal('Advanced')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                            </div>
                         </div>
-                        <div style="background:var(--bg-light-chess); padding:20px; border-radius:8px; border:1px solid var(--border-light);">
-                            <h4 style="font-size:14px; color: var(--text-main); margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-hourglass-half" style="color:var(--primary-blue); margin-right:6px;"></i> Endgame Training</h4>
-                            <p style="font-size:12px; color:var(--text-secondary);">Lucena position, Philidor position, Rook vs Bishop, advanced pawn breaks.</p>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <span>🌟 Level 2 — Advanced Tactics & Attacking Checkmates <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Attacking Calculations:</strong> Advanced tactics, checkmating patterns, and elementary checkmate with Bishop & Knight.</li>
+                                    <li><strong>High-Level Combinations:</strong> Introduction to chess tactics, and the art of combining pieces.</li>
+                                    <li><strong>Strategic Offense:</strong> Tactical decoy and deflection drills.</li>
+                                </ul>
+                                <button onclick="openDownloadModal('Advanced')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                            </div>
                         </div>
-                        <div style="background:var(--bg-light-chess); padding:20px; border-radius:8px; border:1px solid var(--border-light);">
-                            <h4 style="font-size:14px; color: var(--text-main); margin-bottom:8px; font-weight:700;"><i class="fa-solid fa-award" style="color:var(--primary-blue); margin-right:6px;"></i> FIDE Prep</h4>
-                            <p style="font-size:12px; color:var(--text-secondary);">Pre-tournament psychological preparation, opening repertoire mapping, clock pressure drills.</p>
+
+                        <div class="accordion-item" onclick="toggleAccordion(this)">
+                            <div class="accordion-header">
+                                <span>🌟 Level 3 — Endgame Fundamentals & FIDE Prep <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li><strong>Endgame Calculations:</strong> The Concept of Opposition, and the Rule of the Square.</li>
+                                    <li><strong>Piece Endings:</strong> King & Pawn Endings, Queen vs Pawn, Knight vs Pawn, and Rook vs Pawn.</li>
+                                    <li><strong>Elite Endgames:</strong> Queen vs Rook, and fundamentals of Rook Endings.</li>
+                                    <li><strong>Tournament Prep:</strong> Guidance for official FIDE Rated Tournaments, building tournament confidence, and practical play.</li>
+                                </ul>
+                                <button onclick="openDownloadModal('Advanced')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1574,30 +1637,48 @@
             // Show sending loader
             showToast("Sending Email...", "Sending the complete syllabus to " + email + "...");
             
-            // Send Syllabus Email to Candidate Parent
+            // Generate dynamic bullet points based on selected course level
+            let syllabusBullets = "";
+            if (levelName.toLowerCase().includes("begin")) {
+                syllabusBullets = `
+                    <li style="margin-bottom:8px;"><strong>Beginners Level 1 (2-3 Months):</strong> Chessboard geography (files, ranks, diagonals, notations), move mechanics of all pieces, defense principles (moving away, capturing, supporting, blocking), good vs. bad exchanges, check, escaping checks, mate introductions, and basic notation.</li>
+                    <li style="margin-bottom:8px;"><strong>Beginners Level 2 (5-6 Months):</strong> Special rules (Castling, En Passant, Pawn Promotion vs. Underpromotion), opening fundamentals (center control, rapid development, King safety), core tactics (mate-in-1, forks, pins, skewers, discovered checks, discovered attacks), draw rules (stalemate, agreement, repetition, insufficient material), and basic chess clock usage.</li>
+                    <li style="margin-bottom:8px;"><strong>Beginners Level 3 (3 Months):</strong> Game analysis & practical correction, game application of tactical opportunities, finding threats, basic opening mistakes & correction, and tournament etiquette rules.</li>
+                `;
+            } else if (levelName.toLowerCase().includes("intermed")) {
+                syllabusBullets = `
+                    <li style="margin-bottom:8px;"><strong>Intermediate Level 1 (6 Months):</strong> Tactical vision drills (Mate in 2, Mate in 3, Level 2 double attacks/forks/pins/skewers), discovered check & attack (Level 2), destroying the defender (Level 1 & 2), and opening preparation (Queen's Gambit, Sicilian Defence, Caro-Kann Defence, French Defence).</li>
+                    <li style="margin-bottom:8px;"><strong>Intermediate Level 2 (6 Months):</strong> Advanced tactical calculation (Mate in 4 moves, Level 3 double attacks/forks/pins/skewers), discovered checks & attacks (Level 3), destroying defender (Level 3), and opening preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez).</li>
+                `;
+            } else {
+                syllabusBullets = `
+                    <li style="margin-bottom:8px;"><strong>Advanced Level 1 (6 Months):</strong> Positional calculation & active practical play, tactical concepts (Overloaded piece, line opening, line closing), strategic maneuvers (Square vacation, passed pawns, and the Zwischenzug), drawing combinations, X-Ray attacks, and active windmills.</li>
+                    <li style="margin-bottom:8px;"><strong>Advanced Level 2 (6 Months):</strong> Advanced attacking tactics, checkmating patterns, elementary checkmate with Bishop & Knight, decoy tactics, deflection drills, and the art of combining pieces.</li>
+                    <li style="margin-bottom:8px;"><strong>Advanced Level 3 (6 Months):</strong> Endgame fundamentals (opposition concepts, rule of the square), piece endgames (King & Pawn, Queen vs. Pawn, Knight vs. Pawn, Rook vs. Pawn), elite endgames (Queen vs. Rook, Rook endings), and pre-tournament FIDE Rated guidance and confidence building.</li>
+                `;
+            }
+
+            // Send Syllabus Email to Candidate Parent via SMTP.js
             const syllabusMessage = `
             <html>
             <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-                    <div style="text-align: center; margin-bottom: 20px;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="text-align: center; margin-bottom: 25px;">
                         <h2 style="color: #D11A2A; margin: 0;">🏆 Paras Chess Academy</h2>
                         <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">Hello ${name},</p>
                     </div>
-                    <p>Thank you for your interest in the <strong>Paras Chess Academy</strong>. As requested, we have attached the detailed chess syllabus outline below:</p>
+                    <p>Thank you for your interest in the <strong>Paras Chess Academy</strong>. As requested, we have compiled the detailed chess syllabus outline below:</p>
                     
-                    <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #D11A2A; margin: 20px 0;">
-                        <h3 style="margin-top: 0; color: #0F172A;">${levelName} Chess Syllabus Overview</h3>
-                        <ul>
-                            <li>Chessboard foundations, coordinates, and basics.</li>
-                            <li>Advanced Tactical Drills: Forks, Skewers, Decoys, Windmills.</li>
-                            <li>Personalized 1-on-1 strategy sessions with FIDE-rated coaches.</li>
-                            <li>Weekly live matches and game post-mortem analysis.</li>
+                    <div style="background: #f9f9f9; padding: 20px; border-left: 4px solid #D11A2A; margin: 20px 0; border-radius: 4px;">
+                        <h3 style="margin-top: 0; color: #0F172A; font-size:16px;">📚 ${levelName} Chess Program Blueprint Overview</h3>
+                        <ul style="padding-left: 20px; font-size:13px; line-height:1.8; color:#334155; margin-bottom:0;">
+                            ${syllabusBullets}
                         </ul>
                     </div>
 
-                    <p style="margin-bottom: 25px;">You can download the full detailed PDF version of the syllabus directly from the link below:</p>
-                    <div style="text-align: center;">
-                        <a href="https://paraschessacademy.com/syllabus.pdf" style="background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2);">📥 Download Syllabus PDF</a>
+                    <p style="margin-bottom: 25px; font-size:14px;">You can download the full detailed PDF version of the syllabus directly from the link below:</p>
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <a href="https://paraschessacademy.com/syllabus.pdf" style="background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2); font-size:14px; display:inline-block;">📥 Download Syllabus PDF</a>
                     </div>
 
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
@@ -1663,38 +1744,93 @@
 
         function triggerDummySyllabusDownload(name, age) {
             const content = 
-`=========================================
-🏆 PARAS CHESS ACADEMY — SYLLABUS OVERVIEW
-=========================================
+`=========================================================
+🏆 PARAS CHESS ACADEMY — OFFICIAL CHESS CURRICULUM
+=========================================================
 Prepared for: ${name}
 Child Age Category: ${age} Years
-Thank you for downloading the Paras Chess Academy Elite Curriculum!
+Learn • Practice • Improve • Compete
 
------------------------------------------
-1. BEGINNERS LEVEL (Ages 5+ / 0-800 Elo)
------------------------------------------
-* Chessboard basics, files, ranks, coordinates, and coordinates.
-* Move values of Pawns, Knights, Bishops, Rooks, Queens, and Kings.
-* Standard Rules: Castling, Promotion, En Passant, Draws, Stalemate.
-* Foundation Tactics: Forks, Skewers, Pins, Checkmates in 1 and 2.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+♟️ 1. BEGINNERS CHESS PROGRAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
------------------------------------------
-2. INTERMEDIATE LEVEL (800 - 1200 Elo)
------------------------------------------
-* Advanced opening principles: Italian Game, Ruy Lopez, Sicilian Defense.
-* Advanced Tactical Drills: Decoys, Windmills, Double Checks, Deflection.
-* Middle-game strategy: Weak square management, pawn storm profiles.
-* Endgame profiles: Opposition rules, King activity, simple pawn breaks.
+🌟 BEGINNERS LEVEL 1
+⏳ Duration: 2-3 Months
+• Introduction to the Chessboard (Squares, files, ranks, diagonals, notations)
+• Introduction to Chess Pieces (Names, movements, and values of all pieces)
+• Attacking a Piece & Capturing Hanging Pieces
+• How to Defend a Piece (Move away, capture attacker, support, or block)
+• Good Exchange and Bad Exchange
+• Check: Creating a Check & Getting Out of Check
+• Introduction to Checkmate (Checkmate with Two Rooks)
+• Introduction to Chess Notation & Basic Puzzle Solving
 
------------------------------------------
-3. ADVANCED MASTER & FIDE LEVEL (1200+ Elo)
------------------------------------------
-* Prophylactic chess thinking & profiling logical vulnerabilities.
-* High-precision endgames: Lucena Position, Philidor Position, Rook active setups.
-* FIDE guidance: Game post-mortems checking tactical accuracy, tournament clock drills.
+🌟 BEGINNERS LEVEL 2
+⏳ Duration: 5-6 Months
+• Special Moves (Castling, Pawn Promotion, En Passant)
+• Difference Between Pawn Promotion and Underpromotion
+• Opening Fundamentals (Center control, development, King safety)
+• Basic Checkmate in One Move
+• Primary Tactics (Double Attack, Knight Fork, Pin, Skewer)
+• Advanced Tactics (Back Rank, Discovered Check, Discovered Attack, Removing the Defender)
+• Basic Sacrifices, Italian Game Opening
+• Checkmates (Queen & King, Rook & King)
+• Draw Rules (Stalemate, agreement, repetition, insufficient material)
+• Introduction to Chess Clock Usage & Solving Tactical Puzzles
 
-Contact Us: paraschessacademy@gmail.com | +91 93219 31066
-Book your Free Trial 1-on-1 Class at: https://demochesse.vercel.app/`;
+🌟 BEGINNERS LEVEL 3
+⏳ Duration: 3 Months
+• Games and Game Analysis
+• Practical Application of Level 1 & 2 concepts in active games
+• Identifying Tactical Opportunities in Games & Finding Opponent's Threats
+• Basic Opening Mistakes and Corrections
+• Introduction to Tournament Rules and Etiquette
+• Preparation Before Starting the Intermediate Syllabus
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+♟️ 2. INTERMEDIATE CHESS PROGRAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌟 INTERMEDIATE LEVEL 1
+⏳ Duration: 48 Sessions / 6 Months
+• Tactical Training (Mate in 2, Mate in 3, Double Attack Level 2, Fork Level 2, Pin Level 2, Back Rank Level 2, Skewer Level 2, Discovered Check Level 2, Discovered Attack Level 2, Destroying the Defender Level 1 & 2)
+• Opening Preparation (Queen's Gambit Accepted & Declined, Sicilian Defence including Anti-Sicilians, Caro-Kann Defence, French Defence)
+
+🌟 INTERMEDIATE LEVEL 2
+⏳ Duration: 48 Sessions / 6 Months
+• Advanced Tactical Training (Mate in 4 Moves, Double Attack Level 3, Fork Level 3, Pin Level 3, Back Rank Level 3, Skewer Level 3, Discovered Check Level 3, Discovered Attack Level 3, Destroying the Defender Level 3)
+• Opening Preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez)
+
+Goal: To prepare students for competitive tournament chess with strong tactical understanding, calculation skills, and opening preparation.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+♟️ 3. ADVANCED CHESS PROGRAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌟 LEVEL 1 – ADVANCED
+⏳ Duration: 48 Sessions / 6 Months
+• Positional & Strategic calculation to improve calculation and practical play
+• Advanced Strategic & Tactical Concepts (Overloaded Piece, Line Opening & Closing, Square Vacation, Passed Pawn, Zwischenzug, Drawing Combinations, X-Ray Attack, Windmills)
+
+🌟 LEVEL 2 – ADVANCED
+⏳ Duration: 48 Sessions / 6 Months
+• Advanced tactics and elementary checkmates to improve attacking and calculation
+• Elementary Checkmate with Bishop & Knight
+• Checkmating Patterns & Art of Combining Pieces
+• Decoy & Deflection tactics
+
+🌟 LEVEL 3 – ADVANCED CHESS PLAYERS
+⏳ Duration: 48 Sessions / 6 Months
+• Endgame Fundamentals (Concept of Opposition, Rule of the Square, King & Pawn Endings, Queen vs Pawn, Knight vs Pawn, Rook vs Pawn, Queen vs Rook, Fundamentals of Rook Endings)
+• Tournament Preparation (Guidance for official FIDE Rated Tournaments, building tournament confidence, improving practical endgame skills)
+
+Goal: To develop strong tournament players capable of competing at higher competitive levels.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Contact Us: support@paraschessacademy.com
+Book your 1-on-1 Free Class at: https://demochesse.vercel.app/
+=========================================================`;
 
             const blob = new Blob([content], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
