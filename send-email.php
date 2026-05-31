@@ -28,11 +28,11 @@ function read_smtp_response($socket) {
 
 function send_smtp_email($to, $subject, $body_html, $from_email, $password) {
     // 1. First, try the standard PHP mail() function which is 100% reliable on Hostinger
-    $headers = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: Paras Chess Academy <" . $from_email . ">\r\n";
-    $headers .= "Reply-To: " . $from_email . "\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    $headers = "MIME-Version: 1.0\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\n";
+    $headers .= "From: Paras Chess Academy <" . $from_email . ">\n";
+    $headers .= "Reply-To: " . $from_email . "\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\n";
     
     // -f option sets the sender envelope address (critical on Hostinger to avoid spoofing filters)
     $additional_params = "-f" . $from_email;
