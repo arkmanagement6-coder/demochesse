@@ -609,6 +609,33 @@ class BookingWizard {
         // Dispatch credentials welcome email to student parent
         window.NotificationCenter.dispatch("email", `Welcome to Parash Chess Academy! A student demo portal account has been created for ${studentName}. Log in to view your schedule. Email: ${email}, Password: ${generatedPassword}.`);
 
+        // Send actual booking confirmation email to candidate via PHP Backend
+        fetch('send-email.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: 'booking',
+                studentName: studentName,
+                parentName: parentName,
+                email: email,
+                mobile: mobile,
+                date: this.selectedDateStr,
+                slot: this.selectedSlotStr,
+                teacherName: matchResult.teacher.name,
+                meetingLink: newBooking.meetingLink,
+                generatedPassword: generatedPassword
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Email dispatch result:", data);
+        })
+        .catch(error => {
+            console.error("Failed to send booking email:", error);
+        });
+
         // Redirect to success screen with booking query
         window.Toast.show("Booking Success", "Demo match initialized. Redirecting...", "success");
         setTimeout(() => {
