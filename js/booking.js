@@ -582,19 +582,6 @@ class BookingWizard {
             generatedPassword += chars.charAt(Math.floor(Math.random() * chars.length));
         }
 
-        // Generate a valid Google Meet link matching the strictly required abc-defg-hij format
-        const generateGoogleMeetLink = () => {
-            const letterChars = "abcdefghijklmnopqrstuvwxyz";
-            const segment = (len) => {
-                let s = "";
-                for (let i = 0; i < len; i++) {
-                    s += letterChars.charAt(Math.floor(Math.random() * letterChars.length));
-                }
-                return s;
-            };
-            return `https://meet.google.com/${segment(3)}-${segment(4)}-${segment(3)}`;
-        };
-
         const newBooking = {
             id: bookingId,
             studentName,
@@ -615,7 +602,7 @@ class BookingWizard {
             status: matchResult.status === "Matched" ? "Demo Booked" : "Demo Booked", // Automatically schedules as booked or manual pending
             paymentStatus: this.paymentTier === "free" ? "Free" : "Paid",
             paymentAmount: this.paymentTier === "free" ? 0 : 99,
-            meetingLink: generateGoogleMeetLink(),
+            meetingLink: window.generateGoogleMeetLink(),
             notes: `Auto Match Criteria status: ${matchResult.status}. Student Experience Level: ${this.studentLevel}`,
             crmStatus: "Demo booked",
             matchLogs: matchResult.logs,

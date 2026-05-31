@@ -458,7 +458,7 @@ class BookingDrawer {
             status: "Demo Booked",
             paymentStatus: "Free",
             paymentAmount: 0,
-            meetingLink: matchResult.status === "Matched" ? "https://meet.google.com/chess-demo-" + Math.random().toString(36).substring(7) : "https://meet.google.com/chess-demo-review",
+            meetingLink: window.generateGoogleMeetLink(),
             notes: `Auto Match Criteria status: ${matchResult.status}. Goals: ${this.selectedGoals.join(", ")}`,
             crmStatus: "Demo booked",
             matchLogs: matchResult.logs,

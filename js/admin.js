@@ -1073,7 +1073,7 @@ class AdminController {
 
         const bookings = window.ChessDB.getBookings() || [];
         const newId = "b_" + Date.now();
-        const meetingLink = "https://meet.google.com/chess-demo-" + Math.random().toString(36).substring(7);
+        const meetingLink = window.generateGoogleMeetLink();
 
         const newBooking = {
             id: newId,

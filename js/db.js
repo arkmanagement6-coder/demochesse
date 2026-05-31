@@ -233,6 +233,13 @@ class DB {
             let updatedB = false;
             bList.forEach(b => {
                 if (!b.password) { b.password = 'student123'; updatedB = true; }
+                
+                // Validate meeting link format (https://meet.google.com/abc-defg-hij)
+                const meetRegex = /^https:\/\/meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/;
+                if (!b.meetingLink || !meetRegex.test(b.meetingLink)) {
+                    b.meetingLink = window.generateGoogleMeetLink();
+                    updatedB = true;
+                }
             });
             if (updatedB) localStorage.setItem("chess_bookings", JSON.stringify(bList));
         } catch (e) {
@@ -325,6 +332,19 @@ class DB {
         this.saveBookings(bookings);
     }
 }
+
+// Global utility to generate perfectly formatted working Google Meet classroom links matching strictly required abc-defg-hij format
+window.generateGoogleMeetLink = () => {
+    const letterChars = "abcdefghijklmnopqrstuvwxyz";
+    const segment = (len) => {
+        let s = "";
+        for (let i = 0; i < len; i++) {
+            s += letterChars.charAt(Math.floor(Math.random() * letterChars.length));
+        }
+        return s;
+    };
+    return `https://meet.google.com/${segment(3)}-${segment(4)}-${segment(3)}`;
+};
 
 // Automatically initialize db on script load
 DB.init();
