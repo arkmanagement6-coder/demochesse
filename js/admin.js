@@ -1577,7 +1577,7 @@ class AdminController {
 
             <!-- Lead Goals & Notes Box -->
             <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 16px;">
-                <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                <div class="collapsible-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 14px; font-weight:700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🎯 Diagnostic Notes & Student Goals</h4>
                     <span style="font-size:12px; color:var(--text-muted);">(Click to toggle)</span>
                 </div>
@@ -1593,7 +1593,7 @@ class AdminController {
 
             <!-- Collapsible Assignment rationale logs -->
             <div class="glass-card" style="padding: 16px; border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; background: rgba(255,255,255,0.01); margin-bottom: 8px;">
-                <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+                <div class="collapsible-header" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
                     <h4 style="margin: 0; font-size: 14px; font-weight:700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px;">🧠 AI AUTO-ASSIGNMENT DECISION DIAGNOSTIC</h4>
                     <span style="font-size:12px; color:var(--text-muted);">(Click to toggle)</span>
                 </div>
@@ -1619,6 +1619,19 @@ class AdminController {
         `;
 
         this.studentDetailsContent.innerHTML = detailsHtml;
+
+        // Bind dynamic collapsibles programmatically
+        const headers = this.studentDetailsContent.querySelectorAll(".collapsible-header");
+        headers.forEach(header => {
+            header.addEventListener("click", () => {
+                const content = header.nextElementSibling;
+                if (content) {
+                    const isHidden = content.style.display === "none";
+                    content.style.display = isHidden ? "block" : "none";
+                }
+            });
+        });
+
         this.openModal(this.modalStudentDetails);
     }
 
