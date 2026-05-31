@@ -6,6 +6,7 @@ const DEFAULT_TEACHERS = [
         id: "t_aarav",
         name: "Aarav Sharma",
         email: "aarav@parashchess.com",
+        phone: "+91 98765 43210",
         password: "teacher123",
         experience: "6 Years (FIDE Master - Rating 2150)",
         rating: 4.9,
@@ -23,6 +24,7 @@ const DEFAULT_TEACHERS = [
         id: "t_priya",
         name: "Priya Patel",
         email: "priya@parashchess.com",
+        phone: "+91 98765 43210",
         password: "teacher123",
         experience: "4 Years (National Women's Champion)",
         rating: 4.8,
@@ -40,6 +42,7 @@ const DEFAULT_TEACHERS = [
         id: "t_vikram",
         name: "Vikram Singh",
         email: "vikram@parashchess.com",
+        phone: "+91 98765 43210",
         password: "teacher123",
         experience: "8 Years (FIDE Candidate Master)",
         rating: 4.6,
@@ -57,6 +60,7 @@ const DEFAULT_TEACHERS = [
         id: "t_elena",
         name: "Elena Rostova",
         email: "elena@parashchess.com",
+        phone: "+91 98765 43210",
         password: "teacher123",
         experience: "12 Years (WGM - Woman Grandmaster)",
         rating: 5.0,
@@ -220,12 +224,20 @@ class DB {
             localStorage.setItem("chess_logs", JSON.stringify(DEFAULT_LOGS));
         }
 
-        // Migration: Ensure all teachers have a password
+        // Migration: Ensure all teachers have a password, email, and phone
         try {
             let tList = JSON.parse(localStorage.getItem("chess_teachers")) || [];
             let updatedT = false;
             tList.forEach(t => {
                 if (!t.password) { t.password = 'teacher123'; updatedT = true; }
+                if (!t.email) {
+                    t.email = t.name.toLowerCase().replace(/\s+/g, "") + "@parashchess.com";
+                    updatedT = true;
+                }
+                if (!t.phone) {
+                    t.phone = "+91 98765 43210";
+                    updatedT = true;
+                }
             });
             if (updatedT) localStorage.setItem("chess_teachers", JSON.stringify(tList));
 
