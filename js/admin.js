@@ -154,6 +154,11 @@ class AdminController {
             if (avatarInput) {
                 avatarInput.required = true;
             }
+            const avatarPreview = document.getElementById("addt-avatar-preview");
+            if (avatarPreview) {
+                avatarPreview.style.display = "none";
+                avatarPreview.src = "";
+            }
             
             // Reset custom dropdown state
             const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
@@ -269,6 +274,23 @@ class AdminController {
                 updateDropdownText();
             });
         });
+
+        // Photo upload change preview listener
+        const avatarInput = document.getElementById("addt-avatar");
+        const avatarPreview = document.getElementById("addt-avatar-preview");
+        if (avatarInput && avatarPreview) {
+            avatarInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        avatarPreview.src = event.target.result;
+                        avatarPreview.style.display = "block";
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
     }
 
     // Modal Helpers
@@ -696,9 +718,18 @@ class AdminController {
 
         // Photo upload is optional during editing
         const avatarInput = document.getElementById("addt-avatar");
+        const avatarPreview = document.getElementById("addt-avatar-preview");
         if (avatarInput) {
             avatarInput.required = false;
             avatarInput.value = ""; // Clear file input
+        }
+        if (avatarPreview) {
+            if (coach.avatar) {
+                avatarPreview.src = coach.avatar;
+                avatarPreview.style.display = "block";
+            } else {
+                avatarPreview.style.display = "none";
+            }
         }
 
         // Pre-fill text and select fields
