@@ -449,7 +449,9 @@ class AdminController {
 
             tr.innerHTML = `
                 <td>
-                    <div style="font-weight:600;">${b.studentName}</div>
+                    <div style="font-weight:600; color:var(--primary); cursor:pointer;" onclick="AdminController.viewStudentDetails('${b.id}')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                        ${b.studentName}
+                    </div>
                     <div style="font-size:11px; color:var(--text-muted);">${b.city}, ${b.country} (${b.level})</div>
                 </td>
                 <td>
@@ -1732,8 +1734,13 @@ class AdminController {
             if (c.crmStatus === "lost" || c.crmStatus === "cancelled") statusColor = "#ef4444";
             if (c.crmStatus === "demo booked") statusColor = "#3b82f6";
 
+            const isBooking = String(c.id).startsWith("b_");
+            const nameColumnHTML = isBooking 
+                ? `<td style="font-weight:600; color:var(--primary); cursor:pointer;" onclick="AdminController.viewStudentDetails('${c.id}')" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${c.name}</td>`
+                : `<td style="font-weight:600; color:var(--text-primary);">${c.name}</td>`;
+
             row.innerHTML = `
-                <td style="font-weight:600; color:var(--text-primary);">${c.name}</td>
+                ${nameColumnHTML}
                 <td style="font-size:11px; color:var(--text-secondary);">${c.parentName}</td>
                 <td>${c.mobile}</td>
                 <td><a href="mailto:${c.email}" style="color:var(--text-secondary); text-decoration:underline;">${c.email}</a></td>
