@@ -1665,113 +1665,31 @@
             // Show sending loader
             showToast("Sending Email...", "Sending the complete syllabus to " + email + "...");
             
-            // Generate dynamic bullet points based on selected course level
-            let syllabusBullets = "";
-            if (levelName.toLowerCase().includes("begin")) {
-                syllabusBullets = `
-                    <li style="margin-bottom:8px;"><strong>Beginners Level 1 (2-3 Months):</strong> Chessboard geography (files, ranks, diagonals, notations), move mechanics of all pieces, defense principles (moving away, capturing, supporting, blocking), good vs. bad exchanges, check, escaping checks, mate introductions, and basic notation.</li>
-                    <li style="margin-bottom:8px;"><strong>Beginners Level 2 (5-6 Months):</strong> Special rules (Castling, En Passant, Pawn Promotion vs. Underpromotion), opening fundamentals (center control, rapid development, King safety), core tactics (mate-in-1, forks, pins, skewers, discovered checks, discovered attacks), draw rules (stalemate, agreement, repetition, insufficient material), and basic chess clock usage.</li>
-                    <li style="margin-bottom:8px;"><strong>Beginners Level 3 (3 Months):</strong> Game analysis & practical correction, game application of tactical opportunities, finding threats, basic opening mistakes & correction, and tournament etiquette rules.</li>
-                `;
-            } else if (levelName.toLowerCase().includes("intermed")) {
-                syllabusBullets = `
-                    <li style="margin-bottom:8px;"><strong>Intermediate Level 1 (6 Months):</strong> Tactical vision drills (Mate in 2, Mate in 3, Level 2 double attacks/forks/pins/skewers), discovered check & attack (Level 2), destroying the defender (Level 1 & 2), and opening preparation (Queen's Gambit, Sicilian Defence, Caro-Kann Defence, French Defence).</li>
-                    <li style="margin-bottom:8px;"><strong>Intermediate Level 2 (6 Months):</strong> Advanced tactical calculation (Mate in 4 moves, Level 3 double attacks/forks/pins/skewers), discovered checks & attacks (Level 3), destroying defender (Level 3), and opening preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez).</li>
-                `;
-            } else if (levelName.toLowerCase().includes("fide") || levelName.toLowerCase().includes("rating")) {
-                syllabusBullets = `
-                    <li style="margin-bottom:8px;"><strong>1-on-1 FIDE Rating Prep:</strong> Personalized chess master/grandmaster training plans tailored for active tournament players and rating aspirants.</li>
-                    <li style="margin-bottom:8px;"><strong>Opening Repertoire Design:</strong> Custom tailored openings matched specifically with the student's cognitive strengths and weak-spots.</li>
-                    <li style="margin-bottom:8px;"><strong>High-Precision Endgames:</strong> Conversion of winning advantages, time management pressure training, and deep tactical board calculations.</li>
-                    <li style="margin-bottom:8px;"><strong>Official FIDE Guidance:</strong> Repertoire mapping, pairings analysis, official chess rules and tournament etiquettes.</li>
-                `;
-            } else {
-                syllabusBullets = `
-                    <li style="margin-bottom:8px;"><strong>Advanced Level 1 (6 Months):</strong> Positional calculation & active practical play, tactical concepts (Overloaded piece, line opening, line closing), strategic maneuvers (Square vacation, passed pawns, and the Zwischenzug), drawing combinations, X-Ray attacks, and active windmills.</li>
-                    <li style="margin-bottom:8px;"><strong>Advanced Level 2 (6 Months):</strong> Advanced attacking tactics, checkmating patterns, elementary checkmate with Bishop & Knight, decoy tactics, deflection drills, and the art of combining pieces.</li>
-                    <li style="margin-bottom:8px;"><strong>Advanced Level 3 (6 Months):</strong> Endgame fundamentals (opposition concepts, rule of the square), piece endgames (King & Pawn, Queen vs. Pawn, Knight vs. Pawn, Rook vs. Pawn), elite endgames (Queen vs. Rook, Rook endings), and pre-tournament FIDE Rated guidance and confidence building.</li>
-                `;
-            }
-
-            // Send Syllabus Email to Candidate Parent via SMTP.js
-            const syllabusMessage = `
-            <html>
-            <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <div style="max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <div style="text-align: center; margin-bottom: 25px;">
-                        <h2 style="color: #D11A2A; margin: 0;">🏆 Paras Chess Academy</h2>
-                        <p style="font-size: 16px; font-weight: bold; margin-top: 10px;">Hello ${name},</p>
-                    </div>
-                    <p>Thank you for your interest in the <strong>Paras Chess Academy</strong>. As requested, we have compiled the detailed chess syllabus outline below:</p>
-                    
-                    <div style="background: #f9f9f9; padding: 20px; border-left: 4px solid #D11A2A; margin: 20px 0; border-radius: 4px;">
-                        <h3 style="margin-top: 0; color: #0F172A; font-size:16px;">📚 ${levelName} Chess Program Blueprint Overview</h3>
-                        <ul style="padding-left: 20px; font-size:13px; line-height:1.8; color:#334155; margin-bottom:0;">
-                            ${syllabusBullets}
-                        </ul>
-                    </div>
-
-                    <p style="margin-bottom: 25px; font-size:14px;">You can download the full detailed PDF version of the syllabus directly from the link below:</p>
-                    <div style="text-align: center; margin-bottom: 25px;">
-                        <a href="https://paraschessacademy.com/syllabus.pdf" style="background: #D11A2A; color: white; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; box-shadow: 0 4px 10px rgba(209, 26, 42, 0.2); font-size:14px; display:inline-block;">📥 Download Syllabus PDF</a>
-                    </div>
-
-                    <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-                    <p style="font-size: 12px; color: #777; text-align: center;">
-                        Our counselor will reach out to you on WhatsApp at <strong>${phone}</strong> shortly to schedule your FREE 1-on-1 demo assessment class.<br>
-                        For support, email us at <a href="mailto:support@paraschessacademy.com">support@paraschessacademy.com</a>
-                    </p>
-                </div>
-            </body>
-            </html>
-            `;
-
-            const adminSyllabusMessage = `
-            <html>
-            <body>
-                <h2>New Chess Syllabus Request Lead</h2>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Phone:</strong> ${phone}</p>
-                <p><strong>Child's Age:</strong> ${age} Years</p>
-                <p><strong>Requested Course Level:</strong> ${levelName}</p>
-                <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
-            </body>
-            </html>
-            `;
-
-            // Dispatch to Candidate Parent via SMTP.js
-            Email.send({
-                Host: "smtp.hostinger.com",
-                Username: "support@paraschessacademy.com",
-                Password: "Paras@2709@",
-                To: email,
-                From: "support@paraschessacademy.com",
-                Subject: `Your Paras Chess Academy Syllabus - ${levelName} Program`,
-                Body: syllabusMessage
-            }).then(msg1 => {
-                console.log("Candidate syllabus email dispatch:", msg1);
-                
-                // Dispatch alert to Admin via SMTP.js
-                Email.send({
-                    Host: "smtp.hostinger.com",
-                    Username: "support@paraschessacademy.com",
-                    Password: "Paras@2709@",
-                    To: "paraschessacademy@gmail.com",
-                    From: "support@paraschessacademy.com",
-                    Subject: `New Lead: Syllabus Requested by ${name}`,
-                    Body: adminSyllabusMessage
-                }).then(msg2 => {
-                    console.log("Admin lead email dispatch:", msg2);
-                });
-
-                if (msg1 === "OK") {
+            // Send Syllabus Email via Hostinger PHP Mailer
+            fetch('https://paraschessacademy.com/send-email.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: 'syllabus',
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    age: age,
+                    levelName: levelName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
                     showToast("Syllabus Sent to Email!", "The complete chess syllabus has been sent to " + email + ". Priya Sharma will also reach out on WhatsApp shortly!");
                 } else {
-                    console.warn("SMTP.js delivery warning:", msg1);
+                    console.warn("Mailer response error:", data);
                     showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
                 }
-            }).catch(error => {
+            })
+            .catch(error => {
                 console.error("Error sending syllabus emails:", error);
                 showToast("Request Received!", "Your syllabus request for " + email + " is saved. Priya Sharma will reach out shortly!");
             });
