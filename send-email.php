@@ -326,6 +326,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </html>
         ";
         send_smtp_email($adminTo, $adminSubject, $adminMessage, $from, $password);
+    }
+
+    if ($type === "syllabus") {
+        $name = isset($data["name"]) ? strip_tags($data["name"]) : "Parent";
+        $age = isset($data["age"]) ? strip_tags($data["age"]) : "";
+        $phone = isset($data["phone"]) ? strip_tags($data["phone"]) : "";
+        $levelName = isset($data["levelName"]) ? strip_tags($data["levelName"]) : "Complete";
 
         // Dynamic Syllabus Details in Email Body
         $syllabusDetailsHTML = "";
