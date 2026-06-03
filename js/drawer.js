@@ -437,6 +437,14 @@ class BookingDrawer {
         });
         
         const bookingId = "b_" + Date.now();
+        
+        // Generate a random, secure 8-character password
+        const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let generatedPassword = "";
+        for (let i = 0; i < 8; i++) {
+            generatedPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        
         // Save to Simulated Database (localStorage) with standardized keys
         const bookingData = {
             id: bookingId,
@@ -446,6 +454,7 @@ class BookingDrawer {
             grade: `${studentAge}th Grade`,
             mobile: parentMobile,
             email: parentEmail,
+            password: generatedPassword, // Save generated password
             level: studentLevel,
             city: studentCity,
             country: "India",
@@ -489,15 +498,46 @@ class BookingDrawer {
             this.selectedTimeStr
         );
         
-        Toast.show("Demo Confirmed!", "Your free FIDE Assessment slot has been booked.", "success");
+        // Show initializing loading toast
+        Toast.show("Initializing Demo", "Scheduling your class and preparing credentials...", "info");
         
-        // Close and redirect cleanly
-        this.close();
-        
-        setTimeout(() => {
-            // Save currently active lead session to display customized tutor info in success.html
-            localStorage.setItem("current_booking", JSON.stringify(bookingData));
-            window.location.href = `success.html?id=${bookingId}`;
-        }, 1000);
+        // Send actual booking confirmation email to candidate via Hostinger PHP Mailer
+        fetch('https://paraschessacademy.com/send-email.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: 'booking',
+                studentName: studentName,
+                parentName: parentName,
+                email: parentEmail,
+                mobile: parentMobile,
+                date: this.selectedDateStr,
+                slot: this.selectedTimeStr,
+                teacherName: matchResult.teacher.name,
+                meetingLink: bookingData.meetingLink,
+                generatedPassword: generatedPassword
+            })
+        })
+        .then(response => {
+            // Redirect to success screen cleanly after request completes
+            Toast.show("Demo Confirmed!", "Your free FIDE Assessment slot has been booked.", "success");
+            this.close();
+            setTimeout(() => {
+                localStorage.setItem("current_booking", JSON.stringify(bookingData));
+                window.location.href = `success.html?id=${bookingId}`;
+            }, 1200);
+        })
+        .catch(error => {
+            console.error("Failed to send booking email via Hostinger:", error);
+            // Fallback redirect so the user experience is not blocked
+            Toast.show("Demo Confirmed!", "Your free FIDE Assessment slot has been booked.", "success");
+            this.close();
+            setTimeout(() => {
+                localStorage.setItem("current_booking", JSON.stringify(bookingData));
+                window.location.href = `success.html?id=${bookingId}`;
+            }, 1200);
+        });
     }
 }
