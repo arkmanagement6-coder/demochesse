@@ -416,7 +416,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <p style='margin-bottom: 20px; font-size: 14px; text-align: center; font-weight: bold; color: #0F172A;'>Ready to experience our world-class teaching firsthand?</p>
                 <div style='text-align: center; margin-bottom: 25px;'>
-                    <a href='https://paraschessacademy.com/book.html' style='background: #D11A2A; color: white; padding: 14px 30px; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 12px rgba(209, 26, 42, 0.25); display: inline-block; font-size: 15px;'>Book a FREE 1-on-1 Chess Class Now</a>
+                    <a href='https://demobooking.paraschessacademy.com/' style='background: #D11A2A; color: white; padding: 14px 30px; text-decoration: none; font-weight: bold; border-radius: 8px; box-shadow: 0 4px 12px rgba(209, 26, 42, 0.25); display: inline-block; font-size: 15px;'>Book a FREE 1-on-1 Chess Class Now</a>
                 </div>
 
                 <hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>
