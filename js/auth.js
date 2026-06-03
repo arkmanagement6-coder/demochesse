@@ -2,7 +2,13 @@
 
 class Auth {
     static init() {
-        this.session = JSON.parse(localStorage.getItem("chess_active_session"));
+        try {
+            this.session = JSON.parse(localStorage.getItem("chess_active_session"));
+        } catch (e) {
+            console.error("Auth init session parsing failed, resetting:", e);
+            localStorage.removeItem("chess_active_session");
+            this.session = null;
+        }
         this.updateNav();
     }
 

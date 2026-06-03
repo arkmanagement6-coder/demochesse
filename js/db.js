@@ -211,22 +211,37 @@ const DEFAULT_LOGS = [
 
 class DB {
     static init() {
-        if (!localStorage.getItem("chess_teachers") || JSON.parse(localStorage.getItem("chess_teachers")).length === 0) {
-            localStorage.setItem("chess_teachers", JSON.stringify(DEFAULT_TEACHERS));
-        }
-        if (!localStorage.getItem("chess_bookings")) {
-            localStorage.setItem("chess_bookings", JSON.stringify(DEFAULT_BOOKINGS));
-        }
-        if (!localStorage.getItem("chess_crm_leads")) {
-            localStorage.setItem("chess_crm_leads", JSON.stringify(DEFAULT_CRM_LEADS));
-        }
-        if (!localStorage.getItem("chess_logs")) {
-            localStorage.setItem("chess_logs", JSON.stringify(DEFAULT_LOGS));
-        }
+        const safeLoad = (key, defaultVal) => {
+            try {
+                const val = localStorage.getItem(key);
+                if (!val) {
+                    localStorage.setItem(key, JSON.stringify(defaultVal));
+                    return defaultVal;
+                }
+                const parsed = JSON.parse(val);
+                if (key === "chess_teachers" && (!Array.isArray(parsed) || parsed.length === 0)) {
+                    localStorage.setItem(key, JSON.stringify(defaultVal));
+                    return defaultVal;
+                }
+                return parsed;
+            } catch (e) {
+                console.error(`Error loading localStorage key [${key}], resetting to default:`, e);
+                try {
+                    localStorage.setItem(key, JSON.stringify(defaultVal));
+                } catch (err) {
+                    console.error("Failed to write to localStorage:", err);
+                }
+                return defaultVal;
+            }
+        };
 
-        // Migration: Ensure all teachers have a password, email, and phone
+        let tList = safeLoad("chess_teachers", DEFAULT_TEACHERS);
+        let bList = safeLoad("chess_bookings", DEFAULT_BOOKINGS);
+        safeLoad("chess_crm_leads", DEFAULT_CRM_LEADS);
+        safeLoad("chess_logs", DEFAULT_LOGS);
+
+        // Migration and Self-healing
         try {
-            let tList = JSON.parse(localStorage.getItem("chess_teachers")) || [];
             let updatedT = false;
 
             // Self-healing: Deduplicate teachers sharing the same ID
@@ -235,7 +250,7 @@ class DB {
             let isTListUpdated = false;
 
             tList.forEach(t => {
-                if (!t.id) return; // skip invalid records
+                if (!t || !t.id) return; // skip invalid records
                 if (!seenIds[t.id]) {
                     seenIds[t.id] = t;
                     deduplicatedTeachers.push(t);
@@ -319,10 +334,14 @@ class DB {
                     t.phone = "+91 98765 43210";
                     updatedT = true;
                 }
+                // Array safety check mappings
+                if (!Array.isArray(t.expertise)) { t.expertise = ["Beginner"]; updatedT = true; }
+                if (!Array.isArray(t.languages)) { t.languages = ["English"]; updatedT = true; }
+                if (!Array.isArray(t.slots)) { t.slots = []; updatedT = true; }
+                if (!Array.isArray(t.leaves)) { t.leaves = []; updatedT = true; }
             });
             if (updatedT) localStorage.setItem("chess_teachers", JSON.stringify(tList));
 
-            let bList = JSON.parse(localStorage.getItem("chess_bookings")) || [];
             let updatedB = false;
             bList.forEach(b => {
                 if (!b.password) { b.password = 'student123'; updatedB = true; }
