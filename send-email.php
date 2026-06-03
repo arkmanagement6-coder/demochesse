@@ -1,4 +1,5 @@
 <?php
+ignore_user_abort(true);
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, OPTIONS");

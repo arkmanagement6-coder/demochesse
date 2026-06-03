@@ -621,6 +621,9 @@ class BookingWizard {
         // Dispatch credentials welcome email to student parent
         window.NotificationCenter.dispatch("email", `Welcome to Parash Chess Academy! A student demo portal account has been created for ${studentName}. Log in to view your schedule. Email: ${email}, Password: ${generatedPassword}.`);
 
+        // Show initializing loading toast
+        window.Toast.show("Initializing Demo", "Scheduling your class and preparing credentials...", "info");
+
         // Send actual booking confirmation email to candidate via Hostinger PHP Mailer
         fetch('https://paraschessacademy.com/send-email.php', {
             method: 'POST',
@@ -640,18 +643,20 @@ class BookingWizard {
                 generatedPassword: generatedPassword
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Email dispatch result:", data);
+        .then(response => {
+            // Redirect to success screen with booking query immediately after request completes
+            window.Toast.show("Booking Success", "Demo scheduled successfully! Redirecting...", "success");
+            setTimeout(() => {
+                window.location.href = `success.html?id=${bookingId}`;
+            }, 1200);
         })
         .catch(error => {
             console.error("Failed to send booking email via Hostinger:", error);
+            // Even if email fails, redirect to success screen so booking user experience is not blocked
+            window.Toast.show("Booking Saved", "Demo registered. Redirecting...", "success");
+            setTimeout(() => {
+                window.location.href = `success.html?id=${bookingId}`;
+            }, 1200);
         });
-
-        // Redirect to success screen with booking query
-        window.Toast.show("Booking Success", "Demo match initialized. Redirecting...", "success");
-        setTimeout(() => {
-            window.location.href = `success.html?id=${bookingId}`;
-        }, 1500);
     }
 }
