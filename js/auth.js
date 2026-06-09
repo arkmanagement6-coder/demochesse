@@ -108,7 +108,7 @@ class Auth {
                         ctaBtn.className = "btn btn-primary";
                     } else if (this.session.role === 'admin') {
                         ctaBtn.style.display = 'inline-block';
-                        ctaBtn.innerText = "Admin Panel";
+                        ctaBtn.innerText = "Book Free Demo";
                         ctaBtn.href = "admin.html";
                         ctaBtn.className = "btn btn-primary";
                     } else if (this.session.role === 'teacher') {
@@ -121,7 +121,7 @@ class Auth {
                     }
                 } else {
                     ctaBtn.style.display = 'inline-block';
-                    ctaBtn.innerText = "Book Free Class";
+                    ctaBtn.innerText = "Book Free Demo";
                     ctaBtn.href = "book.html";
                     ctaBtn.className = "btn btn-primary";
 
@@ -157,7 +157,7 @@ class Auth {
                     ctaBtn.className = "btn btn-primary";
                 } else if (this.session.role === 'admin') {
                     ctaBtn.style.display = 'inline-block';
-                    ctaBtn.innerText = "Admin Panel";
+                    ctaBtn.innerText = "Book Free Demo";
                     ctaBtn.href = "admin.html";
                     ctaBtn.className = "btn btn-primary";
                 } else if (this.session.role === 'teacher') {
@@ -181,7 +181,7 @@ class Auth {
             
             if (buttonGroup) {
                 ctaBtn.style.display = 'inline-block';
-                ctaBtn.innerText = "Book Free Class";
+                ctaBtn.innerText = "Book Free Demo";
                 ctaBtn.href = "book.html";
                 ctaBtn.className = "btn btn-primary";
 
