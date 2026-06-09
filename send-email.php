@@ -322,27 +322,92 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdfFilename = "syllabus-beginners.pdf";
             $syllabusDetailsHTML = "
             <h3 style='margin-top: 0; color: #0F172A;'>Beginners Chess Program Syllabus</h3>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Foundations (2-3 Months)</p>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Beginners Level 1 (2-3 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>Learn the fundamentals of the chessboard, pieces, movements, defense techniques, check, and introductory checkmates.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Introduction to the Chessboard</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Introduction to the Chessboard (Squares, files, ranks, diagonals, notations)</li>
-                <li>Introduction to Chess Pieces (Names, movements, and values of all pieces)</li>
-                <li>Attacking a Piece & Capturing Hanging Pieces</li>
-                <li>How to Defend a Piece (Move away, capture, support, or block)</li>
-                <li>Introduction to Check & Checkmate (Two Rooks mate)</li>
+                <li>Number of Squares</li>
+                <li>Names of Squares</li>
+                <li>Files and Ranks</li>
+                <li>Diagonals</li>
+                <li>Light & Dark Squares</li>
+                <li>Understanding Notations</li>
             </ul>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Special Rules & Core Tactics (5-6 Months)</p>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Introduction to Chess Pieces</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Special Moves (Castling, Pawn Promotion, En Passant)</li>
-                <li>Opening Fundamentals (Center control, development, King safety)</li>
-                <li>Primary Tactics (Double Attack, Knight Fork, Pin, Skewer)</li>
-                <li>Advanced Tactics (Back Rank, Discovered Check, Removing the Defender)</li>
-                <li>Draw Rules (Stalemate, agreement, repetition, insufficient material)</li>
+                <li>Names of Pieces</li>
+                <li>Value of Pieces</li>
+                <li>Movements of Pieces</li>
             </ul>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 3 – Practical Play & Etiquette (3 Months)</p>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Basic Strategy & Tactics</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Active games and detailed post-game analysis</li>
-                <li>Identifying tactical opportunities & finding opponent's threats</li>
-                <li>Tournament rules, etiquette, and preparation for Intermediate stage</li>
+                <li>Attacking a Piece</li>
+                <li>Capturing Hanging Pieces</li>
+                <li>How to Defend a Piece (Defense by moving away, capturing, supporting, or blocking)</li>
+                <li>Good Exchange and Bad Exchange</li>
+                <li>Check: Creating a Check</li>
+                <li>Getting Out of Check (Defense by moving away, capturing, or blocking)</li>
+                <li>Introduction to Checkmate (Difference Between Check and Checkmate)</li>
+                <li>Checkmate with Two Rooks</li>
+                <li>Introduction to Chess Notation</li>
+                <li>Basic Puzzle Solving</li>
+            </ul>
+
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Beginners Level 2 (5-6 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>Develop core tactical concepts, special moves, opening fundamentals, elementary checkmates, draw rules, and chess clock mechanics.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Special Moves & Rules</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Castling</li>
+                <li>Pawn Promotion</li>
+                <li>En Passant</li>
+                <li>Difference Between Pawn Promotion and Underpromotion</li>
+            </ul>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Opening Fundamentals</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Control of the Center</li>
+                <li>Development of Pieces</li>
+                <li>King Safety</li>
+            </ul>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Chess Tactics & Endgames</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Basic Checkmate in One Move</li>
+                <li>Double Attack</li>
+                <li>Knight Fork</li>
+                <li>Pin</li>
+                <li>Back Rank Checkmate</li>
+                <li>Skewer</li>
+                <li>Discovered Check</li>
+                <li>Discovered Attack</li>
+                <li>Introduction to Removing the Defender</li>
+                <li>Introduction to Basic Sacrifices</li>
+                <li>Italian Game Opening</li>
+                <li>Checkmate with One Queen and One King</li>
+                <li>Checkmate with One Rook and One King</li>
+                <li>Draw by Stalemate</li>
+                <li>Draw by Agreement</li>
+                <li>Draw by Threefold Repetition</li>
+                <li>Draw by Insufficient Material</li>
+                <li>Draw by Insufficient Material vs Time Flag</li>
+                <li>Introduction to Chess Clock Usage (Applicable only for Offline Classes)</li>
+                <li>Solving Tactical Puzzles</li>
+            </ul>
+
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 3 – Beginners Level 3 (3 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>Apply learned tactics and rules in active play, analyze games, detect threats, correct opening mistakes, and prepare for tournament environments.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Games & Practical Application</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Games and Game Analysis</li>
+                <li>Correction of Understanding and Application of Concepts in Practical Games</li>
+                <li>Practical Application of Concepts in Games (Double Attack, Knight Fork, Pin, Back Rank, Skewer, Discovered Check/Attack, Italian Game, Two Rooks mate, Queen/Rook mates, Draws)</li>
+            </ul>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Pre-Tournament & Opening Corrections</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Identifying Tactical Opportunities in Games</li>
+                <li>Finding Opponent’s Threats</li>
+                <li>Basic Opening Mistakes and Corrections</li>
+                <li>Playing Practice Games and Correcting Mistakes</li>
+                <li>Introduction to Tournament Rules and Etiquette</li>
+                <li>Preparation Before Starting the Intermediate Syllabus</li>
             </ul>";
         } elseif (strpos(strtolower($levelName), "inter") !== false) {
             $pdfFilename = "syllabus-intermediate.pdf";
