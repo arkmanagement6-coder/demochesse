@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // 3. Highlight current page in navbar
     highlightActiveNavLink();
+
+    // 4. Setup Gallery Lightbox Modal
+    setupGalleryLightbox();
 });
 
 // FAQ Handler
@@ -352,3 +355,71 @@ class NotificationCenter {
 
 window.NotificationCenter = NotificationCenter;
 window.Toast = Toast;
+
+// Gallery Lightbox Handler
+function setupGalleryLightbox() {
+    // Check if gallery grid exists on the page
+    const galleryGrid = document.querySelector(".gallery-grid-chess");
+    if (!galleryGrid) return;
+
+    // Create Lightbox HTML dynamically if it doesn't exist to keep HTML clean
+    let lightbox = document.querySelector(".lightbox-modal-chess");
+    if (!lightbox) {
+        lightbox = document.createElement("div");
+        lightbox.className = "lightbox-modal-chess";
+        lightbox.id = "gallery-lightbox";
+        lightbox.innerHTML = `
+            <div class="lightbox-content-wrapper">
+                <span class="lightbox-close-chess" id="lightbox-close">&times;</span>
+                <img class="lightbox-img-chess" id="lightbox-img" src="" alt="Zoomed view">
+                <div class="lightbox-caption-chess" id="lightbox-caption"></div>
+            </div>
+        `;
+        document.body.appendChild(lightbox);
+    }
+
+    const lightboxImg = lightbox.querySelector("#lightbox-img");
+    const lightboxCaption = lightbox.querySelector("#lightbox-caption");
+    const closeBtn = lightbox.querySelector("#lightbox-close");
+    const galleryCards = document.querySelectorAll(".gallery-card-chess");
+
+    galleryCards.forEach(card => {
+        card.addEventListener("click", () => {
+            const imgEl = card.querySelector("img");
+            const captionText = card.getAttribute("data-caption") || "Academy Gallery Image";
+            if (imgEl) {
+                lightboxImg.src = imgEl.src;
+                lightboxCaption.textContent = captionText;
+                lightbox.classList.add("active");
+                document.body.style.overflow = "hidden"; // Prevent background scrolling
+            }
+        });
+    });
+
+    // Close function
+    const closeLightbox = () => {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = ""; // Restore scrolling
+        setTimeout(() => {
+            lightboxImg.src = "";
+            lightboxCaption.textContent = "";
+        }, 300);
+    };
+
+    closeBtn.addEventListener("click", closeLightbox);
+    
+    // Close on background click
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) {
+            closeLightbox();
+        }
+    });
+}
+

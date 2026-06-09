@@ -2647,3 +2647,293 @@ button, input, select, textarea {
     box-shadow: 0 4px 15px rgba(209, 26, 42, 0.06);
 }
 
+/* ==========================================================================
+   STUDENT ACHIEVEMENTS & ACADEMY GALLERY STYLES
+   ========================================================================== */
+
+/* Section title with premium styling */
+.section-title-gold {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 36px;
+    color: #111827;
+    text-align: center;
+    margin-bottom: 12px;
+}
+.section-title-gold span {
+    color: var(--primary);
+    position: relative;
+    display: inline-block;
+}
+
+.section-sub-chess {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 50px auto;
+    line-height: 1.6;
+}
+
+/* Student Achievements Section */
+.students-grid-chess {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.student-card-chess {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.student-card-chess:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(209, 26, 42, 0.08);
+    border-color: rgba(209, 26, 42, 0.15);
+}
+
+.student-img-wrapper {
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    height: 240px;
+    margin-bottom: 20px;
+    background: #e5e7eb;
+}
+
+.student-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.student-card-chess:hover .student-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.student-country-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.student-country-badge i {
+    color: #FFD700; /* gold star icon / medal */
+}
+
+.student-name-chess {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.student-title-chess {
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+
+.student-desc-chess {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: auto;
+    font-style: italic;
+    border-top: 1px solid rgba(209, 26, 42, 0.05);
+    padding-top: 12px;
+}
+
+/* Academy Gallery Section */
+.gallery-grid-chess {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.gallery-card-chess {
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    height: 200px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--border-color);
+    background: #e5e7eb;
+}
+
+.gallery-card-chess img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-card-chess:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(209, 26, 42, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-card-chess:hover .gallery-card-overlay {
+    opacity: 1;
+}
+
+.gallery-card-overlay i {
+    color: #ffffff;
+    font-size: 24px;
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.gallery-card-chess:hover .gallery-card-overlay i {
+    transform: scale(1);
+}
+
+/* Lightbox Modal */
+.lightbox-modal-chess {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-modal-chess.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content-wrapper {
+    position: relative;
+    max-width: 90%;
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox-img-chess {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.lightbox-modal-chess.active .lightbox-img-chess {
+    transform: scale(1);
+}
+
+.lightbox-close-chess {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    color: #ffffff;
+    font-size: 28px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.lightbox-close-chess:hover {
+    background: var(--primary);
+    transform: rotate(90deg);
+}
+
+.lightbox-caption-chess {
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .students-grid-chess {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+    }
+    
+    .gallery-grid-chess {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+    
+    .gallery-card-chess {
+        height: 140px;
+    }
+    
+    .section-title-gold {
+        font-size: 28px;
+    }
+    
+    .lightbox-close-chess {
+        top: 15px;
+        right: 15px;
+    }
+}
+
+
