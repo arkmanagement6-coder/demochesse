@@ -365,24 +365,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdfFilename = "syllabus-advanced.pdf";
             $syllabusDetailsHTML = "
             <h3 style='margin-top: 0; color: #0F172A;'>Advanced Chess Program Syllabus</h3>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Advanced Strategic & Tactical Concepts (6 Months)</p>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Advanced (48 Sessions / 6 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>This module focuses on advanced strategic and tactical concepts to improve calculation, positional understanding, and practical play.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Advanced Strategic & Tactical Concepts</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Positional & Strategic calculation to improve calculation and practical play</li>
-                <li>Tactical concepts (Overloaded Piece, Line Opening & Closing, Square Vacation, Passed Pawn)</li>
-                <li>Zwischenzug, Drawing Combinations, X-Ray Attack, Windmills</li>
+                <li>Overloaded Piece</li>
+                <li>Line Opening & Closing</li>
+                <li>Square Vacation</li>
+                <li>Passed Pawn</li>
+                <li>Zwischenzug</li>
+                <li>Drawing Combinations</li>
+                <li>X-Ray Attack</li>
+                <li>Windmills</li>
             </ul>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Advanced Tactics & Attacking (6 Months)</p>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Advanced (48 Sessions / 6 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>This module focuses on advanced tactics and elementary checkmates to improve attacking and calculation abilities.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Advanced Tactical Concepts</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Advanced tactics and elementary checkmates to improve attacking ability</li>
-                <li>Elementary Checkmate with Bishop & Knight, Checkmating Patterns</li>
-                <li>Art of Combining Pieces, Decoy & Deflection tactics</li>
+                <li>Elementary Checkmate with Bishop & Knight</li>
+                <li>Checkmating Patterns</li>
+                <li>Introduction to Chess Tactics</li>
+                <li>Art of Combining Pieces</li>
+                <li>Decoy</li>
+                <li>Deflection</li>
             </ul>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 3 – Endgame Fundamentals & FIDE Prep (6 Months)</p>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 3 – Advanced Chess Players (48 Sessions / 6 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>In this module, students will be introduced to the world of chess endings and learn important practical endgame concepts every serious player must know.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Endgame Fundamentals</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Endgame Fundamentals (Concept of Opposition, Rule of the Square, King & Pawn Endings)</li>
-                <li>Queen vs Pawn, Knight vs Pawn, Rook vs Pawn, Queen vs Rook, Rook Endings</li>
-                <li>Guidance for official FIDE Rated Tournaments, building confidence</li>
-            </ul>";
+                <li>The Concept of Opposition</li>
+                <li>Rule of the Square</li>
+                <li>King & Pawn Endings</li>
+                <li>Queen vs Pawn</li>
+                <li>Knight vs Pawn</li>
+                <li>Rook vs Pawn</li>
+                <li>Queen vs Rook</li>
+                <li>Fundamentals of Rook Endings</li>
+            </ul>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🏅 Tournament Preparation</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Guidance for Official FIDE Rated Tournaments</li>
+                <li>Building Tournament Confidence</li>
+                <li>Improving Practical Endgame Skills</li>
+            </ul>
+            <p style='font-size: 13px; font-weight: bold; margin-top: 15px;'>🏆 Goal: To develop strong tournament players capable of competing at higher competitive levels.</p>";
         } else {
             // FIDE Rating or Complete
             $pdfFilename = "syllabus-fide.pdf";
