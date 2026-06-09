@@ -2579,28 +2579,33 @@ button, input, select, textarea {
     .hero-checklist li {
         display: inline-flex !important;
         align-items: center !important;
-        background: rgba(209, 26, 42, 0.05) !important;
-        border: 1px solid rgba(209, 26, 42, 0.12) !important;
-        color: var(--text-main) !important;
-        padding: 6px 12px !important;
-        border-radius: 30px !important;
-        font-size: 11.5px !important;
+        background: #ffffff !important;
+        border: 1px solid rgba(15, 23, 42, 0.08) !important;
+        color: #334155 !important;
+        padding: 8px 14px !important;
+        border-radius: 50px !important;
+        font-size: 11px !important;
         font-weight: 700 !important;
+        letter-spacing: 0.3px !important;
         white-space: nowrap !important;
-        gap: 6px !important;
-        transition: all 0.2s ease !important;
+        gap: 8px !important;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     
     .hero-checklist li:hover {
-        background: rgba(209, 26, 42, 0.08) !important;
+        background: #ffffff !important;
         border-color: rgba(209, 26, 42, 0.25) !important;
-        transform: translateY(-1px);
+        color: var(--primary-blue) !important;
+        box-shadow: 0 4px 12px rgba(209, 26, 42, 0.08) !important;
+        transform: translateY(-2px) scale(1.02) !important;
     }
     
     .hero-checklist li i {
         margin-top: 0 !important;
-        font-size: 13px !important;
+        font-size: 12px !important;
         color: var(--primary-blue) !important;
+        filter: drop-shadow(0 1px 2px rgba(209, 26, 42, 0.2)) !important;
     }
     
     .hero-cta-pack {
