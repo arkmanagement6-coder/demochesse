@@ -510,15 +510,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdfFilename = "syllabus-fide.pdf";
             $syllabusDetailsHTML = "
             <h3 style='margin-top: 0; color: #0F172A;'>Personalized FIDE Rating Training Outline</h3>
-            <p style='font-size: 14px; color: #475569; font-weight: bold; margin-bottom: 5px;'>Dedicated 1-on-1 Coaching with Higher Rated FIDE Masters</p>
-            <p style='font-size: 13px; line-height: 1.5; color: #475569; margin: 0 0 10px 0;'>Our FIDE Rating training is deeply personalized. You are matched with international masters who analyze your game statistics, detect logical blind spots, and curate openings explicitly designed for you.</p>
+            <p style='font-size: 13px; line-height: 1.5; color: #475569; margin: 0 0 10px 0;'>This program is specially designed for students who are already FIDE Rated or students who have completed our Advanced Level Program and are preparing to enter FIDE Rated tournaments. In this program, students receive personalized 1-on-1 coaching sessions with higher-rated trainers to help them improve their tournament performance and increase their FIDE Rating.</p>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🌟 Training is Completely Personalized</strong>
+            <p style='font-size: 13px; color: #555; margin: 0 0 10px 0;'>The topics and training plan depend entirely on the student’s weaknesses and practical game performance.</p>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>📌 Areas Covered May Include:</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li><strong>Opening Repertoire:</strong> Custom repertoire matching your cognitive style.</li>
-                <li><strong>Middlegame Planning:</strong> Evaluating piece dynamics, planning, and tactical vision.</li>
-                <li><strong>Tournament Psychology:</strong> Time management, coping with pressure, speed-clock psychology.</li>
-                <li><strong>Endgame Technique:</strong> Flawless conversion of winning advantage positions.</li>
-                <li><strong>FIDE Rating Roadmap:</strong> Strategy for official FIDE rated tournaments.</li>
-            </ul>";
+                <li>Opening Preparation</li>
+                <li>Middlegame Planning</li>
+                <li>Tactical Calculation</li>
+                <li>Positional Understanding</li>
+                <li>Endgame Technique</li>
+                <li>Time Management</li>
+                <li>Tournament Psychology</li>
+                <li>Game Analysis & Mistake Correction</li>
+                <li>FIDE Tournament Preparation</li>
+            </ul>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🎯 Main Goal:</strong>
+            <p style='font-size: 13px; color: #555; margin: 0 0 10px 0;'>To help students perform better in FIDE Rated tournaments and steadily improve their FIDE Rating through structured guidance and personal attention.</p>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>👨‍🏫 1-on-1 Training with Experienced Higher Rated Coaches</strong>
+            <strong style='font-size: 13px; display: block; margin-top: 5px; margin-bottom: 10px;'>📈 Customized Improvement Plan for Every Student</strong>";
         }
 
         $subject = "Your Paras Chess Academy Syllabus - $levelName Program";
