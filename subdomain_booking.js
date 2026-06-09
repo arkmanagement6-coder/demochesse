@@ -79,31 +79,36 @@ class BookingWizard {
             }
         });
 
-        // Mobile Prefilled with +91 and limited to 10 digits
+        // Mobile Prefilled with country code selector and limited to 15 digits
         const mobileInput = document.getElementById("studentMobile");
+        const countryCodeSelect = document.getElementById("studentCountryCode");
+        
         if (mobileInput) {
+            mobileInput.value = ""; // Clear default prefill
+            
+            if (countryCodeSelect) {
+                countryCodeSelect.addEventListener("change", () => {
+                    const code = countryCodeSelect.value;
+                    if (code === "+91" || code === "+1") {
+                        mobileInput.placeholder = "10-digit number";
+                    } else if (code === "+44") {
+                        mobileInput.placeholder = "10-digit mobile";
+                    } else {
+                        mobileInput.placeholder = "Mobile number";
+                    }
+                    mobileInput.value = "";
+                    this.updateSectionVisibility();
+                });
+            }
+            
             mobileInput.addEventListener("input", (e) => {
                 let val = e.target.value;
-                // Force +91 prefix
-                if (!val.startsWith("+91 ")) {
-                    // Strip any leading +91 or 91 patterns that might get messy
-                    let cleared = val.replace(/^\+?91\s?/, "");
-                    val = "+91 " + cleared;
+                let cleaned = val.replace(/\D/g, ""); // Keep only digits
+                if (cleaned.length > 15) {
+                    cleaned = cleaned.substring(0, 15); // Enforce 15 digit limit
                 }
-                let prefix = "+91 ";
-                let rest = val.substring(prefix.length).replace(/\D/g, ""); // Keep only digits
-                if (rest.length > 10) {
-                    rest = rest.substring(0, 10); // Enforce 10 digit limit
-                }
-                e.target.value = prefix + rest;
+                e.target.value = cleaned;
                 this.updateSectionVisibility();
-            });
-
-            mobileInput.addEventListener("keydown", (e) => {
-                // Prevent deleting "+91 " prefix using backspace
-                if (e.key === "Backspace" && e.target.value.length <= 4) {
-                    e.preventDefault();
-                }
             });
         }
 
@@ -187,8 +192,18 @@ class BookingWizard {
         const namesFilled = studentName.trim().length >= 2 && parentName.trim().length >= 2;
         const ageFilled = studentAge.trim().length >= 1 && parseInt(studentAge) >= 5;
         
-        const mobileRest = studentMobile.replace("+91 ", "").replace(/\D/g, "");
-        const contactFilled = mobileRest.length === 10 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(studentEmail.trim());
+        const countryCodeSelect = document.getElementById("studentCountryCode");
+        const countryCode = countryCodeSelect ? countryCodeSelect.value : "+91";
+        const mobileCleaned = studentMobile.replace(/\D/g, "");
+        
+        let isMobileValid = true;
+        if (countryCode === "+91") {
+            if (mobileCleaned.length !== 10) isMobileValid = false;
+        } else {
+            if (mobileCleaned.length < 7 || mobileCleaned.length > 15) isMobileValid = false;
+        }
+        
+        const contactFilled = isMobileValid && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(studentEmail.trim());
         
         const locationFilled = studentCity.trim().length >= 2 && studentCountry.trim().length > 0;
         
@@ -288,6 +303,25 @@ class BookingWizard {
 
         fields.forEach(fid => {
             const input = document.getElementById(fid);
+            if (fid === "studentMobile") {
+                const countryCodeSelect = document.getElementById("studentCountryCode");
+                const countryCode = countryCodeSelect ? countryCodeSelect.value : "+91";
+                const mobileCleaned = input ? input.value.replace(/\D/g, "") : "";
+                let isMobileValid = true;
+                if (countryCode === "+91") {
+                    if (mobileCleaned.length !== 10) isMobileValid = false;
+                } else {
+                    if (mobileCleaned.length < 7 || mobileCleaned.length > 15) isMobileValid = false;
+                }
+                
+                if (!input || !isMobileValid) {
+                    if (input) input.style.borderColor = "#EF4444";
+                    isValid = false;
+                } else {
+                    input.style.borderColor = "var(--border-color)";
+                }
+                return;
+            }
             if (!input || !input.checkValidity()) {
                 input.style.borderColor = "#EF4444";
                 isValid = false;
@@ -557,7 +591,9 @@ class BookingWizard {
         const parentName = document.getElementById("parentName").value;
         const age = parseInt(document.getElementById("studentAge").value);
         const grade = document.getElementById("studentGrade").value;
-        const mobile = document.getElementById("studentMobile").value;
+        const countryCodeSelect = document.getElementById("studentCountryCode");
+        const countryCode = countryCodeSelect ? countryCodeSelect.value : "+91";
+        const mobile = countryCode + " " + document.getElementById("studentMobile").value.replace(/\D/g, "");
         const email = document.getElementById("studentEmail").value;
         const city = document.getElementById("studentCity").value;
         const country = document.getElementById("studentCountry").value;

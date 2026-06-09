@@ -43,8 +43,23 @@ class BookingDrawer {
         
         // Prefill Mobile input
         if (this.parentMobile) {
-            this.parentMobile.value = "+91 ";
+            this.parentMobile.value = "";
             this.setupMobileGuard();
+            
+            const countryCodeSelect = document.getElementById("d-countryCode");
+            if (countryCodeSelect) {
+                countryCodeSelect.addEventListener("change", () => {
+                    const code = countryCodeSelect.value;
+                    if (code === "+91" || code === "+1") {
+                        this.parentMobile.placeholder = "10-digit number";
+                    } else if (code === "+44") {
+                        this.parentMobile.placeholder = "10-digit mobile";
+                    } else {
+                        this.parentMobile.placeholder = "Mobile number";
+                    }
+                    this.parentMobile.value = "";
+                });
+            }
         }
         
         this.bindEvents();
@@ -118,30 +133,17 @@ class BookingDrawer {
     }
     
     static setupMobileGuard() {
-        // Enforce "+91 " locked prefix
         this.parentMobile.addEventListener("input", (e) => {
             let val = e.target.value;
-            if (!val.startsWith("+91 ")) {
-                e.target.value = "+91 " + val.replace(/^\+?9?1?\s?/, "");
-            }
-            
             // Clean up typed section (only digits)
-            let typed = e.target.value.substring(4);
-            let cleaned = typed.replace(/\D/g, "");
+            let cleaned = val.replace(/\D/g, "");
             
-            // Cap at 10 digits
-            if (cleaned.length > 10) {
-                cleaned = cleaned.substring(0, 10);
+            // Cap at 15 digits
+            if (cleaned.length > 15) {
+                cleaned = cleaned.substring(0, 15);
             }
             
-            e.target.value = "+91 " + cleaned;
-        });
-        
-        // Prevent cursor deleting prefix
-        this.parentMobile.addEventListener("keydown", (e) => {
-            if (e.key === "Backspace" && e.target.selectionStart <= 4) {
-                e.preventDefault();
-            }
+            e.target.value = cleaned;
         });
     }
     
@@ -178,17 +180,32 @@ class BookingDrawer {
     static validateStep(stepNum) {
         if (stepNum === 1) {
             const parentName = document.getElementById("d-parentName").value.trim();
-            const parentMobile = this.parentMobile.value.substring(4).trim();
+            const parentMobile = this.parentMobile.value.trim();
             const parentEmail = document.getElementById("d-parentEmail").value.trim();
+            const countryCodeSelect = document.getElementById("d-countryCode");
+            const countryCode = countryCodeSelect ? countryCodeSelect.value : "+91";
             
             if (parentName.length < 2) {
                 Toast.show("Name Too Short", "Please enter your full parent name.", "warning");
                 return false;
             }
-            if (parentMobile.length !== 10) {
-                Toast.show("Invalid Mobile", "Please enter a valid 10-digit WhatsApp number.", "warning");
+            
+            let isMobileValid = true;
+            if (countryCode === "+91") {
+                if (parentMobile.length !== 10) isMobileValid = false;
+            } else {
+                if (parentMobile.length < 7 || parentMobile.length > 15) isMobileValid = false;
+            }
+            
+            if (!isMobileValid) {
+                if (countryCode === "+91") {
+                    Toast.show("Invalid Mobile", "Please enter a valid 10-digit WhatsApp number.", "warning");
+                } else {
+                    Toast.show("Invalid Mobile", "Please enter a valid mobile number.", "warning");
+                }
                 return false;
             }
+            
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(parentEmail)) {
                 Toast.show("Invalid Email", "Please enter a correct email address format.", "warning");
@@ -439,7 +456,9 @@ class BookingDrawer {
         
         // Grab values
         const parentName = document.getElementById("d-parentName").value.trim();
-        const parentMobile = this.parentMobile.value.trim();
+        const countryCodeSelect = document.getElementById("d-countryCode");
+        const countryCode = countryCodeSelect ? countryCodeSelect.value : "+91";
+        const parentMobile = countryCode + " " + this.parentMobile.value.trim();
         const parentEmail = document.getElementById("d-parentEmail").value.trim();
         
         const studentName = document.getElementById("d-studentName").value.trim();

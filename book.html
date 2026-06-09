@@ -91,7 +91,27 @@
                         <div class="form-sub-grid form-fade-in" id="group-contact" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 20px; grid-column: span 2;">
                             <div class="form-group">
                                 <label for="studentMobile"><i class="fa-solid fa-phone"></i> Mobile Number (WhatsApp) *</label>
-                                <input type="tel" id="studentMobile" class="form-control" value="+91 " placeholder="+91 XXXXX XXXXX" required>
+                                <div style="display: flex; gap: 8px;">
+                                    <select id="studentCountryCode" style="display: flex; align-items: center; justify-content: center; padding: 0 8px; background: #F3F4F6; border: 1px solid rgba(15, 23, 42, 0.15); border-radius: 8px; font-weight: 700; font-size: 14px; color: var(--text-main); cursor: pointer; outline: none; height: 48px;">
+                                        <option value="+91" selected>🇮🇳 +91</option>
+                                        <option value="+1">🇺🇸 +1</option>
+                                        <option value="+44">🇬🇧 +44</option>
+                                        <option value="+971">🇦🇪 +971</option>
+                                        <option value="+61">🇦🇺 +61</option>
+                                        <option value="+65">🇸🇬 +65</option>
+                                        <option value="+966">🇸🇦 +966</option>
+                                        <option value="+968">🇴🇲 +968</option>
+                                        <option value="+974">🇶🇦 +974</option>
+                                        <option value="+965">🇰🇼 +965</option>
+                                        <option value="+973">🇧🇭 +973</option>
+                                        <option value="+49">🇩🇪 +49</option>
+                                        <option value="+33">🇫🇷 +33</option>
+                                        <option value="+64">🇳🇿 +64</option>
+                                        <option value="+27">🇿🇦 +27</option>
+                                        <option value="+353">🇮🇪 +353</option>
+                                    </select>
+                                    <input type="tel" id="studentMobile" class="form-control" placeholder="10-digit number" required style="flex: 1;">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="studentEmail"><i class="fa-solid fa-envelope"></i> Email Address *</label>
