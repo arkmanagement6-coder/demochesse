@@ -2476,3 +2476,119 @@ button, input, select, textarea {
         transform: translateX(50%) !important;
     }
 }
+
+/* Mobile Landing Page Hero Booking Options Override */
+.mobile-booking-wrapper {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    /* Header compactness */
+    .header {
+        padding: 6px 0 !important;
+    }
+    .logo-img {
+        height: 38px !important;
+    }
+    
+    /* Hero layout reordering to show booking option above the fold */
+    .hero-section-dark {
+        padding: 12px 0 25px !important;
+    }
+    
+    .hero-left-col {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    .hero-badge {
+        display: none !important; /* Hide badge to save vertical space */
+    }
+    
+    .hero-headline {
+        order: 1 !important;
+        font-size: 22px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 10px !important;
+        text-align: center !important;
+    }
+    
+    .hero-headline span {
+        display: inline-block;
+    }
+    
+    .mobile-booking-wrapper {
+        order: 2 !important;
+        display: block !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .mobile-booking-card {
+        padding: 14px !important;
+        border-radius: 12px !important;
+        background: #ffffff !important;
+        border: 1px solid rgba(209, 26, 42, 0.15) !important;
+        box-shadow: 0 4px 20px rgba(209, 26, 42, 0.08) !important;
+    }
+    
+    .mobile-booking-card h3 {
+        font-size: 13px !important;
+        margin-bottom: 10px !important;
+        padding-bottom: 8px !important;
+    }
+    
+    .mobile-booking-card label {
+        font-size: 9px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .mobile-booking-card .form-control-chess {
+        height: 38px !important;
+        font-size: 12px !important;
+        padding: 0 10px !important;
+    }
+    
+    .mobile-booking-card .btn-gold {
+        height: 38px !important;
+        font-size: 13px !important;
+        border-radius: 6px !important;
+    }
+    
+    .hero-subheading {
+        order: 3 !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+    }
+    
+    .hero-checklist {
+        order: 4 !important;
+        margin: 0 auto 20px auto !important;
+        font-size: 13px !important;
+        gap: 8px !important;
+        width: fit-content !important;
+    }
+    
+    .hero-cta-pack {
+        order: 5 !important;
+        justify-content: center !important;
+        gap: 10px !important;
+    }
+    
+    .hero-cta-pack .btn {
+        font-size: 13px !important;
+        padding: 10px 16px !important;
+    }
+
+    .desktop-booking-card {
+        display: none !important;
+    }
+    .animated-chess-graphic {
+        display: none !important;
+    }
+    .btn-hero-demo-desktop {
+        display: none !important;
+    }
+}
+

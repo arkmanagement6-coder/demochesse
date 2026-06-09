@@ -12,6 +12,8 @@ class BookingDrawer {
         
         this.heroAgeSelect = document.getElementById("hero-age-select");
         this.heroSubmitBtn = document.getElementById("hero-submit-btn");
+        this.heroAgeSelectMob = document.getElementById("hero-age-select-mob");
+        this.heroSubmitBtnMob = document.getElementById("hero-submit-btn-mob");
         
         // Navigation Triggers
         this.btnNext1 = document.getElementById("d-btn-next-1");
@@ -55,18 +57,35 @@ class BookingDrawer {
         this.closeBtn.addEventListener("click", () => this.close());
         this.overlay.addEventListener("click", () => this.close());
         
-        // Hero Submit Option
-        this.heroSubmitBtn.addEventListener("click", () => {
-            const ageVal = this.heroAgeSelect.value;
-            if (!ageVal) {
-                Toast.show("Age Required", "Please select your child's age to proceed.", "warning");
-                this.heroAgeSelect.focus();
-                return;
-            }
-            // Sync selected age to Step 2 input
-            this.studentAgeSelect.value = ageVal;
-            this.open();
-        });
+        // Hero Submit Option (Desktop)
+        if (this.heroSubmitBtn) {
+            this.heroSubmitBtn.addEventListener("click", () => {
+                const ageVal = this.heroAgeSelect ? this.heroAgeSelect.value : "";
+                if (!ageVal) {
+                    Toast.show("Age Required", "Please select your child's age to proceed.", "warning");
+                    if (this.heroAgeSelect) this.heroAgeSelect.focus();
+                    return;
+                }
+                // Sync selected age to Step 2 input
+                this.studentAgeSelect.value = ageVal;
+                this.open();
+            });
+        }
+        
+        // Hero Submit Option (Mobile)
+        if (this.heroSubmitBtnMob) {
+            this.heroSubmitBtnMob.addEventListener("click", () => {
+                const ageVal = this.heroAgeSelectMob ? this.heroAgeSelectMob.value : "";
+                if (!ageVal) {
+                    Toast.show("Age Required", "Please select your child's age to proceed.", "warning");
+                    if (this.heroAgeSelectMob) this.heroAgeSelectMob.focus();
+                    return;
+                }
+                // Sync selected age to Step 2 input
+                this.studentAgeSelect.value = ageVal;
+                this.open();
+            });
+        }
         
         // Step Continue navigators
         this.btnNext1.addEventListener("click", () => {
