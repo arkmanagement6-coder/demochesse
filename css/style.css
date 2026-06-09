@@ -2628,5 +2628,11 @@ button, input, select, textarea {
     .btn-hero-demo-desktop {
         display: none !important;
     }
+    .hero-right-col {
+        display: none !important;
+    }
+    .section-padding-chess {
+        padding: 35px 0 !important;
+    }
 }
 
