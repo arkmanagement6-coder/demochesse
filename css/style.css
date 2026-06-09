@@ -2567,7 +2567,10 @@ button, input, select, textarea {
         margin: 0 auto 20px auto !important;
         font-size: 13px !important;
         gap: 8px !important;
-        width: fit-content !important;
+        width: 210px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
     }
     
     .hero-cta-pack {
