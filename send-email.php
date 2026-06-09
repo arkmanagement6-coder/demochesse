@@ -348,19 +348,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdfFilename = "syllabus-intermediate.pdf";
             $syllabusDetailsHTML = "
             <h3 style='margin-top: 0; color: #0F172A;'>Intermediate Chess Program Syllabus</h3>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Tactical Vision & Major Openings (6 Months)</p>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-bottom: 5px;'>Level 1 – Intermediate Level 1 (48 Sessions / 6 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>This level focuses on improving tactical vision, calculation ability, and opening understanding required for tournament play.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Tactical Training</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Tactical Training (Mate in 2, Mate in 3, Double Attack, Fork, Pin, Skewer Level 2)</li>
-                <li>Discovered Check, Discovered Attack, Destroying the Defender Level 1 & 2</li>
-                <li>Opening Preparation (Queen's Gambit Accepted & Declined, Sicilian Defence, Caro-Kann, French)</li>
+                <li>Mate in 2</li>
+                <li>Mate in 3</li>
+                <li>Double Attack – Level 2</li>
+                <li>Knight Fork – Level 2</li>
+                <li>Pin – Level 2</li>
+                <li>Back Rank – Level 2</li>
+                <li>Skewer – Level 2</li>
+                <li>Discovered Check – Level 2</li>
+                <li>Discovered Attack – Level 2</li>
+                <li>Destroying the Defender – Level 1 & 2</li>
             </ul>
-            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Advanced Calculation & Repertoire (6 Months)</p>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Opening Preparation</strong>
             <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
-                <li>Advanced Tactics (Mate in 4 Moves, Double Attack, Fork, Pin, Skewer Level 3)</li>
-                <li>Discovered Check & Attack Level 3, Destroying the Defender Level 3</li>
-                <li>Opening Preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez)</li>
-                <li>Building tournament level tactical calculation skills</li>
-            </ul>";
+                <li>Queen’s Gambit (Accepted & Declined)</li>
+                <li>Sicilian Defence (Including Anti-Sicilians)</li>
+                <li>Caro-Kann Defence</li>
+                <li>French Defence</li>
+            </ul>
+            <p style='font-size: 14px; font-weight: bold; color: #D11A2A; margin-top: 15px; margin-bottom: 5px;'>Level 2 – Intermediate Level 2 (48 Sessions / 6 Months)</p>
+            <p style='font-size: 13px; color: #555; margin-bottom: 8px;'>This module develops advanced tactical calculation and deeper opening understanding for competitive tournament games.</p>
+            <strong style='font-size: 13px; display: block; margin-bottom: 5px;'>🔹 Advanced Tactical Training</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>Mate in 4 Moves</li>
+                <li>Double Attack – Level 3</li>
+                <li>Knight Fork – Level 3</li>
+                <li>Pin – Level 3</li>
+                <li>Back Rank – Level 3</li>
+                <li>Skewer – Level 3</li>
+                <li>Discovered Check – Level 3</li>
+                <li>Discovered Attack – Level 3</li>
+                <li>Destroying the Defender – Level 3</li>
+            </ul>
+            <strong style='font-size: 13px; display: block; margin-top: 10px; margin-bottom: 5px;'>🔹 Opening Preparation</strong>
+            <ul style='font-size: 13px; padding-left: 20px; margin-top: 0;'>
+                <li>King’s Indian Defence</li>
+                <li>Modern Defence</li>
+                <li>Pirc Defence</li>
+                <li>Ruy Lopez</li>
+            </ul>
+            <p style='font-size: 13px; font-weight: bold; margin-top: 15px;'>🏆 Goal: To prepare students for competitive tournament chess with strong tactical understanding, calculation skills, and opening preparation.</p>";
         } elseif (strpos(strtolower($levelName), "advan") !== false) {
             $pdfFilename = "syllabus-advanced.pdf";
             $syllabusDetailsHTML = "

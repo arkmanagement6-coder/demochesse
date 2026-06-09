@@ -877,15 +877,30 @@
                     <div class="syllabus-accordion">
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Intermediate Level 1 — Tactical Vision & Major Openings <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <span>🌟 Intermediate Level 1 <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 48 Sessions / 6 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
+                                <p style="font-size:13px; color:var(--text-secondary); margin-bottom:10px; line-height:1.5;">This level focuses on improving tactical vision, calculation ability, and opening understanding required for tournament play.</p>
+                                <strong style="font-size:13px; color:var(--text-main); display:block; margin-bottom:8px;">🔹 Tactical Training</strong>
                                 <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
-                                    <li><strong>Tactical Drills:</strong> Mate in 2 moves, Mate in 3 moves, and Double Attack (Level 2).</li>
-                                    <li><strong>Tactics Upgrades:</strong> Knight fork (Level 2), Pins (Level 2), Back Rank (Level 2), and Skewers (Level 2).</li>
-                                    <li><strong>Discovered Actions:</strong> Discovered check & attack (Level 2), and destroying the defender (Level 1 & 2).</li>
-                                    <li><strong>Opening Preparation:</strong> Deep analysis of Queen's Gambit (Accepted & Declined), Sicilian Defence (including Anti-Sicilians), Caro-Kann Defence, and French Defence.</li>
+                                    <li>Mate in 2</li>
+                                    <li>Mate in 3</li>
+                                    <li>Double Attack – Level 2</li>
+                                    <li>Knight Fork – Level 2</li>
+                                    <li>Pin – Level 2</li>
+                                    <li>Back Rank – Level 2</li>
+                                    <li>Skewer – Level 2</li>
+                                    <li>Discovered Check – Level 2</li>
+                                    <li>Discovered Attack – Level 2</li>
+                                    <li>Destroying the Defender – Level 1 & 2</li>
+                                </ul>
+                                <strong style="font-size:13px; color:var(--text-main); display:block; margin-bottom:8px; margin-top:12px;">🔹 Opening Preparation</strong>
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li>Queen’s Gambit (Accepted & Declined)</li>
+                                    <li>Sicilian Defence (Including Anti-Sicilians)</li>
+                                    <li>Caro-Kann Defence</li>
+                                    <li>French Defence</li>
                                 </ul>
                                 <button onclick="openDownloadModal('Intermediate')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
                             </div>
@@ -893,15 +908,29 @@
 
                         <div class="accordion-item" onclick="toggleAccordion(this)">
                             <div class="accordion-header">
-                                <span>🌟 Intermediate Level 2 — Advanced Calculation & Repertoire <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 6 Months)</span></span>
+                                <span>🌟 Intermediate Level 2 <span style="font-size:11px; font-weight:500; color:var(--primary-blue); margin-left:12px;">(Duration: 48 Sessions / 6 Months)</span></span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <div class="accordion-content">
+                                <p style="font-size:13px; color:var(--text-secondary); margin-bottom:10px; line-height:1.5;">This module develops advanced tactical calculation and deeper opening understanding for competitive tournament games.</p>
+                                <strong style="font-size:13px; color:var(--text-main); display:block; margin-bottom:8px;">🔹 Advanced Tactical Training</strong>
                                 <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
-                                    <li><strong>Calculations training:</strong> Mate in 4 moves, and Double Attack (Level 3).</li>
-                                    <li><strong>Tactics Elite:</strong> Knight fork (Level 3), Pins (Level 3), Back Rank checkmate (Level 3), and Skewers (Level 3).</li>
-                                    <li><strong>Discovered Mastery:</strong> Discovered check & attack (Level 3), and destroying the defender (Level 3).</li>
-                                    <li><strong>Opening Repertoire:</strong> Detailed theory on King's Indian Defence, Modern Defence, Pirc Defence, and Ruy Lopez.</li>
+                                    <li>Mate in 4 Moves</li>
+                                    <li>Double Attack – Level 3</li>
+                                    <li>Knight Fork – Level 3</li>
+                                    <li>Pin – Level 3</li>
+                                    <li>Back Rank – Level 3</li>
+                                    <li>Skewer – Level 3</li>
+                                    <li>Discovered Check – Level 3</li>
+                                    <li>Discovered Attack – Level 3</li>
+                                    <li>Destroying the Defender – Level 3</li>
+                                </ul>
+                                <strong style="font-size:13px; color:var(--text-main); display:block; margin-bottom:8px; margin-top:12px;">🔹 Opening Preparation</strong>
+                                <ul style="padding-left:18px; margin-bottom:12px; list-style-type: square; line-height: 1.6;">
+                                    <li>King’s Indian Defence</li>
+                                    <li>Modern Defence</li>
+                                    <li>Pirc Defence</li>
+                                    <li>Ruy Lopez</li>
                                 </ul>
                                 <button onclick="openDownloadModal('Intermediate')" class="btn btn-secondary btn-outline-gold" style="font-size:11px; padding:6px 12px;">View Full Syllabus Details</button>
                             </div>
@@ -1738,8 +1767,16 @@
                 `;
             } else if (levelName.toLowerCase().includes("intermed")) {
                 syllabusBullets = `
-                    <li style="margin-bottom:8px;"><strong>Intermediate Level 1 (6 Months):</strong> Tactical vision drills (Mate in 2, Mate in 3, Level 2 double attacks/forks/pins/skewers), discovered check & attack (Level 2), destroying the defender (Level 1 & 2), and opening preparation (Queen's Gambit, Sicilian Defence, Caro-Kann Defence, French Defence).</li>
-                    <li style="margin-bottom:8px;"><strong>Intermediate Level 2 (6 Months):</strong> Advanced tactical calculation (Mate in 4 moves, Level 3 double attacks/forks/pins/skewers), discovered checks & attacks (Level 3), destroying defender (Level 3), and opening preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez).</li>
+                    <li style="margin-bottom:8px;"><strong>Intermediate Level 1 (48 Sessions / 6 Months):</strong>
+                        <br>This level focuses on improving tactical vision, calculation ability, and opening understanding required for tournament play.
+                        <br><strong>Tactical Training:</strong> Mate in 2, Mate in 3, Double Attack – Level 2, Knight Fork – Level 2, Pin – Level 2, Back Rank – Level 2, Skewer – Level 2, Discovered Check – Level 2, Discovered Attack – Level 2, Destroying the Defender – Level 1 & 2.
+                        <br><strong>Opening Preparation:</strong> Queen’s Gambit (Accepted & Declined), Sicilian Defence (Including Anti-Sicilians), Caro-Kann Defence, French Defence.
+                    </li>
+                    <li style="margin-bottom:8px;"><strong>Intermediate Level 2 (48 Sessions / 6 Months):</strong>
+                        <br>This module develops advanced tactical calculation and deeper opening understanding for competitive tournament games.
+                        <br><strong>Advanced Tactical Training:</strong> Mate in 4 Moves, Double Attack – Level 3, Knight Fork – Level 3, Pin – Level 3, Back Rank – Level 3, Skewer – Level 3, Discovered Check – Level 3, Discovered Attack – Level 3, Destroying the Defender – Level 3.
+                        <br><strong>Opening Preparation:</strong> King’s Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez.
+                    </li>
                 `;
             } else if (levelName.toLowerCase().includes("fide") || levelName.toLowerCase().includes("rating")) {
                 syllabusBullets = `
@@ -1888,17 +1925,56 @@ Learn • Practice • Improve • Compete
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ♟️ 2. INTERMEDIATE CHESS PROGRAM
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━
 
 🌟 INTERMEDIATE LEVEL 1
 ⏳ Duration: 48 Sessions / 6 Months
-• Tactical Training (Mate in 2, Mate in 3, Double Attack Level 2, Fork Level 2, Pin Level 2, Back Rank Level 2, Skewer Level 2, Discovered Check Level 2, Discovered Attack Level 2, Destroying the Defender Level 1 & 2)
-• Opening Preparation (Queen's Gambit Accepted & Declined, Sicilian Defence including Anti-Sicilians, Caro-Kann Defence, French Defence)
+
+This level focuses on improving tactical vision, calculation ability, and opening understanding required for tournament play.
+
+🔹 Tactical Training
+▪ Mate in 2
+▪ Mate in 3
+▪ Double Attack – Level 2
+▪ Knight Fork – Level 2
+▪ Pin – Level 2
+▪ Back Rank – Level 2
+▪ Skewer – Level 2
+▪ Discovered Check – Level 2
+▪ Discovered Attack – Level 2
+▪ Destroying the Defender – Level 1 & 2
+
+🔹 Opening Preparation
+▪ Queen’s Gambit (Accepted & Declined)
+▪ Sicilian Defence (Including Anti-Sicilians)
+▪ Caro-Kann Defence
+▪ French Defence
+
+━━━━━━━━━━━━━━━━━━
 
 🌟 INTERMEDIATE LEVEL 2
 ⏳ Duration: 48 Sessions / 6 Months
-• Advanced Tactical Training (Mate in 4 Moves, Double Attack Level 3, Fork Level 3, Pin Level 3, Back Rank Level 3, Skewer Level 3, Discovered Check Level 3, Discovered Attack Level 3, Destroying the Defender Level 3)
-• Opening Preparation (King's Indian Defence, Modern Defence, Pirc Defence, Ruy Lopez)
+
+This module develops advanced tactical calculation and deeper opening understanding for competitive tournament games.
+
+🔹 Advanced Tactical Training
+▪ Mate in 4 Moves
+▪ Double Attack – Level 3
+▪ Knight Fork – Level 3
+▪ Pin – Level 3
+▪ Back Rank – Level 3
+▪ Skewer – Level 3
+▪ Discovered Check – Level 3
+▪ Discovered Attack – Level 3
+▪ Destroying the Defender – Level 3
+
+🔹 Opening Preparation
+▪ King’s Indian Defence
+▪ Modern Defence
+▪ Pirc Defence
+▪ Ruy Lopez
+
+━━━━━━━━━━━━━━━━━━
 
 Goal: To prepare students for competitive tournament chess with strong tactical understanding, calculation skills, and opening preparation.
 
