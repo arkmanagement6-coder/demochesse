@@ -2564,26 +2564,43 @@ button, input, select, textarea {
     
     .hero-checklist {
         order: 4 !important;
-        margin: 0 auto 20px auto !important;
-        font-size: 11.5px !important;
-        gap: 8px 12px !important;
-        width: 100% !important;
-        max-width: 350px !important;
-        display: grid !important;
-        grid-template-columns: 1.15fr 0.85fr !important;
-        justify-content: center !important;
+        margin: 0 auto 24px auto !important;
         padding: 0 15px !important;
+        width: 100% !important;
+        max-width: 420px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        list-style: none !important;
     }
     
     .hero-checklist li {
-        display: flex !important;
-        align-items: flex-start !important;
-        text-align: left !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        background: rgba(209, 26, 42, 0.05) !important;
+        border: 1px solid rgba(209, 26, 42, 0.12) !important;
+        color: var(--text-main) !important;
+        padding: 6px 12px !important;
+        border-radius: 30px !important;
+        font-size: 11.5px !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+        gap: 6px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .hero-checklist li:hover {
+        background: rgba(209, 26, 42, 0.08) !important;
+        border-color: rgba(209, 26, 42, 0.25) !important;
+        transform: translateY(-1px);
     }
     
     .hero-checklist li i {
-        margin-top: 3px !important;
+        margin-top: 0 !important;
         font-size: 13px !important;
+        color: var(--primary-blue) !important;
     }
     
     .hero-cta-pack {
