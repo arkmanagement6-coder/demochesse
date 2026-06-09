@@ -200,7 +200,7 @@ button, input, select, textarea {
 /* Header & Navigation Bar */
 .header {
     width: 100%;
-    padding: 20px 0;
+    padding: 12px 0;
     position: sticky;
     top: 0;
     z-index: 100;
