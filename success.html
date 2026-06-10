@@ -90,22 +90,8 @@
                     <span style="font-size:11px; color:var(--text-muted);">Simulated WhatsApp & Email notifications triggered! Expand the drawer in the bottom right corner to view the real-time messages.</span>
                 </div>
 
-                <!-- Assignment Rationale Log Dropdown -->
-                <div class="rationale-container" id="rationale-wrapper">
-                    <div class="rationale-header" id="rationale-toggle">
-                        <span><i class="fa-solid fa-gears"></i> Inspect Auto-Assignment Engine Decision Logs</span>
-                        <span class="faq-icon" style="font-size:16px;"><i class="fa-solid fa-chevron-down"></i></span>
-                    </div>
-                    <div class="rationale-content">
-                        <ul class="decision-log-list" id="match-logs-container">
-                            <!-- Logs dynamically loaded -->
-                        </ul>
-                    </div>
-                </div>
-
                 <div style="display:flex; justify-content:center; gap:16px;">
                     <a href="index.html" class="btn btn-secondary">Back to Home</a>
-                    <a href="admin.html" class="btn btn-secondary" style="color:var(--primary); border-color:var(--primary-glow);">Go to Admin Hub</a>
                 </div>
             </div>
 
@@ -161,28 +147,7 @@
             document.getElementById("meet-join-btn").href = `classroom.html?id=${booking.id}`;
             document.getElementById("meet-join-btn").innerHTML = `<i class="fa-solid fa-circle-play"></i> Enter Video Classroom`;
 
-            // Decision Logs Injection
-            const logsContainer = document.getElementById("match-logs-container");
-            logsContainer.innerHTML = "";
-            
-            const logsList = booking.matchLogs || [
-                "🚀 Resuming log stack details...",
-                `📅 Date: ${booking.date} at ${booking.slot}`,
-                "🟢 Match triggered successfully."
-            ];
-
-            logsList.forEach(logLine => {
-                const li = document.createElement("li");
-                li.innerText = logLine;
-                logsContainer.appendChild(li);
-            });
-
-            // Collapsible Rationale Box click handler
-            const ratioWrapper = document.getElementById("rationale-wrapper");
-            const ratioToggle = document.getElementById("rationale-toggle");
-            ratioToggle.addEventListener("click", () => {
-                ratioWrapper.classList.toggle("active");
-            });
+            // Decision Logs Injection and click handler removed
 
             // Simulate circular search scanner before showing result
             setTimeout(() => {
