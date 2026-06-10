@@ -379,7 +379,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <li>Discovered Check</li>
                 <li>Discovered Attack</li>
                 <li>Introduction to Removing the Defender</li>
-                <li>Introduction to Basic Sacrifices</li>
                 <li>Italian Game Opening</li>
                 <li>Checkmate with One Queen and One King</li>
                 <li>Checkmate with One Rook and One King</li>
