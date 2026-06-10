@@ -2708,11 +2708,12 @@ button, input, select, textarea {
     overflow: hidden;
     height: 280px;
     margin-bottom: 20px;
-    background: #f1f5f9;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .student-img-wrapper img {
@@ -2721,8 +2722,6 @@ button, input, select, textarea {
     width: auto;
     height: auto;
     object-fit: contain;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    border-radius: 4px;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
