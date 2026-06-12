@@ -502,9 +502,18 @@ class BookingWizard {
                 const slots = dailyRoster[t.id] || [];
                 const isRostered = slots.some(s => s.trim() === timeSlot.trim());
                 const isLeave = t.leaves && t.leaves.includes(date);
-                const validLevels = ["beginner", "intermediate", "advanced"];
-                const hasValidExpertise = t.expertise && t.expertise.some(e => validLevels.includes(e.toLowerCase().trim()));
-                const supportsLevel = !this.studentLevel || !hasValidExpertise || t.expertise.some(e => e.toLowerCase().trim() === this.studentLevel.toLowerCase().trim());
+                const LEVEL_ORDER = {
+                    "beginner": 1,
+                    "intermediate": 2,
+                    "advanced": 3
+                };
+                const studentLevelClean = (this.studentLevel || "").toLowerCase().trim();
+                const studentLevelVal = LEVEL_ORDER[studentLevelClean] || 0;
+                const supportsLevel = !this.studentLevel || !t.expertise || t.expertise.length === 0 || t.expertise.some(exp => {
+                    const expClean = exp.toLowerCase().trim();
+                    if (!LEVEL_ORDER[expClean]) return true;
+                    return LEVEL_ORDER[expClean] >= studentLevelVal;
+                });
                 const supportsLang = !this.studentLang || !this.studentLang.value || !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === this.studentLang.value.toLowerCase().trim());
                 return isRostered && !isLeave && supportsLevel && supportsLang;
             });
