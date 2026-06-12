@@ -25,6 +25,7 @@ class AdminController {
         this.loadCRMPipeline();
         this.renderReports();
         this.loadDetailedReports();
+        this.loadSecuritySettings();
 
         // Initialize tomorrow's date as default roster planner date
         if (this.rosterDateSelect) {
@@ -160,6 +161,12 @@ class AdminController {
         this.detailedReportsTableBody = document.getElementById("detailed-reports-table-body");
         this.reportFilterSearch = document.getElementById("report-filter-search");
         this.reportFilterStatus = document.getElementById("report-filter-status");
+
+        // Security Settings form inputs
+        this.securityForm = document.getElementById("admin-security-form");
+        this.settingsAdminEmail = document.getElementById("settings-admin-email");
+        this.settingsAdminPassword = document.getElementById("settings-admin-password");
+        this.settingsAdminConfirm = document.getElementById("settings-admin-confirm");
     }
 
     static bindEvents() {
@@ -351,6 +358,14 @@ class AdminController {
                     };
                     reader.readAsDataURL(file);
                 }
+            });
+        }
+
+        // Security Settings form submit
+        if (this.securityForm) {
+            this.securityForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                this.updateAdminCredentials();
             });
         }
     }
@@ -1807,6 +1822,58 @@ class AdminController {
         document.body.removeChild(link);
 
         window.Toast.show("Export Complete", "CSV file has been downloaded.", "success");
+    }
+
+    static loadSecuritySettings() {
+        if (!this.settingsAdminEmail) return;
+        let adminCreds = { email: 'admin@parashchess.com', password: 'admin123' };
+        try {
+            const stored = localStorage.getItem("chess_admin_credentials");
+            if (stored) {
+                const parsed = JSON.parse(stored);
+                if (parsed && parsed.email && parsed.password) {
+                    adminCreds = parsed;
+                }
+            }
+        } catch (e) {
+            console.error("Failed to parse admin credentials:", e);
+        }
+        this.settingsAdminEmail.value = adminCreds.email;
+        this.settingsAdminPassword.value = adminCreds.password;
+        this.settingsAdminConfirm.value = adminCreds.password;
+    }
+
+    static updateAdminCredentials() {
+        const email = this.settingsAdminEmail.value.trim();
+        const password = this.settingsAdminPassword.value;
+        const confirm = this.settingsAdminConfirm.value;
+
+        if (!email) {
+            window.Toast.show("Error", "Email/Login ID is required.", "danger");
+            return;
+        }
+
+        if (password !== confirm) {
+            window.Toast.show("Error", "Passwords do not match.", "danger");
+            return;
+        }
+
+        if (password.length < 4) {
+            window.Toast.show("Error", "Password must be at least 4 characters.", "danger");
+            return;
+        }
+
+        const creds = { email, password };
+        localStorage.setItem("chess_admin_credentials", JSON.stringify(creds));
+        
+        // Log this action
+        window.ChessDB.addLog("system", `Admin login credentials updated.`);
+        this.loadActivityLogs(); // refresh activity logs view
+
+        // Sync with server
+        window.ChessDB.saveToServer();
+
+        window.Toast.show("Credentials Saved", "Admin ID and Password updated successfully!", "success");
     }
 }
 

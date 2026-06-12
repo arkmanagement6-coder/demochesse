@@ -302,6 +302,9 @@ class DB {
             localStorage.setItem("chess_crm_leads", JSON.stringify(data.crm_leads || []));
             localStorage.setItem("chess_logs", JSON.stringify(data.logs || []));
             localStorage.setItem("chess_daily_roster", JSON.stringify(data.roster || {}));
+            if (data.admin_credentials) {
+                localStorage.setItem("chess_admin_credentials", JSON.stringify(data.admin_credentials));
+            }
             
             // Run standard migrations/deduplications in memory
             this.init();
@@ -319,7 +322,8 @@ class DB {
                 bookings: JSON.parse(localStorage.getItem("chess_bookings")) || [],
                 crm_leads: JSON.parse(localStorage.getItem("chess_crm_leads")) || [],
                 logs: JSON.parse(localStorage.getItem("chess_logs")) || [],
-                roster: JSON.parse(localStorage.getItem("chess_daily_roster")) || {}
+                roster: JSON.parse(localStorage.getItem("chess_daily_roster")) || {},
+                admin_credentials: JSON.parse(localStorage.getItem("chess_admin_credentials")) || { email: 'admin@parashchess.com', password: 'admin123' }
             };
             
             await fetch("db.php?action=save", {

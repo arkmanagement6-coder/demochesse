@@ -29,7 +29,9 @@ class AssignmentEngine {
 
         // Step 2: Skill Expertise filter
         const skillMatched = activeTeachers.filter(t => {
-            const supportsLevel = !level || (t.expertise && t.expertise.some(e => e.toLowerCase().trim() === level.toLowerCase().trim()));
+            const validLevels = ["beginner", "intermediate", "advanced"];
+            const hasValidExpertise = t.expertise && t.expertise.some(e => validLevels.includes(e.toLowerCase().trim()));
+            const supportsLevel = !level || !hasValidExpertise || t.expertise.some(e => e.toLowerCase().trim() === level.toLowerCase().trim());
             if (!supportsLevel) {
                 decisionLogs.push(`❌ Coach ${t.name} specializes in [${(t.expertise || []).join('/')}], does not support level [${level}].`);
             }

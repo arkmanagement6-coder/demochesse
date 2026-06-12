@@ -16,7 +16,19 @@ class Auth {
         let user = null;
 
         if (role === 'admin') {
-            if (email === 'admin@parashchess.com' && password === 'admin123') {
+            let adminCreds = { email: 'admin@parashchess.com', password: 'admin123' };
+            try {
+                const stored = localStorage.getItem("chess_admin_credentials");
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.email && parsed.password) {
+                        adminCreds = parsed;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to parse admin credentials from localStorage:", e);
+            }
+            if (email === adminCreds.email && password === adminCreds.password) {
                 user = { id: 'admin', name: 'System Admin', email, role: 'admin' };
             }
         } else if (role === 'teacher') {
@@ -175,8 +187,6 @@ class Auth {
             navLinks.innerHTML = `
                 <li><a href="index.html">Home</a></li>
                 <li><a href="book.html">Book Demo</a></li>
-                <li><a href="portal.html">Admin Hub</a></li>
-                <li><a href="portal.html">Teacher Portal</a></li>
             `;
             
             if (buttonGroup) {

@@ -386,7 +386,9 @@ class BookingDrawer {
                 if (level === "Never played" || level === "Knows basic rules") {
                     level = "Beginner";
                 }
-                const supportsLevel = !level || !t.expertise || t.expertise.length === 0 || t.expertise.some(e => e.toLowerCase().trim() === level.toLowerCase().trim());
+                const validLevels = ["beginner", "intermediate", "advanced"];
+                const hasValidExpertise = t.expertise && t.expertise.some(e => validLevels.includes(e.toLowerCase().trim()));
+                const supportsLevel = !level || !hasValidExpertise || t.expertise.some(e => e.toLowerCase().trim() === level.toLowerCase().trim());
                 const supportsLang = !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === "english");
                 
                 return isRostered && !isLeave && supportsLevel && supportsLang;

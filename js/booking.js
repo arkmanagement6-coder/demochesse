@@ -502,7 +502,9 @@ class BookingWizard {
                 const slots = dailyRoster[t.id] || [];
                 const isRostered = slots.some(s => s.trim() === timeSlot.trim());
                 const isLeave = t.leaves && t.leaves.includes(date);
-                const supportsLevel = !this.studentLevel || !t.expertise || t.expertise.length === 0 || t.expertise.some(e => e.toLowerCase().trim() === this.studentLevel.toLowerCase().trim());
+                const validLevels = ["beginner", "intermediate", "advanced"];
+                const hasValidExpertise = t.expertise && t.expertise.some(e => validLevels.includes(e.toLowerCase().trim()));
+                const supportsLevel = !this.studentLevel || !hasValidExpertise || t.expertise.some(e => e.toLowerCase().trim() === this.studentLevel.toLowerCase().trim());
                 const supportsLang = !this.studentLang || !this.studentLang.value || !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === this.studentLang.value.toLowerCase().trim());
                 return isRostered && !isLeave && supportsLevel && supportsLang;
             });
