@@ -1,30 +1,7 @@
 // Chess Demo Booking - Database Initializer
 // Manages application state using localStorage for persistence
 
-const DEFAULT_TEACHERS = [
-    {
-        id: "t_ragav_kumar",
-        name: "Ragav Kumar",
-        email: "ragavkumar@paraschess.com",
-        phone: "+91 98765 43210",
-        password: "teacher123",
-        experience: "5 Years",
-        rating: 4.8,
-        languages: ["English", "Hindi"],
-        expertise: ["Beginner", "Intermediate", "Advanced"],
-        slots: [
-            "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", 
-            "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "01:00 PM", "03:00 PM", "03:15 PM", "03:30 PM", 
-            "03:45 PM", "04:00 PM", "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM", "06:00 PM"
-        ],
-        maxDemosPerDay: 4,
-        priorityScore: 80,
-        avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
-        activeStudents: 0,
-        leaves: [],
-        phoneAccessApproved: false
-    }
-];
+const DEFAULT_TEACHERS = [];
 
 const DEFAULT_BOOKINGS = [
     {
@@ -314,47 +291,94 @@ class DB {
         }
     }
 
+    static async loadFromServer() {
+        try {
+            const resp = await fetch("db.php?action=load");
+            const data = await resp.json();
+            
+            // Populate localStorage with data from server
+            localStorage.setItem("chess_teachers", JSON.stringify(data.teachers || []));
+            localStorage.setItem("chess_bookings", JSON.stringify(data.bookings || []));
+            localStorage.setItem("chess_crm_leads", JSON.stringify(data.crm_leads || []));
+            localStorage.setItem("chess_logs", JSON.stringify(data.logs || []));
+            localStorage.setItem("chess_daily_roster", JSON.stringify(data.roster || {}));
+            
+            // Run standard migrations/deduplications in memory
+            this.init();
+        } catch (e) {
+            console.error("Failed to load database from server:", e);
+            // Fallback: run init anyway to ensure database loads from local storage offline
+            this.init();
+        }
+    }
+
+    static async saveToServer() {
+        try {
+            const payload = {
+                teachers: JSON.parse(localStorage.getItem("chess_teachers")) || [],
+                bookings: JSON.parse(localStorage.getItem("chess_bookings")) || [],
+                crm_leads: JSON.parse(localStorage.getItem("chess_crm_leads")) || [],
+                logs: JSON.parse(localStorage.getItem("chess_logs")) || [],
+                roster: JSON.parse(localStorage.getItem("chess_daily_roster")) || {}
+            };
+            
+            await fetch("db.php?action=save", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+        } catch (e) {
+            console.error("Failed to save database to server:", e);
+        }
+    }
+
     static getTeachers() {
         this.init();
-        return JSON.parse(localStorage.getItem("chess_teachers"));
+        return JSON.parse(localStorage.getItem("chess_teachers")) || [];
     }
 
     static saveTeachers(teachers) {
         localStorage.setItem("chess_teachers", JSON.stringify(teachers));
+        this.saveToServer();
     }
 
     static getBookings() {
         this.init();
-        return JSON.parse(localStorage.getItem("chess_bookings"));
+        return JSON.parse(localStorage.getItem("chess_bookings")) || [];
     }
 
     static saveBookings(bookings) {
         localStorage.setItem("chess_bookings", JSON.stringify(bookings));
+        this.saveToServer();
     }
 
     static getCRMLeads() {
         this.init();
-        return JSON.parse(localStorage.getItem("chess_crm_leads"));
+        return JSON.parse(localStorage.getItem("chess_crm_leads")) || [];
     }
 
     static saveCRMLeads(leads) {
         localStorage.setItem("chess_crm_leads", JSON.stringify(leads));
+        this.saveToServer();
     }
 
     static getLogs() {
         this.init();
-        return JSON.parse(localStorage.getItem("chess_logs"));
+        return JSON.parse(localStorage.getItem("chess_logs")) || [];
     }
 
     static addLog(type, message) {
         this.init();
-        const logs = JSON.parse(localStorage.getItem("chess_logs"));
+        const logs = JSON.parse(localStorage.getItem("chess_logs")) || [];
         logs.unshift({
             timestamp: new Date().toISOString(),
             type,
             message
         });
         localStorage.setItem("chess_logs", JSON.stringify(logs.slice(0, 100))); // Keep last 100 logs
+        this.saveToServer();
     }
 
     // Daily Roster Persistence
@@ -366,6 +390,7 @@ class DB {
 
     static saveRoster(roster) {
         localStorage.setItem("chess_daily_roster", JSON.stringify(roster));
+        this.saveToServer();
     }
 
     static getDailyRosterForDate(date) {
@@ -413,6 +438,6 @@ window.generateGoogleMeetLink = () => {
     return `https://meet.google.com/${segment(3)}-${segment(4)}-${segment(3)}`;
 };
 
-// Automatically initialize db on script load
-DB.init();
+// Automatically initialize db from server on script load
 window.ChessDB = DB;
+window.ChessDB.initPromise = DB.loadFromServer();

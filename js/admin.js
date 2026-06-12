@@ -1,7 +1,9 @@
 // Chess Demo Booking - Admin Console Controller
 
 document.addEventListener("DOMContentLoaded", () => {
-    AdminController.init();
+    window.ChessDB.initPromise.then(() => {
+        AdminController.init();
+    });
 });
 
 class AdminController {

@@ -1,7 +1,9 @@
 // Chess Demo Booking - Form Flow and Calendar Controller
 
 document.addEventListener("DOMContentLoaded", () => {
-    BookingWizard.init();
+    window.ChessDB.initPromise.then(() => {
+        BookingWizard.init();
+    });
 });
 
 class BookingWizard {

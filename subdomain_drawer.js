@@ -1,6 +1,8 @@
 // Chess Academy Cloned Booking Drawer Controller (js/drawer.js)
 document.addEventListener("DOMContentLoaded", () => {
-    BookingDrawer.init();
+    window.ChessDB.initPromise.then(() => {
+        BookingDrawer.init();
+    });
 });
 
 class BookingDrawer {
