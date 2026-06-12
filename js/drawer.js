@@ -373,12 +373,21 @@ class BookingDrawer {
         }
         
         slots.forEach(slot => {
-            // Find coaches rostered for this slot on this date who are not on leave
+            // Find coaches rostered for this slot on this date who are not on leave and match level/language
             const rosteredCoaches = teachers.filter(t => {
                 const rosterSlots = dailyRoster[t.id] || [];
-                const isRostered = rosterSlots.includes(slot);
+                const isRostered = rosterSlots.some(s => s.trim() === slot.trim());
                 const isLeave = t.leaves && t.leaves.includes(date);
-                return isRostered && !isLeave;
+                
+                const studentLevelEl = document.getElementById("d-studentLevel");
+                let level = studentLevelEl ? studentLevelEl.value : "";
+                if (level === "Never played" || level === "Knows basic rules") {
+                    level = "Beginner";
+                }
+                const supportsLevel = !level || !t.expertise || t.expertise.length === 0 || t.expertise.some(e => e.toLowerCase().trim() === level.toLowerCase().trim());
+                const supportsLang = !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === "english");
+                
+                return isRostered && !isLeave && supportsLevel && supportsLang;
             });
 
             let status = "full";
