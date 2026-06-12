@@ -1,7 +1,30 @@
 // Chess Demo Booking - Database Initializer
 // Manages application state using localStorage for persistence
 
-const DEFAULT_TEACHERS = [];
+const DEFAULT_TEACHERS = [
+    {
+        id: "t_ragav_kumar",
+        name: "Ragav Kumar",
+        email: "ragavkumar@paraschess.com",
+        phone: "+91 98765 43210",
+        password: "teacher123",
+        experience: "5 Years",
+        rating: 4.8,
+        languages: ["English", "Hindi"],
+        expertise: ["Beginner", "Intermediate", "Advanced"],
+        slots: [
+            "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", 
+            "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "01:00 PM", "03:00 PM", "03:15 PM", "03:30 PM", 
+            "03:45 PM", "04:00 PM", "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM", "06:00 PM"
+        ],
+        maxDemosPerDay: 4,
+        priorityScore: 80,
+        avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
+        activeStudents: 0,
+        leaves: [],
+        phoneAccessApproved: false
+    }
+];
 
 const DEFAULT_BOOKINGS = [
     {
