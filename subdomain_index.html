@@ -2519,5 +2519,56 @@ Book your 1-on-1 Free Class at: https://demochesse.vercel.app/
     <script src="js/engine.js"></script>
     <script src="js/app.js"></script>
     <script src="js/drawer.js?v=1.1.2"></script>
+    
+    <!-- Diagnostic debug helper panel -->
+    <script>
+        (function() {
+            if (window.location.search.includes("debug=1")) {
+                const div = document.createElement("div");
+                div.style.position = "fixed";
+                div.style.bottom = "10px";
+                div.style.left = "10px";
+                div.style.background = "rgba(0,0,0,0.95)";
+                div.style.color = "#00FF00";
+                div.style.fontFamily = "monospace";
+                div.style.fontSize = "11px";
+                div.style.padding = "15px";
+                div.style.borderRadius = "8px";
+                div.style.zIndex = "999999";
+                div.style.maxHeight = "400px";
+                div.style.overflowY = "auto";
+                div.style.width = "450px";
+                div.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)";
+                div.style.border = "1px solid #00FF00";
+                
+                let html = "<h4 style='margin:0 0 10px;color:#00FF00;font-size:13px;'>PCA Booking Diagnostic Panel</h4>";
+                
+                try {
+                    const teachers = window.ChessDB.getTeachers();
+                    html += `<b>Teachers count:</b> ${teachers.length}<br><hr style='border-color:#00ff00'>`;
+                    teachers.forEach(t => {
+                        html += `<b>Coach:</b> ${t.name} (ID: ${t.id})<br>`;
+                        html += `- Active: ${t.leaves && t.leaves.includes(new Date().toISOString().split('T')[0]) ? "ON LEAVE" : "AVAILABLE"}<br>`;
+                        html += `- Languages: ${JSON.stringify(t.languages)}<br>`;
+                        html += `- Expertise: ${JSON.stringify(t.expertise)}<br>`;
+                        html += `- Static Slots (${t.slots ? t.slots.length : 0}): ${JSON.stringify(t.slots)}<br>`;
+                        
+                        const todayStr = new Date().toISOString().split("T")[0];
+                        const dailyRoster = window.ChessDB.getDailyRosterForDate(todayStr);
+                        const rosterSlots = dailyRoster[t.id] || [];
+                        html += `- Today's Roster Slots (${rosterSlots.length}): ${JSON.stringify(rosterSlots)}<br><hr style='border-color:#00ff00'>`;
+                    });
+                    
+                    const bookings = window.ChessDB.getBookings();
+                    html += `<b>Total Bookings:</b> ${bookings.length}<br>`;
+                } catch (err) {
+                    html += `<span style="color:red">Error: ${err.message}</span>`;
+                }
+                
+                div.innerHTML = html;
+                document.body.appendChild(div);
+            }
+        })();
+    </script>
 </body>
 </html>
