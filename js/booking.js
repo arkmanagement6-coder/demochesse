@@ -498,10 +498,10 @@ class BookingWizard {
             // Find coaches rostered for this slot on this date who are not on leave and match level/language
             const rosteredCoaches = teachers.filter(t => {
                 const slots = dailyRoster[t.id] || [];
-                const isRostered = slots.includes(timeSlot);
+                const isRostered = slots.some(s => s.trim() === timeSlot.trim());
                 const isLeave = t.leaves && t.leaves.includes(date);
-                const supportsLevel = !this.studentLevel || (t.expertise && t.expertise.includes(this.studentLevel));
-                const supportsLang = !this.studentLang || !this.studentLang.value || (t.languages && t.languages.includes(this.studentLang.value));
+                const supportsLevel = !this.studentLevel || (t.expertise && t.expertise.some(e => e.toLowerCase().trim() === this.studentLevel.toLowerCase().trim()));
+                const supportsLang = !this.studentLang || !this.studentLang.value || (t.languages && t.languages.some(l => l.toLowerCase().trim() === this.studentLang.value.toLowerCase().trim()));
                 return isRostered && !isLeave && supportsLevel && supportsLang;
             });
 

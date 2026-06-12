@@ -530,8 +530,8 @@ class AdminController {
         this.reassignSelect.innerHTML = "";
 
         const eligible = teachers.filter(t => 
-            t.expertise.includes(booking.level) && 
-            t.languages.includes(booking.language)
+            (t.expertise && t.expertise.some(e => e.toLowerCase().trim() === (booking.level || "").toLowerCase().trim())) && 
+            (t.languages && t.languages.some(l => l.toLowerCase().trim() === (booking.language || "").toLowerCase().trim()))
         );
 
         if (eligible.length === 0) {
@@ -915,8 +915,10 @@ class AdminController {
             const password = document.getElementById("addt-password").value.trim();
             const phone = document.getElementById("addt-phone").value;
             const exp = document.getElementById("addt-exp").value;
-            const langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim());
-            const levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim());
+            let langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim()).filter(s => s.length > 0);
+            let levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim()).filter(s => s.length > 0);
+            if (langs.length === 0) langs = ["English"];
+            if (levels.length === 0) levels = ["Beginner"];
             
             // Fetch selected slots from checkboxes
             const checkboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]:checked');

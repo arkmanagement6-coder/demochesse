@@ -29,9 +29,9 @@ class AssignmentEngine {
 
         // Step 2: Skill Expertise filter
         const skillMatched = activeTeachers.filter(t => {
-            const supportsLevel = t.expertise.includes(level);
+            const supportsLevel = !level || (t.expertise && t.expertise.some(e => e.toLowerCase().trim() === level.toLowerCase().trim()));
             if (!supportsLevel) {
-                decisionLogs.push(`❌ Coach ${t.name} specializes in [${t.expertise.join('/')}], does not support level [${level}].`);
+                decisionLogs.push(`❌ Coach ${t.name} specializes in [${(t.expertise || []).join('/')}], does not support level [${level}].`);
             }
             return supportsLevel;
         });
@@ -45,9 +45,9 @@ class AssignmentEngine {
 
         // Step 3: Language filter
         const languageMatched = skillMatched.filter(t => {
-            const supportsLang = t.languages.includes(language);
+            const supportsLang = !language || (t.languages && t.languages.some(l => l.toLowerCase().trim() === language.toLowerCase().trim()));
             if (!supportsLang) {
-                decisionLogs.push(`❌ Coach ${t.name} teaches in [${t.languages.join('/')}], does not speak [${language}].`);
+                decisionLogs.push(`❌ Coach ${t.name} teaches in [${(t.languages || []).join('/')}], does not speak [${language}].`);
             }
             return supportsLang;
         });
@@ -64,15 +64,15 @@ class AssignmentEngine {
         
         const slotMatched = languageMatched.filter(t => {
             const rosteredSlots = dailyRoster[t.id] || [];
-            const supportsSlot = rosteredSlots.includes(slot);
+            const supportsSlot = rosteredSlots.some(s => s.trim() === slot.trim());
             if (!supportsSlot) {
                 decisionLogs.push(`❌ Coach ${t.name} is not rostered for the slot [${slot}] on ${date}.`);
             }
             return supportsSlot;
         });
- 
+
         decisionLogs.push(`⏰ Daily Roster Availability: ${slotMatched.length} coaches rostered for slot [${slot}] on ${date}.`);
- 
+
         if (slotMatched.length === 0) {
             decisionLogs.push(`⚠️ No coaches are rostered in slot [${slot}] on ${date}.`);
             return this.generateWaitlistResult(decisionLogs);
@@ -193,7 +193,7 @@ class AssignmentEngine {
         if (studentLevel === "Intermediate") engineLevel = "Intermediate";
         if (studentLevel === "Advanced") engineLevel = "Advanced";
         
-        const matched = teachers.find(t => t.expertise.includes(engineLevel) && t.leaves.length === 0) || teachers[0];
+        const matched = teachers.find(t => t.expertise && t.expertise.some(e => e.toLowerCase().trim() === engineLevel.toLowerCase().trim()) && (!t.leaves || t.leaves.length === 0)) || teachers[0];
         return matched;
     }
 }
