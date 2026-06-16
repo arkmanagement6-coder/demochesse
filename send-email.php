@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </table>
                 </div>
                 
-                <p style='font-size: 13px; color: #555;'>You can also enter your Live Chess Classroom directly from your <a href='https://paraschessacademy.com/login.html' style='color: #D11A2A; font-weight: bold;'>Candidate Dashboard</a> to access homework, worksheets, and future sessions.</p>
+                <p style='font-size: 13px; color: #555;'>You can also enter your Live Chess Classroom directly from your <a href='https://demobooking.paraschessacademy.com/login.html' style='color: #D11A2A; font-weight: bold;'>Candidate Dashboard</a> to access homework, worksheets, and future sessions.</p>
 
                 <hr style='border: 0; border-top: 1px solid #eee; margin: 30px 0;'>
                 <p style='font-size: 12px; color: #777; text-align: center;'>
@@ -256,7 +256,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <table style='width: 100%; font-size: 13px;'>
                         <tr>
                             <td style='font-weight: bold; width: 25%;'>Portal URL:</td>
-                            <td><a href='https://paraschessacademy.com/login.html' style='color: #D97706;'>paraschessacademy.com/login.html</a></td>
+                            <td><a href='https://demobooking.paraschessacademy.com/login.html' style='color: #D97706;'>demobooking.paraschessacademy.com/login.html</a></td>
                         </tr>
                         <tr>
                             <td style='font-weight: bold;'>Login Email:</td>
