@@ -167,7 +167,9 @@
 
             // Dates
             const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-            const dateStrFormatted = new Date(booking.date).toLocaleDateString("en-US", options);
+            const parts = booking.date.split("-");
+            const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+            const dateStrFormatted = dObj.toLocaleDateString("en-US", options);
             document.getElementById("sched-date").innerText = dateStrFormatted;
             document.getElementById("sched-slot").innerText = booking.slot;
             document.getElementById("sched-tz").innerText = booking.timezone;
