@@ -323,34 +323,74 @@ class DB {
             const resp = await fetch("db.php?action=load");
             const data = await resp.json();
             
-            // Populate localStorage with data from server (safety check: only overwrite if local storage is empty OR if server returned non-empty data)
-            const localTeachers = localStorage.getItem("chess_teachers");
-            if (!localTeachers || JSON.parse(localTeachers).length === 0 || (data.teachers && data.teachers.length > 0)) {
-                localStorage.setItem("chess_teachers", JSON.stringify(data.teachers || []));
-            }
-            
-            const localBookings = localStorage.getItem("chess_bookings");
-            if (!localBookings || JSON.parse(localBookings).length === 0 || (data.bookings && data.bookings.length > 0)) {
-                localStorage.setItem("chess_bookings", JSON.stringify(data.bookings || []));
-            }
-            
-            const localCRMLeads = localStorage.getItem("chess_crm_leads");
-            if (!localCRMLeads || JSON.parse(localCRMLeads).length === 0 || (data.crm_leads && data.crm_leads.length > 0)) {
-                localStorage.setItem("chess_crm_leads", JSON.stringify(data.crm_leads || []));
-            }
-            
-            const localLogs = localStorage.getItem("chess_logs");
-            if (!localLogs || JSON.parse(localLogs).length === 0 || (data.logs && data.logs.length > 0)) {
-                localStorage.setItem("chess_logs", JSON.stringify(data.logs || []));
-            }
-            
-            const localRoster = localStorage.getItem("chess_daily_roster");
-            if (!localRoster || Object.keys(JSON.parse(localRoster)).length === 0 || (data.roster && Object.keys(data.roster).length > 0)) {
-                localStorage.setItem("chess_daily_roster", JSON.stringify(data.roster || {}));
-            }
-            
-            if (data.admin_credentials) {
-                localStorage.setItem("chess_admin_credentials", JSON.stringify(data.admin_credentials));
+            // Smart Merge: Merge server data into local storage rather than overwriting it,
+            // which protects newly added items if the server is stateless (e.g. Vercel)
+            if (data) {
+                // 1. Teachers Merge
+                let currentTeachers = JSON.parse(localStorage.getItem("chess_teachers")) || [];
+                if (data.teachers && data.teachers.length > 0) {
+                    data.teachers.forEach(serverT => {
+                        const idx = currentTeachers.findIndex(t => t.id === serverT.id);
+                        if (idx !== -1) {
+                            currentTeachers[idx] = serverT;
+                        } else {
+                            currentTeachers.push(serverT);
+                        }
+                    });
+                }
+                localStorage.setItem("chess_teachers", JSON.stringify(currentTeachers));
+
+                // 2. Bookings Merge
+                let currentBookings = JSON.parse(localStorage.getItem("chess_bookings")) || [];
+                if (data.bookings && data.bookings.length > 0) {
+                    data.bookings.forEach(serverB => {
+                        const idx = currentBookings.findIndex(b => b.id === serverB.id);
+                        if (idx !== -1) {
+                            currentBookings[idx] = serverB;
+                        } else {
+                            currentBookings.push(serverB);
+                        }
+                    });
+                }
+                localStorage.setItem("chess_bookings", JSON.stringify(currentBookings));
+
+                // 3. CRM Leads Merge
+                let currentLeads = JSON.parse(localStorage.getItem("chess_crm_leads")) || [];
+                if (data.crm_leads && data.crm_leads.length > 0) {
+                    data.crm_leads.forEach(serverL => {
+                        const idx = currentLeads.findIndex(l => l.id === serverL.id);
+                        if (idx !== -1) {
+                            currentLeads[idx] = serverL;
+                        } else {
+                            currentLeads.push(serverL);
+                        }
+                    });
+                }
+                localStorage.setItem("chess_crm_leads", JSON.stringify(currentLeads));
+
+                // 4. Logs Merge
+                let currentLogs = JSON.parse(localStorage.getItem("chess_logs")) || [];
+                if (data.logs && data.logs.length > 0) {
+                    data.logs.forEach(serverLog => {
+                        if (!currentLogs.some(l => l.timestamp === serverLog.timestamp)) {
+                            currentLogs.push(serverLog);
+                        }
+                    });
+                    currentLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                }
+                localStorage.setItem("chess_logs", JSON.stringify(currentLogs.slice(0, 100)));
+
+                // 5. Daily Roster Merge
+                let currentRoster = JSON.parse(localStorage.getItem("chess_daily_roster")) || {};
+                if (data.roster && Object.keys(data.roster).length > 0) {
+                    Object.assign(currentRoster, data.roster);
+                }
+                localStorage.setItem("chess_daily_roster", JSON.stringify(currentRoster));
+
+                // 6. Admin Credentials
+                if (data.admin_credentials) {
+                    localStorage.setItem("chess_admin_credentials", JSON.stringify(data.admin_credentials));
+                }
             }
             
             // Run standard migrations/deduplications in memory
