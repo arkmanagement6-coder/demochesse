@@ -56,7 +56,7 @@ class AssignmentEngine {
 
         // Step 3: Language filter
         const languageMatched = skillMatched.filter(t => {
-            const supportsLang = !language || (t.languages && t.languages.some(l => l.toLowerCase().trim() === language.toLowerCase().trim()));
+            const supportsLang = !language || language.toLowerCase().trim() === "other" || (t.languages && t.languages.some(l => l.toLowerCase().trim() === language.toLowerCase().trim()));
             if (!supportsLang) {
                 decisionLogs.push(`❌ Coach ${t.name} teaches in [${(t.languages || []).join('/')}], does not speak [${language}].`);
             }
@@ -109,14 +109,14 @@ class AssignmentEngine {
  
             if (slotBusy) {
                 decisionLogs.push(`❌ Coach ${coach.name} is already assigned a demo at [${slot}] on ${date}. Checking alternative coaches.`);
-            } else if (dailyLoad >= coach.maxDemosPerDay) {
-                decisionLogs.push(`❌ Coach ${coach.name} has reached their daily limit of ${coach.maxDemosPerDay} classes for ${date}.`);
+            } else if (dailyLoad >= (coach.maxDemosPerDay || 4)) {
+                decisionLogs.push(`❌ Coach ${coach.name} has reached their daily limit of ${(coach.maxDemosPerDay || 4)} classes for ${date}.`);
             } else {
                 eligibleCoaches.push({
                     coach,
                     dailyLoad
                 });
-                decisionLogs.push(`✅ Coach ${coach.name} is FREE at ${slot} and has ${dailyLoad}/${coach.maxDemosPerDay} bookings for the day.`);
+                decisionLogs.push(`✅ Coach ${coach.name} is FREE at ${slot} and has ${dailyLoad}/${(coach.maxDemosPerDay || 4)} bookings for the day.`);
             }
         }
  
@@ -140,7 +140,7 @@ class AssignmentEngine {
             const ratingScore = coach.rating * 15;
             
             // 2. Load Balance Factor: (Max daily capacity - current daily load) * 8
-            const capacityRoom = coach.maxDemosPerDay - dailyLoad;
+            const capacityRoom = (coach.maxDemosPerDay || 4) - dailyLoad;
             const loadScore = capacityRoom * 8;
             
             // 3. Priority Factor: priorityScore * 0.1 (Max 10 points)

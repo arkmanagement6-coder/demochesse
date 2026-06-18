@@ -125,7 +125,7 @@ class Auth {
                         ctaBtn.className = "btn btn-primary";
                     } else if (this.session.role === 'teacher') {
                         ctaBtn.style.display = 'inline-block';
-                        ctaBtn.innerText = "Coach Portal";
+                        ctaBtn.innerText = "Book Free Demo";
                         ctaBtn.href = "teacher.html";
                         ctaBtn.className = "btn btn-primary";
                     } else {
@@ -174,7 +174,7 @@ class Auth {
                     ctaBtn.className = "btn btn-primary";
                 } else if (this.session.role === 'teacher') {
                     ctaBtn.style.display = 'inline-block';
-                    ctaBtn.innerText = "Coach Portal";
+                    ctaBtn.innerText = "Book Free Demo";
                     ctaBtn.href = "teacher.html";
                     ctaBtn.className = "btn btn-primary";
                 } else {

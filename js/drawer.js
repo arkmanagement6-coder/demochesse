@@ -398,7 +398,7 @@ class BookingDrawer {
                     if (!LEVEL_ORDER[expClean]) return true;
                     return LEVEL_ORDER[expClean] >= studentLevelVal;
                 });
-                const supportsLang = !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === "english");
+                const supportsLang = true;
                 
                 return isRostered && !isLeave && supportsLevel && supportsLang;
             });
@@ -420,7 +420,7 @@ class BookingDrawer {
                         b.status !== "Cancelled"
                     );
 
-                    return !isBusy && dailyLoad < coach.maxDemosPerDay;
+                    return !isBusy && dailyLoad < (coach.maxDemosPerDay || 4);
                 });
 
                 if (freeCoach) {
@@ -462,7 +462,8 @@ class BookingDrawer {
         if (this.selectedDateStr && this.selectedTimeStr) {
             this.slotSuccessBanner.style.display = "block";
             const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-            const dObj = new Date(this.selectedDateStr);
+            const parts = this.selectedDateStr.split("-");
+            const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
             const visualDate = dObj.toLocaleDateString("en-US", options);
             this.selectedSlotText.innerText = `${visualDate} at ${this.selectedTimeStr} IST`;
         } else {

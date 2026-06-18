@@ -457,7 +457,8 @@ class BookingWizard {
 
         // Format user header
         const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-        const dObj = new Date(this.selectedDateStr);
+        const parts = this.selectedDateStr.split("-");
+        const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
         this.slotsDayTitle.innerText = dObj.toLocaleDateString("en-US", options);
 
         this.renderTimeSlots(dateState);
@@ -514,7 +515,7 @@ class BookingWizard {
                     if (!LEVEL_ORDER[expClean]) return true;
                     return LEVEL_ORDER[expClean] >= studentLevelVal;
                 });
-                const supportsLang = !this.studentLang || !this.studentLang.value || !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === this.studentLang.value.toLowerCase().trim());
+                const supportsLang = !this.studentLang || !this.studentLang.value || this.studentLang.value.toLowerCase().trim() === "other" || !t.languages || t.languages.length === 0 || t.languages.some(l => l.toLowerCase().trim() === this.studentLang.value.toLowerCase().trim());
                 return isRostered && !isLeave && supportsLevel && supportsLang;
             });
 
@@ -536,7 +537,7 @@ class BookingWizard {
                         b.status !== "Cancelled"
                     );
 
-                    return !isBusy && dailyLoad < coach.maxDemosPerDay;
+                    return !isBusy && dailyLoad < (coach.maxDemosPerDay || 4);
                 });
 
                 if (freeCoach) {
