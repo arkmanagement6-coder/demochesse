@@ -1,7 +1,30 @@
 // Chess Demo Booking - Database Initializer
 // Manages application state using localStorage for persistence
 
-const DEFAULT_TEACHERS = [];
+const DEFAULT_TEACHERS = [
+    {
+        id: "t_ragav_kumar",
+        name: "Ragav Kumar",
+        email: "ragavkumar@paraschess.com",
+        phone: "+91 98765 43210",
+        password: "teacher123",
+        experience: "5 Years",
+        rating: 4.8,
+        languages: ["English", "Hindi"],
+        expertise: ["Beginner", "Intermediate", "Advanced"],
+        slots: [
+            "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", 
+            "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "01:00 PM", "03:00 PM", "03:15 PM", "03:30 PM", 
+            "03:45 PM", "04:00 PM", "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM", "06:00 PM"
+        ],
+        maxDemosPerDay: 4,
+        priorityScore: 80,
+        avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
+        activeStudents: 0,
+        leaves: [],
+        phoneAccessApproved: false
+    }
+];
 
 const DEFAULT_BOOKINGS = [
     {
@@ -168,6 +191,10 @@ class DB {
         };
 
         let tList = safeLoad("chess_teachers", DEFAULT_TEACHERS);
+        if (tList.length === 0) {
+            tList = DEFAULT_TEACHERS;
+            localStorage.setItem("chess_teachers", JSON.stringify(tList));
+        }
         let bList = safeLoad("chess_bookings", DEFAULT_BOOKINGS);
         safeLoad("chess_crm_leads", DEFAULT_CRM_LEADS);
         safeLoad("chess_logs", DEFAULT_LOGS);
@@ -296,12 +323,32 @@ class DB {
             const resp = await fetch("db.php?action=load");
             const data = await resp.json();
             
-            // Populate localStorage with data from server
-            localStorage.setItem("chess_teachers", JSON.stringify(data.teachers || []));
-            localStorage.setItem("chess_bookings", JSON.stringify(data.bookings || []));
-            localStorage.setItem("chess_crm_leads", JSON.stringify(data.crm_leads || []));
-            localStorage.setItem("chess_logs", JSON.stringify(data.logs || []));
-            localStorage.setItem("chess_daily_roster", JSON.stringify(data.roster || {}));
+            // Populate localStorage with data from server (safety check: only overwrite if local storage is empty OR if server returned non-empty data)
+            const localTeachers = localStorage.getItem("chess_teachers");
+            if (!localTeachers || JSON.parse(localTeachers).length === 0 || (data.teachers && data.teachers.length > 0)) {
+                localStorage.setItem("chess_teachers", JSON.stringify(data.teachers || []));
+            }
+            
+            const localBookings = localStorage.getItem("chess_bookings");
+            if (!localBookings || JSON.parse(localBookings).length === 0 || (data.bookings && data.bookings.length > 0)) {
+                localStorage.setItem("chess_bookings", JSON.stringify(data.bookings || []));
+            }
+            
+            const localCRMLeads = localStorage.getItem("chess_crm_leads");
+            if (!localCRMLeads || JSON.parse(localCRMLeads).length === 0 || (data.crm_leads && data.crm_leads.length > 0)) {
+                localStorage.setItem("chess_crm_leads", JSON.stringify(data.crm_leads || []));
+            }
+            
+            const localLogs = localStorage.getItem("chess_logs");
+            if (!localLogs || JSON.parse(localLogs).length === 0 || (data.logs && data.logs.length > 0)) {
+                localStorage.setItem("chess_logs", JSON.stringify(data.logs || []));
+            }
+            
+            const localRoster = localStorage.getItem("chess_daily_roster");
+            if (!localRoster || Object.keys(JSON.parse(localRoster)).length === 0 || (data.roster && Object.keys(data.roster).length > 0)) {
+                localStorage.setItem("chess_daily_roster", JSON.stringify(data.roster || {}));
+            }
+            
             if (data.admin_credentials) {
                 localStorage.setItem("chess_admin_credentials", JSON.stringify(data.admin_credentials));
             }
