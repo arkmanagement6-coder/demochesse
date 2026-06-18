@@ -490,7 +490,9 @@
             
             // Format dates
             const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-            const formattedDate = new Date(booking.date).toLocaleDateString("en-US", options);
+            const parts = booking.date.split("-");
+            const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+            const formattedDate = dObj.toLocaleDateString("en-US", options);
             document.getElementById("detail-time").innerText = `${formattedDate} at ${booking.slot}`;
             document.getElementById("detail-specs").innerText = `${booking.language} • ${booking.level}`;
 

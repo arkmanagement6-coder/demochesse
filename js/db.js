@@ -346,6 +346,12 @@ class DB {
                     data.bookings.forEach(serverB => {
                         const idx = currentBookings.findIndex(b => b.id === serverB.id);
                         if (idx !== -1) {
+                            const localB = currentBookings[idx];
+                            // If local booking has a real meeting link updated, preserve it!
+                            if (localB.isRealMeetingLink && !serverB.isRealMeetingLink) {
+                                serverB.meetingLink = localB.meetingLink;
+                                serverB.isRealMeetingLink = true;
+                            }
                             currentBookings[idx] = serverB;
                         } else {
                             currentBookings.push(serverB);
