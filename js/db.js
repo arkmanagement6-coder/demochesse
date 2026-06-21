@@ -305,11 +305,16 @@ class DB {
             bList.forEach(b => {
                 if (!b.password) { b.password = 'student123'; updatedB = true; }
                 
-                // Validate meeting link format (https://meet.google.com/abc-defg-hij)
-                const meetRegex = /^https:\/\/meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/;
-                if (!b.meetingLink || !meetRegex.test(b.meetingLink)) {
+                // Validate meeting link format only if it is not a real meeting link updated by the coach
+                if (!b.meetingLink) {
                     b.meetingLink = window.generateGoogleMeetLink();
                     updatedB = true;
+                } else if (!b.isRealMeetingLink) {
+                    const meetRegex = /^https:\/\/meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/;
+                    if (!meetRegex.test(b.meetingLink)) {
+                        b.meetingLink = window.generateGoogleMeetLink();
+                        updatedB = true;
+                    }
                 }
             });
             if (updatedB) localStorage.setItem("chess_bookings", JSON.stringify(bList));

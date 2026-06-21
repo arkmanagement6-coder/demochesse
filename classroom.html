@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -25,7 +26,6 @@
     src="https://www.facebook.com/tr?id=2219234762223802&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Classroom Portal | Paras Chess Academy</title>
     <link rel="stylesheet" href="css/style.css">
@@ -381,22 +381,8 @@
                         <i class="fa-solid fa-video"></i> Video Classroom Launchpad
                     </h3>
 
-                    <!-- Option 1: Jitsi Instant classroom -->
-                    <div class="launch-box premium-highlight">
-                        <span class="badge badge-success" style="position:absolute; top:12px; right:12px; font-size:9px; background:rgba(34,197,94,0.2); color:#4ADE80; border:1px solid rgba(34,197,94,0.4);">RECOMMENDED</span>
-                        <h4 class="launch-title" style="color:#10B981;">
-                            <i class="fa-solid fa-bolt"></i> Instant Video Class (Jitsi Meet)
-                        </h4>
-                        <p class="launch-desc">
-                            Starts immediately in your browser without any setup or account! <strong>Works 100% of the time instantly.</strong> Both Coach and Candidate just click to join.
-                        </p>
-                        <a href="" target="_blank" class="btn btn-launch-jitsi" id="btn-jitsi-link">
-                            <i class="fa-solid fa-circle-arrow-right"></i> Launch Instant Classroom Now
-                        </a>
-                    </div>
-
-                    <!-- Option 2: Google Meet (Dynamic Setup) -->
-                    <div class="launch-box" style="border-color: rgba(59, 130, 246, 0.2);">
+                    <!-- Option 1: Google Meet Classroom -->
+                    <div class="launch-box" id="meet-launch-box" style="border-color: rgba(59, 130, 246, 0.2); position: relative; margin-bottom: 24px;">
                         <h4 class="launch-title" style="color:#3B82F6;">
                             <i class="fa-brands fa-google"></i> Google Meet Classroom
                         </h4>
@@ -408,13 +394,13 @@
                         <div id="meet-placeholder-banner" class="alert-banner" style="display:none;">
                             <i class="fa-solid fa-triangle-exclamation"></i>
                             <div>
-                                <strong>Waiting for Coach:</strong> The current link is an inactive placeholder code. Please ask your Chess Coach to update it or join the **Instant Video Class** above!
+                                <strong>Waiting for Coach:</strong> The current link is an inactive placeholder. Please ask your Chess Coach to update it or check the Zoom Classroom option below.
                             </div>
                         </div>
 
                         <!-- Update field for Teachers / Admins -->
                         <div id="meet-staff-panel" style="display:none; background:rgba(0,0,0,0.2); border:1px solid var(--classroom-border); padding:16px; border-radius:var(--radius-sm); margin-bottom:16px;">
-                            <span style="font-size:11px; color:#C084FC; font-weight:600; display:block; margin-bottom:8px; text-transform:uppercase;">COACH CONTROL PANEL</span>
+                            <span style="font-size:11px; color:#3B82F6; font-weight:600; display:block; margin-bottom:8px; text-transform:uppercase;">Google Meet Control Panel</span>
                             <div style="margin-bottom:12px;">
                                 <a href="https://meet.google.com/new" target="_blank" class="btn btn-secondary" style="width:100%; padding:8px 12px; font-size:12px; background:rgba(59, 130, 246, 0.1); border-color:rgba(59, 130, 246, 0.4); color:#60A5FA; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
                                     <i class="fa-solid fa-square-plus"></i> Step 1: Create Real Google Meet Link
@@ -431,6 +417,48 @@
                         <!-- Active join Google Meet Button -->
                         <a href="" target="_blank" class="btn btn-launch-meet" id="btn-meet-link">
                             <i class="fa-solid fa-video"></i> Enter Google Meet
+                        </a>
+                    </div>
+
+                    <!-- Option 2: Zoom Meeting Classroom -->
+                    <div class="launch-box" id="zoom-launch-box" style="border-color: rgba(45, 140, 255, 0.2); position: relative;">
+                        <h4 class="launch-title" style="color:#2D8CFF;">
+                            <i class="fa-solid fa-video"></i> Zoom Meeting Classroom
+                        </h4>
+                        <p class="launch-desc">
+                            Join the class using Zoom. Real Zoom meeting links can be generated automatically via API or pasted below.
+                        </p>
+
+                        <!-- Alert message for student if link is placeholder -->
+                        <div id="zoom-placeholder-banner" class="alert-banner" style="display:none; background: rgba(45, 140, 255, 0.08); border-color: rgba(45, 140, 255, 0.2); color: #8EC5FC;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <strong>Waiting for Coach:</strong> The current link is not active yet. Please ask your Chess Coach to update it or check the Google Meet option above.
+                            </div>
+                        </div>
+
+                        <!-- Update field for Teachers / Admins -->
+                        <div id="zoom-staff-panel" style="display:none; background:rgba(0,0,0,0.2); border:1px solid var(--classroom-border); padding:16px; border-radius:var(--radius-sm); margin-bottom:16px;">
+                            <span style="font-size:11px; color:#2D8CFF; font-weight:600; display:block; margin-bottom:8px; text-transform:uppercase;">Zoom Control Panel</span>
+                            
+                            <div style="margin-bottom:12px;">
+                                <button type="button" class="btn" id="btn-api-zoom-create" style="width:100%; padding:8px 12px; font-size:12px; background:linear-gradient(135deg, #2D8CFF 0%, #1A73E8 100%); border:none; color:#FFF; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 4px;">
+                                    <i class="fa-solid fa-bolt"></i> Generate Zoom Meeting via API
+                                </button>
+                                <span style="font-size:10px; color:var(--classroom-text-secondary); display:block; margin-top:4px;">(Uses configured API credentials to automatically create a meeting)</span>
+                            </div>
+                            
+                            <label style="font-size:11px; color:var(--classroom-text-secondary); display:block; margin-bottom:6px;">Or Paste Manual Zoom Link Here:</label>
+                            <input type="text" id="zoom-url-input" class="input-meet-link" placeholder="https://us02web.zoom.us/j/1234567890?pwd=...">
+                            
+                            <button type="button" class="btn btn-primary" id="btn-save-zoom-url" style="width:100%; padding:8px 12px; font-size:12px; background: #2D8CFF; border-color: #2D8CFF;">
+                                <i class="fa-solid fa-floppy-disk"></i> Update Zoom Link for Student
+                            </button>
+                        </div>
+
+                        <!-- Active join Zoom Button -->
+                        <a href="" target="_blank" class="btn btn-launch-meet" id="btn-zoom-link" style="background: linear-gradient(135deg, #2D8CFF 0%, #1A73E8 100%); box-shadow: 0 4px 15px rgba(45, 140, 255, 0.25);">
+                            <i class="fa-solid fa-video"></i> Enter Zoom Meeting
                         </a>
                     </div>
                 </div>
@@ -504,59 +532,87 @@
             else if (booking.status === "Demo Attended") statusBox.classList.add("badge-success");
             else if (booking.status === "Cancelled") statusBox.classList.add("badge-cancelled");
 
-            // Option 1: Generate Jitsi link dynamically
-            const jitsiRoomName = `ParasChessAcademy_class_${booking.id}`;
-            const jitsiUrl = `https://meet.jit.si/${jitsiRoomName}`;
-            document.getElementById("btn-jitsi-link").href = jitsiUrl;
-
-            // Option 2: Handle Google Meet link
+            // Handle Zoom and Google Meet links binding
             const meetUrlElement = document.getElementById("btn-meet-link");
-            const meetUrl = booking.meetingLink || "https://meet.google.com/";
-            meetUrlElement.href = meetUrl;
+            const zoomUrlElement = document.getElementById("btn-zoom-link");
+            const meetPlaceholder = document.getElementById("meet-placeholder-banner");
+            const zoomPlaceholder = document.getElementById("zoom-placeholder-banner");
 
-            // Check if the current URL is a placeholder (ends with random string that might not be real)
-            // Statically generated random URLs from DB have no active host.
-            // We consider it a placeholder if the database initialization random URL has not been replaced by coach/staff.
-            // All statically generated random URLs start with generateGoogleMeetLink().
-            // We check if it is placeholder by checking if it contains the random flag or if the coach hasn't updated it.
-            // To make this robust, we add a flag `booking.isRealMeetingLink` or check if the link is not updated.
             const isRealLink = booking.isRealMeetingLink || false;
+            const meetUrl = booking.meetingLink || "https://meet.google.com/";
+            const isZoom = booking.meetingLink && booking.meetingLink.includes("zoom.us");
 
-            const placeholderBanner = document.getElementById("meet-placeholder-banner");
-            if (!isRealLink) {
-                placeholderBanner.style.display = "flex";
+            if (isRealLink) {
+                if (isZoom) {
+                    // Zoom is the active classroom
+                    zoomUrlElement.href = booking.meetingLink;
+                    zoomUrlElement.style.pointerEvents = "auto";
+                    zoomUrlElement.style.opacity = "1";
+                    zoomPlaceholder.style.display = "none";
+
+                    // Google Meet is inactive
+                    meetUrlElement.href = "#";
+                    meetUrlElement.style.pointerEvents = "none";
+                    meetUrlElement.style.opacity = "0.4";
+                    meetUrlElement.innerHTML = `<i class="fa-solid fa-ban"></i> Google Meet (Zoom Selected)`;
+                    meetPlaceholder.style.display = "none";
+                } else {
+                    // Google Meet is the active classroom
+                    meetUrlElement.href = booking.meetingLink;
+                    meetUrlElement.style.pointerEvents = "auto";
+                    meetUrlElement.style.opacity = "1";
+                    meetPlaceholder.style.display = "none";
+
+                    // Zoom is inactive
+                    zoomUrlElement.href = "#";
+                    zoomUrlElement.style.pointerEvents = "none";
+                    zoomUrlElement.style.opacity = "0.4";
+                    zoomUrlElement.innerHTML = `<i class="fa-solid fa-ban"></i> Zoom (Google Meet Selected)`;
+                    zoomPlaceholder.style.display = "none";
+                }
             } else {
-                placeholderBanner.style.display = "none";
+                // Not updated yet (placeholder status)
+                meetUrlElement.href = "#";
+                meetUrlElement.style.pointerEvents = "none";
+                meetUrlElement.style.opacity = "0.4";
+                meetPlaceholder.style.display = "flex";
+
+                zoomUrlElement.href = "#";
+                zoomUrlElement.style.pointerEvents = "none";
+                zoomUrlElement.style.opacity = "0.4";
+                zoomPlaceholder.style.display = "flex";
             }
 
             // Identify logged in role
             const session = JSON.parse(localStorage.getItem("chess_active_session"));
             const isStaff = session && (session.role === 'teacher' || session.role === 'admin');
 
-            const staffPanel = document.getElementById("meet-staff-panel");
+            const meetStaffPanel = document.getElementById("meet-staff-panel");
+            const zoomStaffPanel = document.getElementById("zoom-staff-panel");
+            
             const meetInput = document.getElementById("meet-url-input");
-            const saveBtn = document.getElementById("btn-save-meet-url");
+            const zoomInput = document.getElementById("zoom-url-input");
+            
+            const saveMeetBtn = document.getElementById("btn-save-meet-url");
+            const saveZoomBtn = document.getElementById("btn-save-zoom-url");
+            const apiZoomCreateBtn = document.getElementById("btn-api-zoom-create");
 
             if (isStaff) {
-                staffPanel.style.display = "block";
-                meetInput.value = meetUrl;
+                // Show both panels for staff members
+                meetStaffPanel.style.display = "block";
+                zoomStaffPanel.style.display = "block";
 
-                saveBtn.addEventListener("click", () => {
-                    const enteredUrl = meetInput.value.trim();
-                    if (!enteredUrl.startsWith("https://meet.google.com/")) {
-                        window.Toast.show("Validation Error", "Please paste a valid Google Meet link (starts with https://meet.google.com/)", "danger");
-                        return;
-                    }
+                if (isZoom) {
+                    zoomInput.value = booking.meetingLink;
+                    meetInput.value = "https://meet.google.com/";
+                } else {
+                    meetInput.value = meetUrl;
+                    zoomInput.value = "";
+                }
 
-                    // Update booking details
-                    booking.meetingLink = enteredUrl;
-                    booking.isRealMeetingLink = true; // Mark as real updated link!
-
-                    // Save back
-                    window.ChessDB.saveBooking(booking);
-
-                    // Send Email notification to parent via Hostinger
-                    fetch('send-email.php', {
+                // Helper to send email notification to parent
+                const sendUpdateEmail = (link) => {
+                    return fetch('send-email.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -569,7 +625,7 @@
                             date: formattedDate,
                             slot: booking.slot,
                             teacherName: booking.teacherName,
-                            meetingLink: enteredUrl
+                            meetingLink: link
                         })
                     })
                     .then(response => response.json())
@@ -579,18 +635,92 @@
                     .catch(error => {
                         console.error("Failed to send classroom link update email:", error);
                     });
+                };
 
-                    // Add simulation log
-                    window.ChessDB.addLog("system", `Coach ${session.name} updated the Google Meet classroom URL for ${booking.studentName} to [${enteredUrl}].`);
+                // Google Meet update logic
+                saveMeetBtn.addEventListener("click", () => {
+                    const enteredUrl = meetInput.value.trim();
+                    if (!enteredUrl.startsWith("https://meet.google.com/")) {
+                        window.Toast.show("Validation Error", "Please paste a valid Google Meet link (starts with https://meet.google.com/)", "danger");
+                        return;
+                    }
+
+                    booking.meetingLink = enteredUrl;
+                    booking.isRealMeetingLink = true;
+
+                    window.ChessDB.saveBooking(booking);
+                    sendUpdateEmail(enteredUrl);
+
+                    window.ChessDB.addLog("system", `Coach ${session.name} updated the Google Meet URL for ${booking.studentName} to [${enteredUrl}].`);
                     window.ChessDB.addLog("whatsapp", `Hi ${booking.parentName}, Coach ${booking.teacherName} has updated the Google Meet classroom link. Join live trial class: ${enteredUrl}`);
                     
-                    // Show success alert
                     window.Toast.show("Classroom Updated", "Google Meet link updated successfully and email sent to parent!", "success");
                     
-                    // Refresh view
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
+                    setTimeout(() => { window.location.reload(); }, 1500);
+                });
+
+                // Zoom update logic (manual)
+                saveZoomBtn.addEventListener("click", () => {
+                    const enteredUrl = zoomInput.value.trim();
+                    if (!enteredUrl.startsWith("https://") || !enteredUrl.includes("zoom.us")) {
+                        window.Toast.show("Validation Error", "Please paste a valid Zoom link (contains zoom.us)", "danger");
+                        return;
+                    }
+
+                    booking.meetingLink = enteredUrl;
+                    booking.isRealMeetingLink = true;
+
+                    window.ChessDB.saveBooking(booking);
+                    sendUpdateEmail(enteredUrl);
+
+                    window.ChessDB.addLog("system", `Coach ${session.name} updated the Zoom URL for ${booking.studentName} to [${enteredUrl}].`);
+                    window.ChessDB.addLog("whatsapp", `Hi ${booking.parentName}, Coach ${booking.teacherName} has updated the Zoom classroom link. Join live trial class: ${enteredUrl}`);
+                    
+                    window.Toast.show("Classroom Updated", "Zoom meeting link updated successfully and email sent to parent!", "success");
+                    
+                    setTimeout(() => { window.location.reload(); }, 1500);
+                });
+
+                // Zoom API generation logic
+                apiZoomCreateBtn.addEventListener("click", () => {
+                    apiZoomCreateBtn.disabled = true;
+                    apiZoomCreateBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Generating Zoom Meeting...`;
+
+                    fetch('create-zoom-meeting.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            booking_id: booking.id
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.error) {
+                            window.Toast.show("API Error", data.error, "danger");
+                            apiZoomCreateBtn.disabled = false;
+                            apiZoomCreateBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Generate Zoom Meeting via API`;
+                        } else {
+                            // Link created successfully on server. Save locally as well
+                            booking.meetingLink = data.meetingLink;
+                            booking.isRealMeetingLink = true;
+                            
+                            // Save locally
+                            window.ChessDB.saveBooking(booking);
+                            sendUpdateEmail(data.meetingLink);
+
+                            window.Toast.show("Zoom Room Created", "Zoom meeting generated via API and saved successfully!", "success");
+                            
+                            setTimeout(() => { window.location.reload(); }, 1500);
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Zoom API integration failed:", err);
+                        window.Toast.show("API Fetch Failed", "Failed to connect to backend zoom creator.", "danger");
+                        apiZoomCreateBtn.disabled = false;
+                        apiZoomCreateBtn.innerHTML = `<i class="fa-solid fa-bolt"></i> Generate Zoom Meeting via API`;
+                    });
                 });
             }
 
