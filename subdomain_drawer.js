@@ -590,7 +590,7 @@ class BookingDrawer {
                 } catch (e) {
                     console.error("Failed to save booking to localStorage:", e);
                 }
-                window.location.href = `success.html?id=${bookingId}`;
+                window.location.href = `booking-confirmed.html?id=${bookingId}`;
             }, 1200);
         })
         .catch(error => {
@@ -604,7 +604,7 @@ class BookingDrawer {
                 } catch (e) {
                     console.error("Failed to save booking to localStorage:", e);
                 }
-                window.location.href = `success.html?id=${bookingId}`;
+                window.location.href = `booking-confirmed.html?id=${bookingId}`;
             }, 1200);
         });
     }

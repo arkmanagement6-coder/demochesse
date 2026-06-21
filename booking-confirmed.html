@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MHBG4X3T');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2219234762223802');
+    fbq('track', 'PageView');
+
+    // De-duplicate Lead tracking on page reload/refresh using sessionStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookingId = urlParams.get("id");
+    if (bookingId) {
+        const leadKey = "lead_fired_" + bookingId;
+        if (!sessionStorage.getItem(leadKey)) {
+            fbq('track', 'Lead', { content_name: 'Demo Booking' });
+            sessionStorage.setItem(leadKey, "true");
+        }
+    }
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2219234762223802&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | Parash Chess Academy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Vector Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MHBG4X3T"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="https://paraschessacademy.com/" class="logo" id="header-logo">
+                <img src="images/logo.png" alt="Paras Chess Academy" class="logo-img">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="book.html">Book Demo</a></li>
+                </ul>
+            </nav>
+            <a href="book.html" class="btn btn-primary" style="padding: 10px 20px; font-size:14px;">Book Free Demo</a>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 80px 24px 120px;">
+        <div class="glass-card form-card success-container">
+            
+            <!-- STEP 1: Matching Scanner Simulation -->
+            <div id="matching-spinner-view" class="match-loader">
+                <div class="spinner"></div>
+                <h2 style="font-size:22px; margin-bottom:8px;" class="text-gradient">Assigning Elite Chess Coach</h2>
+                <p class="pulse-text" style="font-size:14px;">Evaluating levels, languages, slots and daily loads...</p>
+            </div>
+
+            <!-- STEP 2: Main Match Result Panel (Shown after 2s) -->
+            <div id="matching-result-view" style="display: none;">
+                <!-- Confirmed checkmark badge -->
+                <div class="success-badge">
+                    <i class="fa-solid fa-check" style="font-size: 32px; color: var(--accent);"></i>
+                </div>
+                
+                <h1 style="font-size:32px; margin-bottom:8px;" class="text-gradient">Chess Demo Confirmed!</h1>
+                <p style="color:var(--text-secondary); font-size:15px; max-width: 500px; margin: 0 auto 30px;">
+                    We have successfully scheduled your live 1-on-1 trial class. Meeting links and coach profile details are compiled below.
+                </p>
+
+                <!-- Assigned Teacher Display Card -->
+                <div class="glass-card assigned-coach-card" id="success-coach-card">
+                    <img src="" alt="Assigned Chess Coach Avatar" class="coach-avatar" id="coach-pic">
+                    <div class="coach-info">
+                        <span class="badge badge-success" style="margin-bottom:8px;">Matched Coach</span>
+                        <h3 class="coach-name" id="coach-name">Loading...</h3>
+                        <p class="coach-exp" id="coach-exp">Loading...</p>
+                        <div class="coach-rating" id="coach-rating">★★★★★ 5.0</div>
+                    </div>
+                </div>
+
+                <!-- Session Schedule Detail Panel -->
+                <div class="glass-card" style="padding:20px; border-color:rgba(255,255,255,0.04); margin-bottom:30px; text-align:left; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div>
+                        <span style="font-size:12px; color:var(--text-muted); display:block; text-transform:uppercase;">Scheduled Date</span>
+                        <strong style="font-size:15px;" id="sched-date">Loading...</strong>
+                    </div>
+                    <div>
+                        <span style="font-size:12px; color:var(--text-muted); display:block; text-transform:uppercase;">Time Slot</span>
+                        <strong style="font-size:15px;" id="sched-slot">Loading...</strong>
+                    </div>
+                    <div>
+                        <span style="font-size:12px; color:var(--text-muted); display:block; text-transform:uppercase;">Timezone</span>
+                        <span style="font-size:14px;" id="sched-tz">GMT+5:30</span>
+                    </div>
+                    <div>
+                        <span style="font-size:12px; color:var(--text-muted); display:block; text-transform:uppercase;">Meeting Channel</span>
+                        <span style="font-size:14px; color:#60A5FA;">Google Meet</span>
+                    </div>
+                </div>
+
+                <!-- Meeting Launch CTA Button -->
+                <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:40px;">
+                    <a href="" target="_blank" class="btn btn-primary" id="meet-join-btn" style="padding:15px 30px;">
+                        <i class="fa-solid fa-video"></i>
+                        Join Google Meet Classroom
+                    </a>
+                    <span style="font-size:11px; color:var(--text-muted);">Simulated WhatsApp & Email notifications triggered! Expand the drawer in the bottom right corner to view the real-time messages.</span>
+                </div>
+
+                <div style="display:flex; justify-content:center; gap:16px;">
+                    <a href="index.html" class="btn btn-secondary">Back to Home</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Shared Scripts -->
+    <script src="js/db.js?v=4.0"></script>
+    <script src="js/auth.js?v=4.0"></script>
+    <script src="js/engine.js?v=4.0"></script>
+    <script src="js/app.js?v=4.0"></script>
+    
+    <!-- Local Success Page script to extract booking parameter and mock matching scanner -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Extract booking ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get("id");
+
+            if (!bookingId) {
+                window.location.href = "book.html";
+                return;
+            }
+
+            const bookings = window.ChessDB.getBookings();
+            const booking = bookings.find(b => b.id === bookingId);
+
+            if (!booking) {
+                window.location.href = "book.html";
+                return;
+            }
+
+            const teachers = window.ChessDB.getTeachers();
+            const teacher = teachers.find(t => t.id === booking.teacherId) || {
+                name: "Waitlist Coach Pool",
+                experience: "Elite Trainer Matcher",
+                rating: 4.8,
+                avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120"
+            };
+
+            // Bind values to view fields
+            document.getElementById("coach-pic").src = teacher.avatar;
+            document.getElementById("coach-name").innerText = teacher.name;
+            document.getElementById("coach-exp").innerText = teacher.experience;
+            document.getElementById("coach-rating").innerText = `★ ${teacher.rating} Ratings`;
+
+            // Dates
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            const parts = booking.date.split("-");
+            const dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+            const dateStrFormatted = dObj.toLocaleDateString("en-US", options);
+            document.getElementById("sched-date").innerText = dateStrFormatted;
+            document.getElementById("sched-slot").innerText = booking.slot;
+            document.getElementById("sched-tz").innerText = booking.timezone;
+            document.getElementById("meet-join-btn").href = `classroom.html?id=${booking.id}`;
+            document.getElementById("meet-join-btn").innerHTML = `<i class="fa-solid fa-circle-play"></i> Enter Video Classroom`;
+
+            // Simulate circular search scanner before showing result
+            setTimeout(() => {
+                document.getElementById("matching-spinner-view").style.display = "none";
+                document.getElementById("matching-result-view").style.display = "block";
+                
+                // Show a successful confirmation toast!
+                window.Toast.show("Coach Assigned!", `Perfect Match with Coach ${teacher.name} has been completed!`, "success");
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
