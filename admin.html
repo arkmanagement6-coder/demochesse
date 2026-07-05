@@ -499,15 +499,69 @@
                     </div>
                     <div class="form-group">
                         <label>Experience / Credentials</label>
-                        <input type="text" id="addt-exp" class="form-control" placeholder="e.g. 5 Years (FIDE Rated 1800)" required>
+                        <select id="addt-exp" class="form-control" required>
+                            <option value="" disabled selected>Select Experience</option>
+                            <option value="1 Year">1 Year</option>
+                            <option value="2 Years">2 Years</option>
+                            <option value="3 Years">3 Years</option>
+                            <option value="4 Years">4 Years</option>
+                            <option value="5 Years">5 Years</option>
+                            <option value="6 Years">6 Years</option>
+                            <option value="7 Years">7 Years</option>
+                            <option value="8 Years">8 Years</option>
+                            <option value="9 Years">9 Years</option>
+                            <option value="10+ Years">10+ Years</option>
+                            <option value="FIDE Rated Coach">FIDE Rated Coach</option>
+                            <option value="FIDE Master (FM)">FIDE Master (FM)</option>
+                            <option value="International Master (IM)">International Master (IM)</option>
+                            <option value="Grandmaster (GM)">Grandmaster (GM)</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>Languages (comma-separated)</label>
-                        <input type="text" id="addt-langs" class="form-control" placeholder="e.g. English, Hindi" required>
+                        <label style="margin-bottom: 6px; display: block;">Languages</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 14px; background: #ffffff; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;">
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="English"> English
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Hindi"> Hindi
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Marathi"> Marathi
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Gujarati"> Gujarati
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Tamil"> Tamil
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Telugu"> Telugu
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Kannada"> Kannada
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Bengali"> Bengali
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-lang-checkbox" value="Punjabi"> Punjabi
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Expertise Levels (comma-separated)</label>
-                        <input type="text" id="addt-exp-levels" class="form-control" placeholder="e.g. Beginner, Intermediate" required>
+                        <label style="margin-bottom: 6px; display: block;">Expertise Levels</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 14px; background: #ffffff; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;">
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-level-checkbox" value="Beginner"> Beginner
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-level-checkbox" value="Intermediate"> Intermediate
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: normal; cursor: pointer; color: #374151;">
+                                <input type="checkbox" name="addt-level-checkbox" value="Advanced"> Advanced
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label style="margin-bottom: 8px; display: block;">Available Slots</label>

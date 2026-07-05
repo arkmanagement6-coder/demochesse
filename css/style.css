@@ -1299,6 +1299,7 @@ button, input, select, textarea {
 .crm-card {
     padding: 12px;
     cursor: grab;
+    flex-shrink: 0;
 }
 
 .crm-card:active {

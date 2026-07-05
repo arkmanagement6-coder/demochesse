@@ -817,8 +817,18 @@ class AdminController {
         document.getElementById("addt-password").value = coach.password || "";
         document.getElementById("addt-phone").value = coach.phone || "";
         document.getElementById("addt-exp").value = coach.experience || "";
-        document.getElementById("addt-langs").value = Array.isArray(coach.languages) ? coach.languages.join(", ") : "";
-        document.getElementById("addt-exp-levels").value = Array.isArray(coach.expertise) ? coach.expertise.join(", ") : "";
+        
+        // Fill checkboxes for languages
+        const allLangCheckboxes = document.querySelectorAll('input[name="addt-lang-checkbox"]');
+        allLangCheckboxes.forEach(cb => {
+            cb.checked = Array.isArray(coach.languages) && coach.languages.includes(cb.value);
+        });
+
+        // Fill checkboxes for expertise levels
+        const allLevelCheckboxes = document.querySelectorAll('input[name="addt-level-checkbox"]');
+        allLevelCheckboxes.forEach(cb => {
+            cb.checked = Array.isArray(coach.expertise) && coach.expertise.includes(cb.value);
+        });
 
         // Pre-fill slots checkboxes
         const allAddtCheckboxes = document.querySelectorAll('input[name="addt-slot-checkbox"]');
@@ -932,8 +942,8 @@ class AdminController {
             const password = document.getElementById("addt-password").value.trim();
             const phone = document.getElementById("addt-phone").value;
             const exp = document.getElementById("addt-exp").value;
-            let langs = document.getElementById("addt-langs").value.split(",").map(s => s.trim()).filter(s => s.length > 0);
-            let levels = document.getElementById("addt-exp-levels").value.split(",").map(s => s.trim()).filter(s => s.length > 0);
+            let langs = Array.from(document.querySelectorAll('input[name="addt-lang-checkbox"]:checked')).map(cb => cb.value);
+            let levels = Array.from(document.querySelectorAll('input[name="addt-level-checkbox"]:checked')).map(cb => cb.value);
             if (langs.length === 0) langs = ["English"];
             if (levels.length === 0) levels = ["Beginner"];
             

@@ -1,163 +1,13 @@
 // Chess Demo Booking - Database Initializer
 // Manages application state using localStorage for persistence
 
-const DEFAULT_TEACHERS = [
-    {
-        id: "t_ragav_kumar",
-        name: "Ragav Kumar",
-        email: "ragavkumar@paraschess.com",
-        phone: "+91 98765 43210",
-        password: "teacher123",
-        experience: "5 Years",
-        rating: 4.8,
-        languages: ["English", "Hindi"],
-        expertise: ["Beginner", "Intermediate", "Advanced"],
-        slots: [
-            "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", 
-            "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "01:00 PM", "03:00 PM", "03:15 PM", "03:30 PM", 
-            "03:45 PM", "04:00 PM", "05:00 PM", "05:15 PM", "05:30 PM", "05:45 PM", "06:00 PM"
-        ],
-        maxDemosPerDay: 4,
-        priorityScore: 80,
-        avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=120",
-        activeStudents: 0,
-        leaves: [],
-        phoneAccessApproved: false
-    }
-];
+const DEFAULT_TEACHERS = [];
 
-const DEFAULT_BOOKINGS = [
-    {
-        id: "b_1",
-        studentName: "Kabir Mehta",
-        parentName: "Rajesh Mehta",
-        age: 9,
-        level: "Beginner",
-        mobile: "+91 98765 43210",
-        email: "kabir.mehta@gmail.com",
-        city: "Mumbai",
-        country: "India",
-        date: new Date(Date.now() + 86400000).toISOString().split('T')[0], // Tomorrow
-        slot: "11:00 AM",
-        timezone: "GMT+5:30",
-        language: "Hindi",
-        teacherId: "t_vikram",
-        teacherName: "Vikram Singh",
-        status: "Demo Booked", // Demo Booked, Demo Attended, Rescheduled, Cancelled
-        paymentStatus: "Free",
-        paymentAmount: 0,
-        meetingLink: "https://meet.google.com/abc-defg-hij",
-        notes: "Enthusiastic about chess, knows basic pawn movements.",
-        crmStatus: "Demo booked" // New lead, Demo booked, Demo attended, Follow up, Converted, Lost
-    },
-    {
-        id: "b_2",
-        studentName: "Emily Watson",
-        parentName: "David Watson",
-        age: 12,
-        level: "Intermediate",
-        mobile: "+1 415 555 2671",
-        email: "emily.watson@yahoo.com",
-        city: "San Francisco",
-        country: "USA",
-        date: new Date(Date.now() - 86400000).toISOString().split('T')[0], // Yesterday
-        slot: "06:00 PM",
-        timezone: "GMT-7:00",
-        language: "English",
-        teacherId: "t_priya",
-        teacherName: "Priya Patel",
-        status: "Demo Attended",
-        paymentStatus: "Paid",
-        paymentAmount: 99,
-        meetingLink: "https://meet.google.com/xyz-qprs-tuv",
-        notes: "Wants to study openings. Very attentive.",
-        crmStatus: "Demo attended",
-        feedback: "Strong candidate for full program. Recommended Advanced level package.",
-        recommendedCourse: "Grandmaster Track (24 classes)"
-    },
-    {
-        id: "b_3",
-        studentName: "Rohan Das",
-        parentName: "Sunita Das",
-        age: 7,
-        level: "Beginner",
-        mobile: "+91 99887 76655",
-        email: "rohan.das@gmail.com",
-        city: "Kolkata",
-        country: "India",
-        date: new Date(Date.now() + 172800000).toISOString().split('T')[0], // Day after tomorrow
-        slot: "10:00 AM",
-        timezone: "GMT+5:30",
-        language: "English",
-        teacherId: "t_aarav",
-        teacherName: "Aarav Sharma",
-        status: "Demo Booked",
-        paymentStatus: "Free",
-        paymentAmount: 0,
-        meetingLink: "https://meet.google.com/mnp-qrst-uvw",
-        notes: "Complete beginner.",
-        crmStatus: "Demo booked"
-    },
-    {
-        id: "b_4",
-        studentName: "Aditya Verma",
-        parentName: "Manish Verma",
-        age: 14,
-        level: "Advanced",
-        mobile: "+91 88776 65544",
-        email: "aditya.verma@outlook.com",
-        city: "Delhi",
-        country: "India",
-        date: new Date(Date.now() - 172800000).toISOString().split('T')[0], // 2 days ago
-        slot: "03:00 PM",
-        timezone: "GMT+5:30",
-        language: "English",
-        teacherId: "t_elena",
-        teacherName: "Elena Rostova",
-        status: "Demo Attended",
-        paymentStatus: "Paid",
-        paymentAmount: 99,
-        meetingLink: "https://meet.google.com/fgh-ijkl-mno",
-        notes: "Plays in local tournaments, wants coaching to break 1500 ELO.",
-        crmStatus: "Converted",
-        feedback: "Enrolled in 48-class Intermediate Elite Course.",
-        recommendedCourse: "Tournament Prep (48 classes)"
-    },
-    {
-        id: "b_5",
-        studentName: "Sarah Connor",
-        parentName: "Linda Connor",
-        age: 10,
-        level: "Beginner",
-        mobile: "+44 20 7946 0958",
-        email: "sarah.c@gmail.com",
-        city: "London",
-        country: "UK",
-        date: new Date(Date.now() - 259200000).toISOString().split('T')[0], // 3 days ago
-        slot: "12:00 PM",
-        timezone: "GMT+1:00",
-        language: "English",
-        teacherId: "t_vikram",
-        teacherName: "Vikram Singh",
-        status: "Cancelled",
-        paymentStatus: "Refunded",
-        paymentAmount: 99,
-        meetingLink: "https://meet.google.com/qwe-rtyu-iop",
-        notes: "Parent cancelled due to sudden travel.",
-        crmStatus: "Lost"
-    }
-];
+const DEFAULT_BOOKINGS = [];
 
-const DEFAULT_CRM_LEADS = [
-    { id: "lead_1", name: "Ananya Roy", email: "ananya.roy@gmail.com", mobile: "+91 91234 56789", level: "Beginner", crmStatus: "New lead", notes: "Inquired via Instagram lead form" },
-    { id: "lead_2", name: "Arjun Khanna", email: "arjun.khanna@gmail.com", mobile: "+91 93210 98765", level: "Intermediate", crmStatus: "Follow up", notes: "Attended demo, thinking about pricing plans." }
-];
+const DEFAULT_CRM_LEADS = [];
 
-const DEFAULT_LOGS = [
-    { timestamp: new Date(Date.now() - 3600000 * 2).toISOString(), type: "system", message: "Auto-Assignment engine successfully matched Vikram Singh with Kabir Mehta." },
-    { timestamp: new Date(Date.now() - 3600000 * 3).toISOString(), type: "whatsapp", message: "WhatsApp confirmation sent to Rajesh Mehta for Kabir's demo at 11:00 AM." },
-    { timestamp: new Date(Date.now() - 3600000 * 4).toISOString(), type: "email", message: "Demo briefing email sent to Vikram Singh for student Kabir Mehta." }
-];
+const DEFAULT_LOGS = [];
 
 class DB {
     static init() {
@@ -328,77 +178,24 @@ class DB {
             const resp = await fetch("db.php?action=load");
             const data = await resp.json();
             
-            // Smart Merge: Merge server data into local storage rather than overwriting it,
-            // which protects newly added items if the server is stateless (e.g. Vercel)
             if (data) {
-                // 1. Teachers Merge
-                let currentTeachers = JSON.parse(localStorage.getItem("chess_teachers")) || [];
-                if (data.teachers && data.teachers.length > 0) {
-                    data.teachers.forEach(serverT => {
-                        const idx = currentTeachers.findIndex(t => t.id === serverT.id);
-                        if (idx !== -1) {
-                            currentTeachers[idx] = serverT;
-                        } else {
-                            currentTeachers.push(serverT);
-                        }
-                    });
+                // Directly overwrite local storage to ensure the server is the single source of truth
+                // and deletions/edits sync correctly across all devices.
+                if (Array.isArray(data.teachers)) {
+                    localStorage.setItem("chess_teachers", JSON.stringify(data.teachers));
                 }
-                localStorage.setItem("chess_teachers", JSON.stringify(currentTeachers));
-
-                // 2. Bookings Merge
-                let currentBookings = JSON.parse(localStorage.getItem("chess_bookings")) || [];
-                if (data.bookings && data.bookings.length > 0) {
-                    data.bookings.forEach(serverB => {
-                        const idx = currentBookings.findIndex(b => b.id === serverB.id);
-                        if (idx !== -1) {
-                            const localB = currentBookings[idx];
-                            // If local booking has a real meeting link updated, preserve it!
-                            if (localB.isRealMeetingLink && !serverB.isRealMeetingLink) {
-                                serverB.meetingLink = localB.meetingLink;
-                                serverB.isRealMeetingLink = true;
-                            }
-                            currentBookings[idx] = serverB;
-                        } else {
-                            currentBookings.push(serverB);
-                        }
-                    });
+                if (Array.isArray(data.bookings)) {
+                    localStorage.setItem("chess_bookings", JSON.stringify(data.bookings));
                 }
-                localStorage.setItem("chess_bookings", JSON.stringify(currentBookings));
-
-                // 3. CRM Leads Merge
-                let currentLeads = JSON.parse(localStorage.getItem("chess_crm_leads")) || [];
-                if (data.crm_leads && data.crm_leads.length > 0) {
-                    data.crm_leads.forEach(serverL => {
-                        const idx = currentLeads.findIndex(l => l.id === serverL.id);
-                        if (idx !== -1) {
-                            currentLeads[idx] = serverL;
-                        } else {
-                            currentLeads.push(serverL);
-                        }
-                    });
+                if (Array.isArray(data.crm_leads)) {
+                    localStorage.setItem("chess_crm_leads", JSON.stringify(data.crm_leads));
                 }
-                localStorage.setItem("chess_crm_leads", JSON.stringify(currentLeads));
-
-                // 4. Logs Merge
-                let currentLogs = JSON.parse(localStorage.getItem("chess_logs")) || [];
-                if (data.logs && data.logs.length > 0) {
-                    data.logs.forEach(serverLog => {
-                        if (!currentLogs.some(l => l.timestamp === serverLog.timestamp)) {
-                            currentLogs.push(serverLog);
-                        }
-                    });
-                    currentLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                if (Array.isArray(data.logs)) {
+                    localStorage.setItem("chess_logs", JSON.stringify(data.logs));
                 }
-                localStorage.setItem("chess_logs", JSON.stringify(currentLogs.slice(0, 100)));
-
-                // 5. Daily Roster Merge
-                let currentRoster = JSON.parse(localStorage.getItem("chess_daily_roster")) || {};
-                if (data.roster && Object.keys(data.roster).length > 0) {
-                    Object.assign(currentRoster, data.roster);
+                if (data.roster) {
+                    localStorage.setItem("chess_daily_roster", JSON.stringify(data.roster));
                 }
-                localStorage.setItem("chess_daily_roster", JSON.stringify(currentRoster));
-
-                // 6. Admin Credentials
                 if (data.admin_credentials) {
                     localStorage.setItem("chess_admin_credentials", JSON.stringify(data.admin_credentials));
                 }
